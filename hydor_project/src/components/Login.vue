@@ -47,6 +47,7 @@ export default{
                 //dispatch의 then구문을 이어받음.s
                 this.$router.push({name:'home'})
                 alert('로그인 성공');
+                alert('d');
             })
             .catch((e)=>alert('로그인 실패'))
     
