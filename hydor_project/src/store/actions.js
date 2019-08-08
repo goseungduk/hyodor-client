@@ -12,7 +12,7 @@ export default {
                 console.log(response);
             })
             .catch((e) => {
-                console.log(response);
+                console.log(e.response);
             })
             // .catch((e) => {
             //     // if (e.response.status == 401) {
