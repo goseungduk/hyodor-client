@@ -9,6 +9,7 @@ export default {
                 password: payload.account.pw
             })
             .then((response) => {
+                /* eslint-disable no-console */
                 console.log(response);
             })
             .catch((e) => {
