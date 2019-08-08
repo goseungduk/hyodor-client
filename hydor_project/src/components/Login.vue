@@ -44,7 +44,7 @@ export default{
             }
             this.$store.dispatch(Constant.LOGIN_GO,{account:this.acc})
             .then(()=>{ 
-                //dispatch의 then구문을 이어받음.
+                //dispatch의 then구문을 이어받음.s
                 this.$router.push({name:'home'})
                 alert('로그인 성공');
             })
