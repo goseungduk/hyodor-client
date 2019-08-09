@@ -5,10 +5,18 @@
         지금 효도르를 시작해보세요!
     </div>
     <div>
-        <p><input type="text" name="id" placeholder="아이디" v-model="acc.id"></p>
-        <p><input type="text" name="pw" placeholder="비밀번호" v-model="acc.pw"></p>
+        <table align="center" width="300">
+        <tr height="50">
+        <b-form-input  name="id" placeholder="아이디" v-model="acc.id"></b-form-input>
+        </tr>
+        <tr height="50">
+        <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw"></b-form-input>
+        </tr>        
         <!-- <router-link to="/home" class="btn btn-info menu">로그인하기</router-link> -->
-        <button class="btn btn-info menu" @click="inLogin()"> 로그인 하기</button>
+        <b-button block variant="outline-primary" @click="inLogin()"> 로그인</b-button>
+        </table>
+        <br>
+        <span class="size">효도르에 처음이신가요? </span><span class="color">회원가입 하기</span>
     </div>
 </div>
 </template>
@@ -66,4 +74,14 @@ padding:0px; position:relative; font:13px "verdana";}
         color: #2c3e50;
         margin-top: 60px;
     }
+.size{
+    font-size: 10pt;
+}
+.color{
+     font-size: 10pt;
+    color: #009ACD;
+    font-weight: bold;
+
+
+}
 </style>
