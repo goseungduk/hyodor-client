@@ -10,6 +10,7 @@ import Home from './components/Home';
 
 ES6Promise.polyfill()
 Vue.use(VueRouter);
+Vue.use(BootstrapVue);
 Vue.config.productionTip = false
 
 const router = new VueRouter({
