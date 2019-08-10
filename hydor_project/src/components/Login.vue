@@ -24,7 +24,7 @@
 import Constant from '../Constant';
 //import {mapActions} from 'vuex';
 import {mapState} from 'vuex';
-import axios from 'axios';
+//import axios from 'axios';
 export default{
     name:'login',
     data:function(){
@@ -63,7 +63,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 #example{margin:10px auto; max-width:820px; min-width:820px;
 padding:0px; position:relative; font:13px "verdana";}
 #container {
