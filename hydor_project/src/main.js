@@ -10,7 +10,9 @@ import Home from './components/Home';
 
 ES6Promise.polyfill()
 Vue.use(VueRouter);
-Vue.use(BootstrapVue);
+//Vue.use(BootstrapVue);
+// 위에 이미
+// import 해놨습니다 수정 NONO
 Vue.config.productionTip = false
 
 const router = new VueRouter({
