@@ -81,7 +81,5 @@ padding:0px; position:relative; font:13px "verdana";}
      font-size: 10pt;
     color: #009ACD;
     font-weight: bold;
-
-
 }
 </style>
