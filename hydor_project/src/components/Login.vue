@@ -57,7 +57,7 @@ export default{
                 alert('로그인 성공');
                 //alert('d');
             })
-            .catch((e)=>alert('로그인 실패'))
+            .catch((e)=>alert('로그인 실패',e))
     
         }
     }
