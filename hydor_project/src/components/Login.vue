@@ -5,9 +5,9 @@
       지금 효도르를 시작해보세요!
     </span>
     <div class="mt-3">
-      <b-form @submit="inLogin()" class="login-form">
+      <b-form @submit="inLogin" class="login-form">
         <b-form-group>
-          <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid"></b-form-input>
+          <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus></b-form-input>
         </b-form-group>
         <b-form-group>
           <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"></b-form-input>
@@ -19,8 +19,7 @@
         <b-button block variant="outline-primary" @click="inLogin()">로그인</b-button>
       </b-form>
 
-      <br />
-      <div>
+      <div class="mt-3">
         <p class="text-register">
           효도르에 처음이신가요?
           <b-link href="#">회원가입</b-link>
