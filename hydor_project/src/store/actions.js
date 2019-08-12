@@ -5,11 +5,10 @@ import axios from 'axios';
 // import router from 'vue-router';
 export default {
     [Constant.FETCH_POSTS]: (store, payload) => {
-        axios.get("http://203.229.206.16:12345/api/v1/board/", {
-            params: { no: payload.no }
-        }).then((response) => {
-            store.commit(Constant.FETCH_POSTS, { postlist: response.data });
-        })
+        axios.get("http://203.229.206.16:12345/api/v1/board/" + payload.no)
+            .then((response) => {
+                store.commit(Constant.FETCH_POSTS, { postlist: response.data });
+            })
     },
     [Constant.REFRESH_CHECK]: (store, payload) => {
 

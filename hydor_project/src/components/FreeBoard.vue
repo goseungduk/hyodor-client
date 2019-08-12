@@ -8,7 +8,11 @@
             </tr>
         </thead>
         <tbody id="posts">
-            <tr v-for="post in post"
+            <tr v-for="post in post.posts" :key="post.id">
+                <td>{{post.id}}</td>
+                <td><a v-bind:href="'./job'">{{post.title}}</a></td>
+                <td>{{post.vote_up}}</td>
+            </tr>
         </tbody>
     </table>
 </div>
