@@ -7,5 +7,10 @@ export default {
     },
     access_token: '',
     refresh_token: '',
-    isloading: false
+    isloading: false,
+    post: {
+        totalcount: '',
+        count: '',
+        posts: []
+    }
 }

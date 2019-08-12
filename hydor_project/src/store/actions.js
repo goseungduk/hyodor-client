@@ -4,6 +4,13 @@ import axios from 'axios';
 //import rou from '../main.js';
 // import router from 'vue-router';
 export default {
+    [Constant.FETCH_POSTS]: (store, payload) => {
+        axios.get("http://203.229.206.16:12345/api/v1/board/", {
+            params: { no: payload.no }
+        }).then((response) => {
+            store.commit(Constant.FETCH_POSTS, { postlist: response.data });
+        })
+    },
     [Constant.REFRESH_CHECK]: (store, payload) => {
 
         // eslint-disable-next-line no-empty

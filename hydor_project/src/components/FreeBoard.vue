@@ -1,9 +1,30 @@
 <template>
-
+<div>
+    <div id="example">
+    <table id="list" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>번호</th><th>제목</th><th>추천수</th>
+            </tr>
+        </thead>
+        <tbody id="posts">
+            <tr v-for="post in post"
+        </tbody>
+    </table>
+</div>
+</div>
 </template>
 <script>
+import Constant from '../Constant';
+import {mapState} from 'vuex';
 export default{
-    name:'freeboard'
+    name:'freeboard',
+    computed:{
+        ...mapState(['post'])
+    },
+    mounted:function(){
+        this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
+    }
 }
 </script>
 <style scoped>
