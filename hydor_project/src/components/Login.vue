@@ -2,7 +2,7 @@
   <div id="container">
     <span id="example">
       <img src="../assets/logo.png" width="100" height="100" />
-      지금 효도르를 시작해보세요!
+      
     </span>
     <div class="mt-3">
       <b-form @submit.prevent="inLogin" class="login-form">
