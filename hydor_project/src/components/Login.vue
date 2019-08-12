@@ -5,7 +5,7 @@
       지금 효도르를 시작해보세요!
     </span>
     <div class="mt-3">
-      <b-form @submit="inLogin" class="login-form">
+      <b-form @submit.prevent="inLogin" class="login-form">
         <b-form-group>
           <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus></b-form-input>
         </b-form-group>
@@ -16,7 +16,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
 
-        <b-button block variant="outline-primary" @click="inLogin()">로그인</b-button>
+        <b-button type="submit" block variant="outline-primary">로그인</b-button>
       </b-form>
 
       <div class="mt-3">
