@@ -4,20 +4,25 @@
       <img src="../assets/logo.png" width="100" height="100" />
       지금 효도르를 시작해보세요!
     </span>
-    <div>
-      <table align="center" width="300">
-        <tr height="50">
+    <div class="mt-3">
+      <b-form @submit="inLogin()" class="login-form">
+        <b-form-group>
           <b-form-input name="id" placeholder="아이디" v-model="acc.id"></b-form-input>
-        </tr>
-        <tr height="50">
+        </b-form-group>
+        <b-form-group>
           <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw"></b-form-input>
-        </tr>
-        <!-- <router-link to="/home" class="btn btn-info menu">로그인하기</router-link> -->
+        </b-form-group>
+
         <b-button block variant="outline-primary" @click="inLogin()">로그인</b-button>
-      </table>
+      </b-form>
+
       <br />
-      <span class="size">효도르에 처음이신가요?</span>
-      <span class="color">회원가입 하기</span>
+      <div>
+        <p class="text-register">
+          효도르에 처음이신가요?
+          <b-link href="#">회원가입</b-link>
+        </p>
+      </div>
     </div>
     <loading v-show="isloading"></loading>
   </div>
@@ -86,12 +91,13 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.size {
-  font-size: 10pt;
+
+.text-register {
+  font-size: 0.8em;
 }
-.color {
-  font-size: 10pt;
-  color: #009acd;
-  font-weight: bold;
+
+.login-form {
+  margin: 0 auto;
+  width: 300px;
 }
 </style>
