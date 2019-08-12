@@ -17,8 +17,8 @@ export default {
         console.log(localStorage.refresh_token);
     },
     [Constant.FETCH_POSTS]: (state, payload) => {
-        state.post.posts = payload.posts;
-        state.post.totalcount = payload.totalcount;
-        state.post.count = payload.count;
+        state.post.posts = payload.postlist.posts;
+        state.post.totalcount = payload.postlist.totalcount;
+        state.post.count = payload.postlist.count;
     }
 }
