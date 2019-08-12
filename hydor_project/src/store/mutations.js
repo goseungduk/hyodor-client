@@ -15,5 +15,10 @@ export default {
         /* eslint-disable no-console */
         console.log(localStorage.access_token);
         console.log(localStorage.refresh_token);
+    },
+    [Constant.FETCH_POSTS]: (state, payload) => {
+        state.post.posts = payload.posts;
+        state.post.totalcount = payload.totalcount;
+        state.post.count = payload.count;
     }
 }
