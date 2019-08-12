@@ -7,10 +7,13 @@
     <div class="mt-3">
       <b-form @submit="inLogin()" class="login-form">
         <b-form-group>
-          <b-form-input name="id" placeholder="아이디" v-model="acc.id"></b-form-input>
+          <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid"></b-form-input>
         </b-form-group>
         <b-form-group>
-          <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw"></b-form-input>
+          <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"></b-form-input>
+          <b-form-invalid-feedback :state="loginvalid" class="float-left">
+            아이디 또는 비밀번호가 일치하지 않습니다.
+          </b-form-invalid-feedback>
         </b-form-group>
 
         <b-button block variant="outline-primary" @click="inLogin()">로그인</b-button>
@@ -38,7 +41,8 @@ export default {
   components: { Loading },
   data: function() {
     return {
-      acc: {} // 비어있는 객체
+      acc: {}, // 비어있는 객체
+      loginfailed: false
     };
   },
   created: function() {
@@ -48,15 +52,28 @@ export default {
     // contactsapp_strict of chap.11
   },
   computed: {
-    ...mapState(["account", "isloading"])
+    ...mapState(["account", "isloading"]),
+    loginvalid: function() {
+        if (this.loginfailed) {
+            return false;
+        }
+        return null;
+    }
   },
   methods: {
     inLogin() {
+    //   if (this.acc.id == null || this.acc.pw == null) {
+    //     alert("모두 입력해주세요!");
+    //     return 0;
+    //   } else if (this.acc.id == "" || this.acc.pw == "") {
+    //     alert("모두 입력해주세요!");
+    //     return 0;
+    //   }
       if (this.acc.id == null || this.acc.pw == null) {
-        alert("모두 입력해주세요!");
+        this.loginfailed = true;
         return 0;
       } else if (this.acc.id == "" || this.acc.pw == "") {
-        alert("모두 입력해주세요!");
+        this.loginfailed = true;
         return 0;
       }
       this.$store
@@ -64,10 +81,11 @@ export default {
         .then(() => {
           //dispatch의 then구문을 이어받음.s
           this.$router.push({ name: "home" });
-          alert("로그인 성공");
+          //alert("로그인 성공");
         })
         .catch(e => {
-          alert("로그인 실패", e);
+          //alert("로그인 실패", e);
+          this.loginfailed = true;
           this.$store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
         });
     }
@@ -87,7 +105,7 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
   color: #2c3e50;
   margin-top: 60px;
 }
