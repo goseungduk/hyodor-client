@@ -1,3 +1,4 @@
+// import CONF from '../Config'
 export default {
     login_ok: false,
     account: {
@@ -5,5 +6,6 @@ export default {
         pw: ''
     },
     access_token: '',
-    refresh_token: ''
+    refresh_token: '',
+    isloading: false
 }

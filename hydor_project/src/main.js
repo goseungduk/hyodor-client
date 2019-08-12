@@ -17,6 +17,9 @@ import GiftBoard from './components/GiftBoard';
 import GominBoard from './components/GominBoard';
 import LetterBoard from './components/LetterBoard';
 import PartyPlaceBoard from './components/PartyPlaceBoard';
+//import Axios from 'axios';
+import Constant from './Constant';
+/* eslint-disable no-console */
 
 ES6Promise.polyfill()
 Vue.use(VueRouter);
@@ -25,9 +28,7 @@ Vue.use(Slider);
 // Vue.use(BootstrapVue);
 // 위에 이미
 // import 해놨습니다 수정 NONO
-Vue.config.productionTip = false
-
-
+Vue.config.productionTip = true
 
 
 const router = new VueRouter({
@@ -35,11 +36,21 @@ const router = new VueRouter({
     routes: [
         { path: '/', redirect: '/login' },
         { path: '/login', name: 'login', component: Login },
-        { path: '/home', name: 'home', component: Home },
+        {
+            path: '/home',
+            name: 'home',
+            component: Home,
+            beforeEnter: (to, from, next) => {
+                store.dispatch(Constant.REFRESH_CHECK, { next });
+            }
+        },
         {
             path: '/boardlist',
             name: 'boardlist',
             component: BoardList,
+            beforeEnter: (to, from, next) => {
+                store.dispatch(Constant.REFRESH_CHECK, { next });
+            },
             children: [
                 { path: 'freeboard', name: 'free', component: FreeBoard },
                 { path: 'giftboard', name: 'gift', component: GiftBoard },

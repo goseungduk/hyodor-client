@@ -1,9 +1,9 @@
 <template>
 <div id="container">
-    <div id="example">
+    <span id="example">
         <img src="../assets/logo.png" width="100" height="100">
         지금 효도르를 시작해보세요!
-    </div>
+    </span>
     <div>
         <table align="center" width="300">
         <tr height="50">
@@ -18,15 +18,18 @@
         <br>
         <span class="size">효도르에 처음이신가요? </span><span class="color">회원가입 하기</span>
     </div>
+    <loading v-show="isloading"></loading>
 </div>
 </template>
 <script>
 import Constant from '../Constant';
 //import {mapActions} from 'vuex';
+import Loading from './Loading';
 import {mapState} from 'vuex';
 //import axios from 'axios';
 export default{
     name:'login',
+    components:{Loading},
     data:function(){
         return {
             acc:{} // 비어있는 객체
@@ -39,7 +42,7 @@ export default{
         // contactsapp_strict of chap.11
     },
     computed:{
-        ...mapState['account']
+        ...mapState(['account','isloading'])
     },
     methods:{
         inLogin(){
@@ -55,9 +58,11 @@ export default{
                 //dispatch의 then구문을 이어받음.s
                 this.$router.push({name:'home'})
                 alert('로그인 성공');
-                //alert('d');
             })
-            .catch((e)=>alert('로그인 실패',e))
+            .catch((e)=>{
+                alert('로그인 실패',e);
+                this.$store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
+            })
     
         }
     }

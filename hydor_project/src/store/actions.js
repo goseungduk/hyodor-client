@@ -1,26 +1,40 @@
 import Constant from '../Constant';
 import axios from 'axios';
+/* eslint-disable no-console */
 //import rou from '../main.js';
 // import router from 'vue-router';
 export default {
+    [Constant.REFRESH_CHECK]: (store, payload) => {
+
+        // eslint-disable-next-line no-empty
+        axios.get("http://203.229.206.16:12345/api/v1/login-refresh", {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.refresh_token
+            }
+        }).then((response) => {
+            console.log(response);
+            payload.next();
+        }).catch((e) => {
+            console.log(e);
+            alert("비정상적인 접근입니다!");
+            payload.next('/login');
+        })
+
+    },
     [Constant.LOGIN_GO]: (store, payload) => {
+        store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
         return axios.post('http://203.229.206.16:12345/api/v1/login', {
                 username: payload.account.id,
                 password: payload.account.pw
             })
             .then((response) => {
-                /* eslint-disable no-console */
+
                 console.log(response);
+                store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token });
+                store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
             })
-
-        // .catch((e) => {
-        //     // if (e.response.status == 401) {
-        //     //     alert("올바르지않은 아이디 혹은 비밀번호");
-        //     // } else {
-        //     alert("[" + e.response.status + "]" + " Login Failed");
-        //     return false;
-
-        // })
-
+    },
+    [Constant.CHANGE_ISLOADING]: (store, payload) => {
+        store.commit(Constant.CHANGE_ISLOADING, payload);
     }
 }
