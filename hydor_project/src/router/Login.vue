@@ -32,7 +32,7 @@
 <script>
 import Constant from "../Constant";
 //import {mapActions} from 'vuex';
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { mapState } from "vuex";
 //import axios from 'axios';
 export default {

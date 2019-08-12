@@ -15,7 +15,7 @@
   </div>
 </div>
 </template>
-<script>
+<script scoped>
 import Slider from '@jeremyhamm/vue-slider'
 export default{
   components: {
