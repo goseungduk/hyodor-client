@@ -37,7 +37,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 .header{background-color:aqua; padding: 10px 0px 0px 0px;}
 .headerText{padding:0px 20px 0px 20px;}
 ul{list-style-type:none;margin:0; padding:0;
