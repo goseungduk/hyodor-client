@@ -24,7 +24,7 @@
       </nav>
     </div>
     <div class="container">
-      <router-view default="{name:'free'}"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>

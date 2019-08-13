@@ -25,7 +25,9 @@ ES6Promise.polyfill()
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(Slider);
-
+// Vue.use(BootstrapVue);
+// 위에 이미
+// import 해놨습니다 수정 NONO
 Vue.config.productionTip = true
 
 
@@ -50,8 +52,22 @@ const router = new VueRouter({
             beforeEnter: (to, from, next) => {
                 store.dispatch(Constant.REFRESH_CHECK, { next });
             },
-            children: [
-                { path: 'freeboard/:no', name: 'free', component: FreeBoard, props: true }
+            children: [{
+                    path: 'freeboard/:no',
+                    name: 'free',
+                    component: FreeBoard,
+                    // beforeEnter: (to, from, next) => {
+                    //     if (store.dispatch(Constant.FETCH_POSTS, { no: 1 }))
+                    //         next();
+                    //     else
+                    //         next('/home');
+                    // },
+                    props: true
+                }
+                // { path: 'giftboard', name: 'gift', component: GiftBoard },
+                // { path: 'gominboard', name: 'gomin', component: GominBoard },
+                // { path: 'letterboard', name: 'letter', component: LetterBoard },
+                // { path: 'partyplaceboard', name: 'partyPlace', component: PartyPlaceBoard }
             ]
         }
     ]
