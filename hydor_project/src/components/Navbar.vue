@@ -42,7 +42,8 @@ export default {
   computed: {
     ...mapState(["account"]),
     username: () => {
-      return "Username"
+      // return "Username"
+      return localStorage.username;
     },
 
   },
