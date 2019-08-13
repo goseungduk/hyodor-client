@@ -3,7 +3,8 @@ export default {
     login_ok: false,
     account: {
         id: '',
-        pw: ''
+        pw: '',
+        username: ''
     },
     access_token: '',
     refresh_token: '',

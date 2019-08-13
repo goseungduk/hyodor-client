@@ -60,11 +60,11 @@ export default{
     },
     mounted:function(){
         console.log(this.no);
-        this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
+        this.$store.dispatch(Constant.FETCH_POSTS,{no:3});
         //일반 정수값을 no에 전달해주면 바로바로 게시글 로드가 되는데
         //props의 no를 가져다 전달해주면 늦음
         //>??
-        // console.log("mounted");
+        console.log("mounted");
         
     }
 }
