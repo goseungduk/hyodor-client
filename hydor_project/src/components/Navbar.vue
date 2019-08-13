@@ -10,6 +10,7 @@
         <b-navbar-nav>
           <b-nav-item href="/home" :active="isactive('home')">일정</b-nav-item>
           <b-nav-item href="/boardlist" :active="isactive('boardlist')">커뮤니티</b-nav-item>
+          <b-nav-item href="/boardlist" :active="isactive('boardlist')">복지정보</b-nav-item>
           
         </b-navbar-nav>
 
