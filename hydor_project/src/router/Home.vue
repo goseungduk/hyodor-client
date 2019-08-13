@@ -11,7 +11,7 @@ import NavbarVue from "../components/Navbar.vue";
 export default {
   computed:{
     nick(){
-      return localStorage.access_token
+      return localStorage.username;
     }
   },
   components: {
