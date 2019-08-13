@@ -38,7 +38,7 @@ export default {
                 password: payload.account.pw
             })
             .then((response) => {
-
+                store.state.account.username = response.data.username;
                 console.log(response);
                 store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token });
                 store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
