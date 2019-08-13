@@ -24,17 +24,20 @@
       </nav>
     </div>
     <div class="container">
-      <router-view default="{name:'free'}"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
-
+import Constant from '../Constant';
 export default {
   name: "boardlist",
   components: {
     "b-nav": NavbarVue
+  },
+  mounted:function(){
+    this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
   }
 };
 </script>

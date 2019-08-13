@@ -48,7 +48,7 @@ const router = new VueRouter({
         {
             path: '/boardlist',
             name: 'boardlist',
-            redirect: '/boardlist/freeboard',
+            // redirect: '/boardlist',
             component: BoardList,
             beforeEnter: (to, from, next) => {
                 store.dispatch(Constant.REFRESH_CHECK, { next });
