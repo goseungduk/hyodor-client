@@ -5,8 +5,11 @@ import axios from 'axios';
 // import router from 'vue-router';
 export default {
     [Constant.FETCH_POSTS]: (store, payload) => {
+        console.log("no: " + payload.no);
         axios.get("http://203.229.206.16:12345/api/v1/board/" + payload.no)
             .then((response) => {
+                console.log("then no: " + payload.no);
+                console.log(response.data);
                 store.commit(Constant.FETCH_POSTS, { postlist: response.data });
             })
     },

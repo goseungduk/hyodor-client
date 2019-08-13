@@ -1,21 +1,18 @@
 <template>
 <div>
     <div id="example">
-    <table id="list" class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>번호</th><th>제목</th><th>추천수</th>
-            </tr>
-        </thead>
-        <tbody id="posts">
-            <tr v-for="post in post.posts" :key="post.id">
-                <td>{{post.id}}</td>
-                <td><a v-bind:href="'./job'">{{post.title}}</a></td>
-                <td>{{post.vote_up}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <b-table striped hover 
+        :fields="fields" 
+        :items="items"
+        :per-page="perPage"
+        :current-page="currentPage"></b-table>
+        <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+        ></b-pagination>
+    </div>
 </div>
 </template>
 <script>
@@ -23,11 +20,45 @@ import Constant from '../Constant';
 import {mapState} from 'vuex';
 export default{
     name:'freeboard',
+    props:['no'],
+    data:function(){
+        return {
+            perPage: 7,
+            currentPage: 1,
+            fields:[{
+                    key:'id',
+                    label:'번호'
+                },
+                {
+                    key:'title',
+                    label:'제목'
+                },
+                {
+                    key:"writer.nickname",
+                    label:'작성자'
+                },
+                {
+                    key:'vote_up',
+                    label:'추천'
+                }
+            ],
+            items:this.$store.state.post.posts
+        }
+    },
     computed:{
-        ...mapState(['post'])
+        ...mapState(['post']),
+        rows() {
+            return this.items.length
+        }
+    },
+    watch:{
+        post(val,oldVal){
+            console.log(val)
+        }
     },
     mounted:function(){
-        this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
+        console.log(this.no);
+        this.$store.dispatch(Constant.FETCH_POSTS,{no:this.no});
     }
 }
 </script>

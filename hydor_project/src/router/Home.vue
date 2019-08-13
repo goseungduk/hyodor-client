@@ -1,6 +1,5 @@
 <template>
 <div>
-  <p>안녕하세요 님!!</p>
   <div id="app" ref="app">
     <slider :width="280" format="overlay" direction="left" :opacity="0.15"
     :links="[{'id':1,'text':'방문,전화 기록일기','url':'#'},
@@ -12,6 +11,7 @@
     <!-- url href로 안하고 vue-router로 하면 깔끔한데 
         소스 수정을 해야함. 수정은 간단함. -->
     <!-- 근데 Github에서 어떻게 온전히 가져오지...? -->
+    <p>안녕하세요 님!!</p>
   </div>
 </div>
 </template>

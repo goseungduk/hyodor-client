@@ -20,6 +20,7 @@
     "vue-sidebar-menu": "^4.0.0",
     "vue-simple-spinner": "^1.2.8",
     "vue-sweet-calendar": "^0.3.1",
+    "vuejs-paginate": "^2.1.0",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
