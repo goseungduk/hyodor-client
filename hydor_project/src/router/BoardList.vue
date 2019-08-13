@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-nav></b-nav>
+    <b-nav current-page="boardlist"></b-nav>
     <div id="app" ref="app"></div>
     <div class="header">
       <nav>

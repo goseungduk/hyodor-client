@@ -38,7 +38,7 @@ export default {
   components: {
     
   },
-  props: [],
+  props: ['currentPage'],
   computed: {
     ...mapState(["account"]),
     username: () => {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     isactive(route) {
-      if (this.$router.currentRoute.name == route) {
+      if (this.currentPage == route) {
         
         return true;
       }
