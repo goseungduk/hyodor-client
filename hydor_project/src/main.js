@@ -13,10 +13,10 @@ import Login from './router/Login';
 import Home from './router/Home';
 import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
-// import GiftBoard from './router/GiftBoard';
-// import GominBoard from './router/GominBoard';
-// import LetterBoard from './router/LetterBoard';
-// import PartyPlaceBoard from './router/PartyPlaceBoard';
+import GiftBoard from './router/GiftBoard';
+import GominBoard from './router/GominBoard';
+import LetterBoard from './router/LetterBoard';
+import PartyPlaceBoard from './router/PartyPlaceBoard';
 //import Axios from 'axios';
 import Constant from './Constant';
 /* eslint-disable no-console */
@@ -47,27 +47,28 @@ const router = new VueRouter({
         {
             path: '/boardlist',
             name: 'boardlist',
-            // redirect: '/boardlist/freeboard/1',
+            redirect: '/boardlist/freeboard',
             component: BoardList,
             beforeEnter: (to, from, next) => {
                 store.dispatch(Constant.REFRESH_CHECK, { next });
             },
             children: [{
-                    path: 'freeboard/:no',
+                    // path: 'freeboard/:no',
+                    path: 'freeboard',
                     name: 'free',
                     component: FreeBoard,
                     // beforeEnter: (to, from, next) => {
-                    //     if (store.dispatch(Constant.FETCH_POSTS, { no: 1 }))
-                    //         next();
-                    //     else
-                    //         next('/home');
+                    //     console.log("before");
+                    //     console.log(to.params.no)
+                    //         //store.dispatch(Constant.FETCH_POSTS, { no: to.params.no })
+                    //     next();
                     // },
-                    props: true
-                }
-                // { path: 'giftboard', name: 'gift', component: GiftBoard },
-                // { path: 'gominboard', name: 'gomin', component: GominBoard },
-                // { path: 'letterboard', name: 'letter', component: LetterBoard },
-                // { path: 'partyplaceboard', name: 'partyPlace', component: PartyPlaceBoard }
+                    // props: true
+                },
+                { path: 'giftboard', name: 'gift', component: GiftBoard },
+                { path: 'gominboard', name: 'gomin', component: GominBoard },
+                { path: 'letterboard', name: 'letter', component: LetterBoard },
+                { path: 'partyplaceboard', name: 'partyPlace', component: PartyPlaceBoard }
             ]
         }
     ]

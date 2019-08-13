@@ -5,11 +5,13 @@ import axios from 'axios';
 // import router from 'vue-router';
 export default {
     [Constant.FETCH_POSTS]: (store, payload) => {
-        console.log("actions");
-        console.log(store.state.post.posts);
-        return axios.get("http://203.229.206.16:12345/api/v1/board/" + payload.no)
+        // console.log("actions");
+        // console.log(store.state.post.posts);
+        axios.get("http://203.229.206.16:12345/api/v1/board/" + payload.no)
             .then((response) => {
+                console.log("actions");
                 store.commit(Constant.FETCH_POSTS, { postlist: response.data });
+                // response.data;
             })
     },
     [Constant.REFRESH_CHECK]: (store, payload) => {
@@ -20,7 +22,7 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.refresh_token
             }
         }).then((response) => {
-            console.log(response);
+            // console.log(response);
             payload.next();
         }).catch((e) => {
             console.log(e);

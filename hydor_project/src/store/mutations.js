@@ -20,7 +20,7 @@ export default {
         state.post.posts = payload.postlist.posts;
         state.post.totalcount = payload.postlist.totalcount;
         state.post.count = payload.postlist.count;
-        console.log("mutations end");
+        // console.log("mutations end");
         // console.log(state.post.posts);
     }
 }
