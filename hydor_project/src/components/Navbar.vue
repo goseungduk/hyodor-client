@@ -22,7 +22,7 @@
           <b-nav-item-dropdown :text="username" right>
             
             <b-dropdown-item href="#">사용자 정보</b-dropdown-item>
-            <b-dropdown-item href="#">로그아웃</b-dropdown-item>
+            <b-dropdown-item @click="logout()">로그아웃</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -33,6 +33,7 @@
 
 <script>
 import { mapState } from "vuex";
+import * as session from "../utils/loginService.js";
 
 export default {
   name: 'hNav',
@@ -44,7 +45,7 @@ export default {
     ...mapState(["account"]),
     username: () => {
       // return "Username"
-      return localStorage.username;
+      return session.getUsername();
     },
 
   },
@@ -55,6 +56,10 @@ export default {
         return true;
       }
       return false;
+    },
+    logout() {
+      session.logout();
+      this.$router.push("/login");
     }
   }
 };
