@@ -6,25 +6,25 @@
       <nav>
         <ul>
           <li>
-            <router-link v-bind:to="{name:'free',params:{no:1}}">자유게시판</router-link>
+            <router-link v-bind:to="{name:'free'}">자유게시판</router-link>
           </li>
           <li>
-            <router-link v-bind:to="{name:'free',params:{no:2}}">선물 추천</router-link>
+            <router-link v-bind:to="{name:'gift'}">선물 추천</router-link>
           </li>
           <li>
-            <router-link v-bind:to="{name:'free',params:{no:3}}">고민 상담</router-link>
+            <router-link v-bind:to="{name:'gomin' }">고민 상담</router-link>
           </li>
           <li>
-            <router-link v-bind:to="{name:'free',params:{no:4}}">편지 쓰기</router-link>
+            <router-link v-bind:to="{name:'letter' }">편지 쓰기</router-link>
           </li>
           <li>
-            <router-link v-bind:to="{name:'free',params:{no:5}}">경조사 장소 알려주세요!</router-link>
+            <router-link v-bind:to="{name:'partyPlace'}">경조사 장소 알려주세요!</router-link>
           </li>
         </ul>
       </nav>
     </div>
     <div class="container">
-      <router-view></router-view>
+      <router-view default="{name:'free'}"></router-view>
     </div>
   </div>
 </template>

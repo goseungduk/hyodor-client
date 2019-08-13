@@ -35,6 +35,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', redirect: '/login' },
+        //계정인증 루틴 넣기
         { path: '/login', name: 'login', component: Login },
         {
             path: '/home',
