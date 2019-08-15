@@ -22,7 +22,7 @@
       <div class="mt-3">
         <p class="text-register">
           효도르에 처음이신가요?
-          <b-link href="#">회원가입</b-link>
+          <b-link href="/register">회원가입</b-link>
         </p>
       </div>
     </div>

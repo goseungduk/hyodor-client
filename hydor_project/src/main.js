@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Slider from '@jeremyhamm/vue-slider'
 import Login from './router/Login';
+import Register from './router/Register';
 import Home from './router/Home';
 import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
@@ -36,7 +37,12 @@ const router = new VueRouter({
     routes: [
         { path: '/', redirect: '/login' },
         //계정인증 루틴 넣기
-        { path: '/login', name: 'login', component: Login },
+        { 
+            path: '/login', name: 'login', component: Login 
+        },
+        {
+            path: '/register', name: 'register', component: Register
+        },
         {
             path: '/home',
             name: 'home',
@@ -45,6 +51,7 @@ const router = new VueRouter({
                 store.dispatch(Constant.REFRESH_CHECK, { next });
             }
         },
+        
         {
             path: '/boardlist',
             name: 'boardlist',
