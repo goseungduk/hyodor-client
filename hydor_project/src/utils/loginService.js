@@ -55,7 +55,12 @@ export function get(url, param) {
 
                 return loginRefresh()
                 .then(function () {
-                    return get(url, param)
+                    return axios.get(url, {
+                        params: param,
+                        headers: {
+                            'Authorization': 'Bearer ' + getAccessToken()
+                        }
+                    });
                 })
                 .catch(function () {
                     throw error
@@ -83,7 +88,11 @@ export function post(url, data) {
 
                 return loginRefresh()
                 .then(function () {
-                    return post(url, data)
+                    return axios.post(url, data, {
+                        headers: {
+                            'Authorization': 'Bearer ' + getAccessToken()
+                        }
+                    });
                 })
                 .catch(function () {
                     throw error
@@ -111,7 +120,11 @@ export function put(url, data) {
 
                 return loginRefresh()
                 .then(function () {
-                    return put(url, data)
+                    return axios.put(url, data, {
+                        headers: {
+                            'Authorization': 'Bearer ' + getAccessToken()
+                        }
+                    });
                 })
                 .catch(function () {
                     throw error
@@ -140,7 +153,12 @@ export function del(url, param) {
 
                 return loginRefresh()
                 .then(function () {
-                    return del(url, param)
+                    return axios.delete(url, {
+                        params: param,
+                        headers: {
+                            'Authorization': 'Bearer ' + getAccessToken()
+                        }
+                    });
                 })
                 .catch(function () {
                     throw error
