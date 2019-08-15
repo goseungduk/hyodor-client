@@ -1,9 +1,42 @@
 import axios from 'axios';
 
-export const baseUrl = "";
+export const apiurl = "https://hyodor.azurewebsites.net/api/v1/";
 
-export function login() {
+export function login(username, password) {
+    return axios.post(apiurl + "login", {
+        username: username,
+        password: password
+    })
+    .then(function (response) {
+        setUsername(response.data['username']);
+        setNickname(response.data['nickname']);
+        setAccessToken(response.data['access_token']);
+        setRefreshToken(response.data['refresh_token']);
+    })
+    .catch(function (error) {
+        throw new Error(error.response.data['msg']);
+    })
+}
 
+export function loginRefresh() {
+    var refresh = getRefreshToken();
+
+    return axios.get(apiurl + "login-refresh", {
+        headers: {
+            'Authorization': 'Bearer ' + refresh
+        }
+    })
+    .then(function (response) {
+        var token = response.data["access_token"];
+        if (token == undefined) {
+            throw new Error("login refresh failed");
+        }
+        setAccessToken(token);
+    })
+    .catch(function (error) {
+        throw new Error("login refresh failed");
+    })
+    
 }
 
 export function get(url, param) {
@@ -14,10 +47,111 @@ export function get(url, param) {
         }
     })
     .then(function (response) {
-
+        return response;
     })
-    .catch();
+    .catch(function (error) {
+        if (error.response) {
+            if (error.response.status == 401) {
+
+                return loginRefresh()
+                .then(function () {
+                    return get(url, param)
+                })
+                .catch(function () {
+                    throw error
+                })
+
+            }
+        }
+        throw error;
+    })
 }
+
+
+export function post(url, data) {
+    return axios.post(url, data, {
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken()
+        }
+    })
+    .then(function (response) {
+        return response;
+    })
+    .catch(function (error) {
+        if (error.response) {
+            if (error.response.status == 401) {
+
+                return loginRefresh()
+                .then(function () {
+                    return post(url, data)
+                })
+                .catch(function () {
+                    throw error
+                })
+
+            }
+        }
+        throw error;
+    })
+}
+
+
+export function put(url, data) {
+    return axios.put(url, data, {
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken()
+        }
+    })
+    .then(function (response) {
+        return response;
+    })
+    .catch(function (error) {
+        if (error.response) {
+            if (error.response.status == 401) {
+
+                return loginRefresh()
+                .then(function () {
+                    return put(url, data)
+                })
+                .catch(function () {
+                    throw error
+                })
+
+            }
+        }
+        throw error;
+    })
+}
+
+
+export function del(url, param) {
+    return axios.delete(url, {
+        params: param,
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken()
+        }
+    })
+    .then(function (response) {
+        return response;
+    })
+    .catch(function (error) {
+        if (error.response) {
+            if (error.response.status == 401) {
+
+                return loginRefresh()
+                .then(function () {
+                    return del(url, param)
+                })
+                .catch(function () {
+                    throw error
+                })
+
+            }
+        }
+        throw error;
+    })
+}
+
 
 export function logout() {
     localStorage.removeItem("access_token");
@@ -42,15 +176,30 @@ export function getUsername() {
     return localStorage.getItem("username");
 }
 
+export function setUsername(username) {
+    return localStorage.setItem("username", username);
+}
+
 export function getNickname() {
     return null;
+}
+
+export function setNickname(nickname) {
+    return localStorage.setItem("nickname", nickname);
 }
 
 export function getAccessToken() {
     return localStorage.getItem("access_token");
 }
 
+export function setAccessToken(token) {
+    localStorage.setItem("access_token", token);
+}
+
 export function getRefreshToken() {
     return localStorage.getItem("refresh_token");
 }
 
+export function setRefreshToken(token) {
+    localStorage.setItem("refresh_token", token);
+}

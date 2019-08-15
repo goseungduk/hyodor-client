@@ -1,5 +1,6 @@
 import Constant from '../Constant';
 import axios from 'axios';
+import * as session from "../utils/loginService.js";
 /* eslint-disable no-console */
 //import rou from '../main.js';
 // import router from 'vue-router';
@@ -42,6 +43,8 @@ export default {
                 store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token, username: response.data.username });
                 store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
             })
+        
+        
     },
     [Constant.CHANGE_ISLOADING]: (store, payload) => {
         store.commit(Constant.CHANGE_ISLOADING, payload);
