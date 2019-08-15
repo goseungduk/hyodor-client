@@ -1,8 +1,23 @@
+import axios from 'axios';
+
+export const baseUrl = "";
 
 export function login() {
-    
+
 }
 
+export function get(url, param) {
+    return axios.get(url, {
+        params: param,
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken()
+        }
+    })
+    .then(function (response) {
+
+    })
+    .catch();
+}
 
 export function logout() {
     localStorage.removeItem("access_token");
