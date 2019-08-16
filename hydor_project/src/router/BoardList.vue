@@ -6,38 +6,53 @@
       <nav>
         <ul>
           <li>
-            <router-link v-bind:to="{name:'free'}">자유게시판</router-link>
+            <b-button squared variant="outline-danger" @click="change(1)">자유게시판</b-button>
           </li>
           <li>
-            <router-link v-bind:to="{name:'gift'}">선물 추천</router-link>
+            <b-button squared variant="outline-danger" @click="change(2)">선물 추천</b-button>
           </li>
           <li>
-            <router-link v-bind:to="{name:'gomin' }">고민 상담</router-link>
+            <b-button squared variant="outline-danger" @click="change(3)">고민 상담</b-button>
           </li>
           <li>
-            <router-link v-bind:to="{name:'letter' }">편지 쓰기</router-link>
+            <b-button squared variant="outline-danger" @click="change(4)">편지 쓰기</b-button>
           </li>
           <li>
-            <router-link v-bind:to="{name:'partyPlace'}">경조사 장소 알려주세요!</router-link>
+            <b-button squared variant="outline-danger" @click="change(5)">경조사 장소 알려주세요!</b-button>
           </li>
         </ul>
       </nav>
     </div>
     <div class="container">
-      <router-view></router-view>
+      <!-- <FreeBoard v-bind:no="no"></FreeBoard> -->
+      <component :is="currentView" :no="no"></component>
     </div>
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
-import Constant from '../Constant';
+import Constant from "../Constant";
+import FreeBoard from "./FreeBoard";
+import { mapState } from "vuex";
 export default {
   name: "boardlist",
   components: {
-    "b-nav": NavbarVue
+    "b-nav": NavbarVue,
+    FreeBoard
   },
-  mounted:function(){
-    //this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
+  data: function() {
+    return {
+      no: '',
+      currentView: ""
+    };
+  },
+  methods: {
+    change(number) {
+      // no번호 체인지 해주는 메소드가 될것임.
+      this.no = number;
+      this.currentView = "FreeBoard";
+      console.log(this.no);
+    }
   }
 };
 </script>

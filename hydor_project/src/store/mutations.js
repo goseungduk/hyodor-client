@@ -20,6 +20,7 @@ export default {
     },
     [Constant.FETCH_POSTS]: (state, payload) => {
         state.post.posts = payload.postlist.posts;
+        //array
         state.post.totalcount = payload.postlist.totalcount;
         state.post.count = payload.postlist.count;
         // console.log("mutations end");

@@ -14,10 +14,10 @@ import Register from './router/Register';
 import Home from './router/Home';
 import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
-import GiftBoard from './router/GiftBoard';
-import GominBoard from './router/GominBoard';
-import LetterBoard from './router/LetterBoard';
-import PartyPlaceBoard from './router/PartyPlaceBoard';
+// import GiftBoard from './router/GiftBoard';
+// import GominBoard from './router/GominBoard';
+// import LetterBoard from './router/LetterBoard';
+// import PartyPlaceBoard from './router/PartyPlaceBoard';
 //import Axios from 'axios';
 import Constant from './Constant';
 /* eslint-disable no-console */
@@ -37,11 +37,15 @@ const router = new VueRouter({
     routes: [
         { path: '/', redirect: '/login' },
         //계정인증 루틴 넣기
-        { 
-            path: '/login', name: 'login', component: Login 
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
-            path: '/register', name: 'register', component: Register
+            path: '/register',
+            name: 'register',
+            component: Register
         },
         {
             path: '/home',
@@ -51,7 +55,7 @@ const router = new VueRouter({
                 store.dispatch(Constant.REFRESH_CHECK, { next });
             }
         },
-        
+
         {
             path: '/boardlist',
             name: 'boardlist',
@@ -61,23 +65,18 @@ const router = new VueRouter({
                 store.dispatch(Constant.REFRESH_CHECK, { next });
             },
             children: [{
-                    // path: 'freeboard/:no',
-                    path: 'freeboard',
-                    name: 'free',
-                    component: FreeBoard,
-                    // beforeEnter: (to, from, next) => {
-                    //     console.log("before");
-                    //     console.log(to.params.no)
-                    //         //store.dispatch(Constant.FETCH_POSTS, { no: to.params.no })
-                    //     next();
-                    // },
-                    // props: true
-                },
-                { path: 'giftboard', name: 'gift', component: GiftBoard },
-                { path: 'gominboard', name: 'gomin', component: GominBoard },
-                { path: 'letterboard', name: 'letter', component: LetterBoard },
-                { path: 'partyplaceboard', name: 'partyPlace', component: PartyPlaceBoard }
-            ]
+                // path: 'freeboard/:no',
+                path: 'freeboard',
+                name: 'free',
+                component: FreeBoard,
+                // beforeEnter: (to, from, next) => {
+                //     console.log("before");
+                //     console.log(to.params.no)
+                //         //store.dispatch(Constant.FETCH_POSTS, { no: to.params.no })
+                //     next();
+                // },
+                // props: true
+            }, ]
         }
     ]
 })
