@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import 'bootstrap/dist/css/bootstrap.css'
 import ES6Promise from 'es6-promise';
 import store from './store';
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Slider from '@jeremyhamm/vue-slider'
