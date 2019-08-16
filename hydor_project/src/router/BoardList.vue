@@ -37,7 +37,7 @@ export default {
     "b-nav": NavbarVue
   },
   mounted:function(){
-    this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
+    //this.$store.dispatch(Constant.FETCH_POSTS,{no:1});
   }
 };
 </script>
