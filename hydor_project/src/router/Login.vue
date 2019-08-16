@@ -10,7 +10,7 @@
           <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus></b-form-input>
         </b-form-group>
         <b-form-group>
-          <b-form-input name="pw" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"></b-form-input>
+          <b-form-input name="pw" type="password" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"></b-form-input>
           <b-form-invalid-feedback :state="loginvalid" class="float-left">
             아이디 또는 비밀번호가 일치하지 않습니다.
           </b-form-invalid-feedback>

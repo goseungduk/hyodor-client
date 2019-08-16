@@ -1,9 +1,9 @@
 <template>
   <div>
     <h-nav current-page="home"></h-nav>
-    <div id="app" ref="app">
+    <b-container class="mt-4">
       <p>안녕하세요 {{nick}} 님!!</p>
-    </div>
+    </b-container>
   </div>
 </template>
 <script>
