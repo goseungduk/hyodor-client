@@ -8,7 +8,7 @@ export default {
     [Constant.FETCH_POSTS]: (store, payload) => {
         // console.log("actions");
         // console.log(store.state.post.posts);
-        axios.get("http://203.229.206.16:12345/api/v1/board/" + payload.no)
+        axios.get(session.apiurl + "board/" + payload.no)
             .then((response) => {
                 console.log("actions");
                 store.commit(Constant.FETCH_POSTS, { postlist: response.data });
@@ -18,7 +18,7 @@ export default {
     [Constant.REFRESH_CHECK]: (store, payload) => {
 
         // eslint-disable-next-line no-empty
-        axios.get("http://203.229.206.16:12345/api/v1/login-refresh", {
+        axios.get(session.apiurl + "login-refresh", {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.refresh_token
             }
@@ -34,7 +34,7 @@ export default {
     },
     [Constant.LOGIN_GO]: (store, payload) => {
         store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
-        return axios.post('http://203.229.206.16:12345/api/v1/login', {
+        return axios.post(session.apiurl + 'login', {
                 username: payload.account.id,
                 password: payload.account.pw
             })
