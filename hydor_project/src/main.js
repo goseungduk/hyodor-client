@@ -48,7 +48,8 @@ const router = new VueRouter({
             name: 'home',
             component: Home,
             beforeEnter: (to, from, next) => {
-                store.dispatch(Constant.REFRESH_CHECK, { next });
+                //store.dispatch(Constant.REFRESH_CHECK, { next });
+                next();
             }
         },
         
@@ -58,7 +59,8 @@ const router = new VueRouter({
             // redirect: '/boardlist',
             component: BoardList,
             beforeEnter: (to, from, next) => {
-                store.dispatch(Constant.REFRESH_CHECK, { next });
+                //store.dispatch(Constant.REFRESH_CHECK, { next });
+                next(); 
             },
             children: [{
                     // path: 'freeboard/:no',
