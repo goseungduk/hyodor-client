@@ -16,6 +16,7 @@
     "es6-promise": "^4.2.8",
     "v-calendar": "^1.0.0-beta.16",
     "vue": "^2.6.10",
+    "vue-cal": "^2.4.0",
     "vue-router": "^3.1.2",
     "vue-sidebar-menu": "^4.0.0",
     "vue-simple-spinner": "^1.2.8",
