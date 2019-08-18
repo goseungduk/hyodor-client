@@ -32,7 +32,8 @@
 import * as session from "../utils/loginService";
 export default {
     props: {
-        con_no:''
+        con_no:'',
+        no:''
     },
     data: function() {
         return {
@@ -60,7 +61,7 @@ export default {
             console.log(this.comment);
             if(this.comment==''){
                 alert('1자 이상 입력하세요!');
-                location.href="/boardlist/viewboard/"+this.con_no
+                location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
             }
             else{
                 session.post(session.apiurl+"board/comment",{post_id:this.con_no,content:this.comment})
