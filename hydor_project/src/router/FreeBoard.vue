@@ -5,7 +5,7 @@
     
             <article v-for="i in paginatedData" :key="i.id">
     
-                <a href="#">
+                <a @click="a()" :href="'/boardlist/writeboard?'+i.id">
     
                     <!-- 게시물 각각은 stacked view -->
     
@@ -99,6 +99,9 @@ export default {
             const start = this.pageNum * this.pageSize,
                 end = start + this.pageSize;
             return this.items.slice(start, end);
+        },
+        a(){
+          alert('hi');
         }
     },
     mounted: function() {

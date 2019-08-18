@@ -11,7 +11,7 @@
         <b-navbar-nav>
           <b-nav-item href="/home" :active="isactive('home')" :class="[isactive('home') ? 'n_active':'non_active']" >일정</b-nav-item>
           <b-nav-item href="/boardlist" :active="isactive('boardlist')" :class="[isactive('boardlist') ? 'n_active':'non_active']" >커뮤니티</b-nav-item>
-          <b-nav-item href="/boardlist" :active="isactive('boardaaaa')" :class="[isactive('boardlist') ? 'n_active':'non_active']" >복지정보</b-nav-item>  
+          <b-nav-item href="/boardlist" :active="isactive('boardaaaa')" :class="[isactive('#') ? 'n_active':'non_active']" >복지정보</b-nav-item>  
           
         </b-navbar-nav>
 
