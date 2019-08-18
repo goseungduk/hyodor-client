@@ -10,7 +10,7 @@ export default {
         state.access_token = payload.access;
         state.refresh_token = payload.refresh;
         state.account.username = payload.username;
-        
+
     },
     [Constant.FETCH_POSTS]: (state, payload) => {
         state.post.posts = payload.postlist.posts;
@@ -24,5 +24,7 @@ export default {
         state.currentView = payload.currentView;
         if (payload.num)
             state.no = payload.num;
+        if (payload.con_id)
+            state.con_no = payload.con_id;
     }
 }
