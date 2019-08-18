@@ -35,7 +35,7 @@
     </div>
     <div class="container">
       <!-- <FreeBoard v-bind:no="no"></FreeBoard> -->
-      <component :is="currentView" :no="no"></component>
+      <component :is="currentView" :no="no" :con_no="con_no"></component>
     </div>
   </div>
 </template>
@@ -44,12 +44,14 @@ import NavbarVue from "../components/Navbar.vue";
 import Constant from "../Constant";
 import FreeBoard from "./FreeBoard";
 import WriteBoard from "./WriteBoard";
+import ViewBoard from "./ViewBoard";
 import { mapState } from "vuex";
 export default {
   name: "boardlist",
   components: {
     "b-nav": NavbarVue,
-    FreeBoard, WriteBoard
+    FreeBoard, WriteBoard,
+    ViewBoard
   },
   data: function() {
     return {
@@ -66,7 +68,7 @@ export default {
       console.log(this.no);
     }
   },
-  computed:mapState(['currentView','no'])
+  computed:mapState(['currentView','no','con_no'])
 };
 </script>
 <style scoped>

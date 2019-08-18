@@ -5,7 +5,7 @@
     
             <article v-for="i in paginatedData" :key="i.id">
     
-                <a @click="a()" :href="'/boardlist/writeboard?'+i.id">
+                <a @click="a(i.id)" href="#">
     
                     <!-- 게시물 각각은 stacked view -->
     
@@ -23,15 +23,15 @@
     
             <div class="btn-cover">
     
-                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</button>
+                <b-button variant="outline-primary" :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</b-button>
     
                 <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
     
-                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</button>
+                <b-button variant="outline-primary" :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</b-button>
     
-                <span class="right-box">
+                <span class="example">
     
-              <button @click="change()">글쓰기</button>
+              <b-button variant="outline-primary" @click="change()">글쓰기</b-button>
     
             </span>
     
@@ -78,6 +78,9 @@ export default {
             this.$store.dispatch(Constant.UPDATE_BOARD, {
                 currentView: "WriteBoard"
             });
+        },
+        a(idd){
+          this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"ViewBoard",con_id:idd});
         }
     },
     computed: {
@@ -100,9 +103,6 @@ export default {
                 end = start + this.pageSize;
             return this.items.slice(start, end);
         },
-        a(){
-          alert('hi');
-        }
     },
     mounted: function() {
         session
