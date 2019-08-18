@@ -14,7 +14,7 @@ export default {
         count: '',
         posts: []
     },
-    currentView: "",
-    no: '',
+    currentView: "FreeBoard",
+    no: 1,
     con_no: ''
 }
