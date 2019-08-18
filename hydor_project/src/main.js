@@ -15,6 +15,7 @@ import Home from './router/Home';
 import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
 import WriteBoard from './router/WriteBoard';
+import ViewBoard from './router/ViewBoard';
 import Constant from './Constant';
 /* eslint-disable no-console */
 
@@ -58,19 +59,23 @@ const router = new VueRouter({
             name: 'boardlist',
             // redirect: '/boardlist',
             component: BoardList,
-            beforeEnter: (to, from, next) => {
-                //store.dispatch(Constant.REFRESH_CHECK, { next });
-                next(); 
-            },
+            props: true,
             children: [{
                 // path: 'freeboard/:no',
-                path: 'freeboard',
+                path: 'freeboard/:no',
                 name: 'free',
-                component: FreeBoard
+                component: FreeBoard,
+                props: true
             }, {
-                path: 'writeboard',
+                path: 'writeboard/:no',
                 name: 'write',
-                component: WriteBoard
+                component: WriteBoard,
+                props: true
+            }, {
+                path: 'viewboard',
+                name: 'view',
+                component: ViewBoard,
+                props: true
             }]
         }
     ]

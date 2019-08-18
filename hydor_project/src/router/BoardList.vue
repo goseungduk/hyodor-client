@@ -12,6 +12,7 @@
       <!-- </ul>
     </b-nav> -->
     <div class="header">
+      <!-- <b-nav> -->
       <b-nav pills>
         <b-nav-item @click="change(1)" :active='isSelected(1)'>자유게시판</b-nav-item>
         <b-nav-item @click="change(2)" :active='isSelected(2)'>선물 추천</b-nav-item>
@@ -22,7 +23,8 @@
     </div>
     <b-container>
       <!-- <FreeBoard v-bind:no="no"></FreeBoard> -->
-      <component :is="currentView" :no="no" :con_no="con_no"></component>
+      <!-- <component :is="currentView" :no="no" :con_no="con_no"></component> -->
+      <router-view></router-view>
     </b-container>
 
   </div>
@@ -51,7 +53,10 @@ export default {
   methods: {
     change(number) {
       // no번호 체인지 해주는 메소드가 될것임.
-      this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"FreeBoard",num:number});
+      // this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"FreeBoard",num:number});
+      this.$router.push({
+        name:"free",params:{no:number}
+      })
       this.selectedBoardId = number;
       // this.no = number;
       // this.currentView = "FreeBoard";

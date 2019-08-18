@@ -12,7 +12,7 @@ import * as session from "../utils/loginService.js";
 import Constant from '../Constant';
 export default {
     props: {
-        no: { type: Number }
+        no: ''
     },
     data: function() {
         return {
@@ -25,9 +25,12 @@ export default {
             session.post(session.apiurl + "board/" + this.no, { title: this.title, content: this.content })
                 .then((response) => {
                     alert('게시글작성 완료!');
-                    this.$store.dispatch(Constant.UPDATE_BOARD, {
-                        currentView: "FreeBoard"
-                    });
+                    // this.$store.dispatch(Constant.UPDATE_BOARD, {
+                    //     currentView: "FreeBoard"
+                    // });
+                    this.$router.push(
+                        { name: 'free', params: { no:this.no }}
+                    )
                     return response;
                 })
                 .catch((e) => {

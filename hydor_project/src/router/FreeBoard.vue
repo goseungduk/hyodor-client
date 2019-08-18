@@ -3,7 +3,8 @@
         <div class="container">
             <div class="mt-4"></div>
             <article v-for="i in paginatedData" :key="i.id">
-                <a @click="moveToCon(i.id)" href="#">
+                <!-- <a @click="moveToCon(i.id)" href="#"> -->
+                <router-link :to="{name:'view',params:{con_no:i.id}}">
                     <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
                     <b-container style="border:1px solid #cecece;">
@@ -15,13 +16,17 @@
                             </b-col>
                         </b-row>
                     </b-container>
-                </a>
+                </router-link>
+                <!-- </a> -->
             </article>
             <div class="mt-3">    
-                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이</b-button>    
+                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>    
                 <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
                 <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>
-                <span class="right-box"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
+                <span class="right-box">
+                    <b-button block class="button"  @click="change()">글쓰기</b-button>
+                    <!-- <router-link :to="{name:'write',params:{no:this.no}}">글쓰기</router-link> -->
+                </span>
             </div>
         </div>
     </div>
@@ -34,7 +39,7 @@ import * as session from "../utils/loginService.js";
 export default {
     name: "freeboard",
     props: {
-        no: { type: Number }, // 게시판 번호 받아오는 props
+        no: '', // 게시판 번호 받아오는 props
         pageSize: {
             // 한 페이지당 보여줄 게시물 개수
             type: Number,
@@ -60,12 +65,18 @@ export default {
             this.pageNum -= 1;
         },
         change() {
-            this.$store.dispatch(Constant.UPDATE_BOARD, {
-                currentView: "WriteBoard"
-            });
+            // this.$store.dispatch(Constant.UPDATE_BOARD, {
+            //     currentView: "WriteBoard"
+            // });
+            this.$router.push({
+                name:'write',params: { no:this.no }
+            })
         },
         moveToCon(idd) {
-            this.$store.dispatch(Constant.UPDATE_BOARD, { currentView: "ViewBoard", con_id: idd });
+            // this.$store.dispatch(Constant.UPDATE_BOARD, { currentView: "ViewBoard", con_id: idd });
+            this.$router.push({
+                name:'view',params:{con_no:idd}
+            })
         }
     },
     computed: {
