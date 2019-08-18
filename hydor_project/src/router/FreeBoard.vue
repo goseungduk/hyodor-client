@@ -16,7 +16,7 @@
                     <b-row ><b-col class="ml-md-auto p-2 hov" >
                     <h5 style="color:black;" >{{i.title}}</h5>
                     <h6 style="color:grey;">{{i.content}}</h6>
-                    <p style="color:black;">{{{i.writer.nickname}}</p>
+                    <p style="color:black;">{{i.writer.nickname}}</p>
                     </b-col></b-row>
                     </b-container>
                 </a>
