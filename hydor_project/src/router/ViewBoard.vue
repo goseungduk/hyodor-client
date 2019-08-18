@@ -72,37 +72,32 @@ export default {
                 session.post(session.apiurl+"board/comment",{post_id:this.con_no,content:this.comment})
                 .then((response)=>{
                     // console.log(this.comment);
-                    console.log(response);
                     alert("작성되었습니다!");
                     session.get(session.apiurl + "board/post/" + this.con_no)
                     .then((response) => {
-                        this.items = response.data;
+                        history.go();
                     })
                     .catch((e) => {
                         if (e.response.status == 401) {
                             alert("다시 로그인 해주세요!!");
                             this.items = [];
                             location.href = "/login";
-                        } else {
+                        }
+                        else {
                             alert("서버오류!");
                         }
                     })
-                .catch((e) => {
-                    if (e.response.status == 401) {
-                        alert("다시 로그인 해주세요!!");
-                        this.items = [];
-                        location.href = "/login";
-                    } else {
-                        alert("서버오류!");
-                    }
-                })
                 })
                 .catch((e)=>{
                     if(e.response.status==401){
                         alert("다시 로그인 해주세요!!");
                         this.items=[];
                         location.href="/login";
-                    }else{
+                    }else if(e.response.status==404){
+                        alert("존재하지않는 글입니다.");
+                        history.back();
+                    }
+                    else{
                         alert("서버오류!");
                     }
                 })
