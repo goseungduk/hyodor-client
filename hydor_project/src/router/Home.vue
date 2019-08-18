@@ -2,10 +2,11 @@
   <div>
     <h-nav current-page="home"></h-nav>
     <b-container class="mt-4">
-      <p>안녕하세요 {{nick}} 님!!</p>
 
-      <div>
-        <vue-cal
+      <b-row>
+        <b-col md>
+          <vue-cal
+          class="calendar"
           :time-from="7 * 60"
           :time-to="23 * 60"
           xsmall
@@ -26,7 +27,13 @@
       })"
         >Add an event</button>
         <button @click="events.pop()">Remove last event</button>
-      </div>
+        </b-col>
+        <b-col md>
+          <p>asdfasdf</p>
+        </b-col>
+
+      </b-row>
+
     </b-container>
   </div>
 </template>
@@ -70,4 +77,9 @@ export default {
 };
 </script>
 <style scoped>
+
+.calendar {
+  height: 30em;
+}
+
 </style>
