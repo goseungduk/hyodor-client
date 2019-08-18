@@ -89,7 +89,7 @@ export default {
             return this.items.slice(start, end);
         },
     },
-    mounted: function() {
+    mounted: function() { //로딩 표시 띄워줘야함.
         session
             .get(session.apiurl + "board/" + this.no)
             .then(response => {
