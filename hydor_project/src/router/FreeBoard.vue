@@ -64,16 +64,12 @@ export default {
             // 이전 페이지로 가는 함수
             this.pageNum -= 1;
         },
-        change() {
-            // this.$store.dispatch(Constant.UPDATE_BOARD, {
-            //     currentView: "WriteBoard"
-            // });
+        change() {           
             this.$router.push({
                 name:'write',params: { no:this.no }
             })
         },
         moveToCon(idd) {
-            // this.$store.dispatch(Constant.UPDATE_BOARD, { currentView: "ViewBoard", con_id: idd });
             this.$router.push({
                 name:'view',params:{con_no:idd}
             })
@@ -117,14 +113,14 @@ export default {
     watch: {
         // 게시판 번호의 변화에 따라 즉각적으로 게시물 업뎃 하기위한 watch
         no: function() {
-            this.pageNum = 0;
-            this.pageSize = 5;
             // 게시판이 바뀔때마다 첫페이지로 바꿔주자
             session
                 .get(session.apiurl + "board/" + this.no)
                 .then(response => {
                     this.items = response.data.posts;
                     this.length = response.data.count;
+                    this.pageNum = 0;
+                    this.pageSize=5;
                 })
                 .catch(e => {
                   // console.log(e.response.status); 에러코드

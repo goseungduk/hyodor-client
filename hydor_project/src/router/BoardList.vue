@@ -14,11 +14,16 @@
     <div class="header">
       <!-- <b-nav> -->
       <b-nav pills>
-        <b-nav-item @click="change(1)" :active='isSelected(1)'>자유게시판</b-nav-item>
+        <b-nav-item :to="{name:'free',params:{no:1}}" :active='isSelected(1)'>자유게시판</b-nav-item>
+        <b-nav-item :to="{name:'free',params:{no:2}}" :active='isSelected(2)'>선물추천</b-nav-item>
+        <b-nav-item :to="{name:'free',params:{no:3}}" :active='isSelected(3)'>고민상담</b-nav-item>
+        <b-nav-item :to="{name:'free',params:{no:4}}" :active='isSelected(4)'>편지쓰기</b-nav-item>
+        <b-nav-item :to="{name:'free',params:{no:5}}" :active='isSelected(5)'>경조사 장소 알려주세요!</b-nav-item>
+        <!-- <b-nav-item @click="change(1)" :active='isSelected(1)'>자유게시판</b-nav-item>
         <b-nav-item @click="change(2)" :active='isSelected(2)'>선물 추천</b-nav-item>
         <b-nav-item @click="change(3)" :active='isSelected(3)'>고민 상담</b-nav-item>
         <b-nav-item @click="change(4)" :active='isSelected(4)'>편지 쓰기</b-nav-item>
-        <b-nav-item @click="change(5)" :active='isSelected(5)'>경조사 장소 알려주세요!</b-nav-item>
+        <b-nav-item @click="change(5)" :active='isSelected(5)'>경조사 장소 알려주세요!</b-nav-item> -->
       </b-nav>
     </div>
     <b-container>
@@ -35,7 +40,6 @@ import Constant from "../Constant";
 import FreeBoard from "./FreeBoard";
 import WriteBoard from "./WriteBoard";
 import ViewBoard from "./ViewBoard";
-import { mapState } from "vuex";
 export default {
   name: "boardlist",
   components: {
@@ -51,29 +55,24 @@ export default {
     };
   },
   methods: {
-    change(number) {
-      // no번호 체인지 해주는 메소드가 될것임.
-      // this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"FreeBoard",num:number});
-      this.$router.push({
-        name:"free",params:{no:number}
-      })
-      this.selectedBoardId = number;
-      // this.no = number;
-      // this.currentView = "FreeBoard";
-      console.log(this.no);
-    },
     isSelected(boardId) {
-      if (boardId == this.selectedBoardId) {
+      //부모가 자식의 인자를 $route 객체의 params로 다룰 수 있다.
+      if (boardId == this.$route.params.no) {
         return true;
       }
       return false;
     }
   },
-  computed:mapState(['currentView','no','con_no'])
 };
 </script>
 <style scoped>
 .header {
   margin-top: 0.1em;
 }
+nav li:hover,
+ nav li.router-link-active,
+ nav li.router-link-exact-active {
+   background-color: indianred;
+   cursor: pointer;
+ }
 </style>

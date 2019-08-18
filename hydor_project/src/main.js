@@ -57,7 +57,7 @@ const router = new VueRouter({
         {
             path: '/boardlist',
             name: 'boardlist',
-            // redirect: '/boardlist',
+            redirect: '/boardlist/freeboard/1',
             component: BoardList,
             props: true,
             children: [{
