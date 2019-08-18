@@ -19,7 +19,7 @@
             <b-button squared variant="outline-danger" @click="change(1)">자유게시판</b-button>
           </li>
           <li>
-            <b-button squared variant="outline-danger" @click="change(4)">선물 추천</b-button>
+            <b-button squared variant="outline-danger" @click="change(2)">선물 추천</b-button>
           </li>
           <li>
             <b-button squared variant="outline-danger" @click="change(3)">고민 상담</b-button>
