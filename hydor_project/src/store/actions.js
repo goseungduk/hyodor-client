@@ -40,7 +40,11 @@ export default {
             })
             .then((response) => {
                 console.log(response);
-                store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token, username: response.data.username });
+                session.setAccessToken(response.data.access_token);
+                session.setRefreshToken(response.data.refresh_token);
+                session.setUsername(response.data.username);
+                session.setNickname(response.data.nickname);
+                //store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token, username: response.data.username });
                 store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
             })
 

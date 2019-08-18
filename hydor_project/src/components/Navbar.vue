@@ -46,7 +46,7 @@ export default {
     ...mapState(["account"]),
     username: () => {
       // return "Username"
-      return session.getUsername();
+      return session.getNickname();
     },
 
   },
