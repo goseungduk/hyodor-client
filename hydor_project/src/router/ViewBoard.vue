@@ -32,7 +32,7 @@
 import * as session from "../utils/loginService";
 export default {
     props: {
-        con_no: Number
+        con_no:''
     },
     data: function() {
         return {
@@ -57,15 +57,30 @@ export default {
     },
     methods:{
         commenting(){
-            session.post(session.apiurl+"board/comment",{post_id:this.con_no,content:this.comment})
-            .then((response)=>{
-                // console.log(this.comment);
-                console.log(response);
-                alert("작성되었습니다!");
-                session.get(session.apiurl + "board/post/" + this.con_no)
-                .then((response) => {
-                    this.items = response.data;
-                })
+            console.log(this.comment);
+            if(this.comment==''){
+                alert('1자 이상 입력하세요!');
+                location.href="/boardlist/viewboard/"+this.con_no
+            }
+            else{
+                session.post(session.apiurl+"board/comment",{post_id:this.con_no,content:this.comment})
+                .then((response)=>{
+                    // console.log(this.comment);
+                    console.log(response);
+                    alert("작성되었습니다!");
+                    session.get(session.apiurl + "board/post/" + this.con_no)
+                    .then((response) => {
+                        this.items = response.data;
+                    })
+                    .catch((e) => {
+                        if (e.response.status == 401) {
+                            alert("다시 로그인 해주세요!!");
+                            this.items = [];
+                            location.href = "/login";
+                        } else {
+                            alert("서버오류!");
+                        }
+                    })
                 .catch((e) => {
                     if (e.response.status == 401) {
                         alert("다시 로그인 해주세요!!");
@@ -75,25 +90,17 @@ export default {
                         alert("서버오류!");
                     }
                 })
-            .catch((e) => {
-                if (e.response.status == 401) {
-                    alert("다시 로그인 해주세요!!");
-                    this.items = [];
-                    location.href = "/login";
-                } else {
-                    alert("서버오류!");
-                }
-            })
-            })
-            .catch((e)=>{
-                if(e.response.status==401){
-                    alert("다시 로그인 해주세요!!");
-                    this.items=[];
-                    location.href="/login";
-                }else{
-                    alert("서버오류!");
-                }
-            })
+                })
+                .catch((e)=>{
+                    if(e.response.status==401){
+                        alert("다시 로그인 해주세요!!");
+                        this.items=[];
+                        location.href="/login";
+                    }else{
+                        alert("서버오류!");
+                    }
+                })
+            }
         }
     }
 
