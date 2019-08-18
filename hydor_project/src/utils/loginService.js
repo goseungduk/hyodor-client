@@ -199,7 +199,7 @@ export function setUsername(username) {
 }
 
 export function getNickname() {
-    return null;
+    return localStorage.getItem("nickname");
 }
 
 export function setNickname(nickname) {
