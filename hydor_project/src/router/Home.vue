@@ -30,9 +30,15 @@
         <button @click="events.pop()">Remove last event</button>
         </b-col>
         <b-col md>
-          <p>asdfasdf</p>
+          <h2>당신의 효도 현황은 . . . </h2>
         </b-col>
-
+      </b-row>
+      <b-row>
+        <b-col>
+        </b-col>
+        <b-col md>
+          <p>(이제 여기 윗부분 공간에 방문횟수, 전화 횟수 파싱해서 게이지? 등으로 보여줘야 함.)</p>
+        </b-col>
       </b-row>
 
     </b-container>
