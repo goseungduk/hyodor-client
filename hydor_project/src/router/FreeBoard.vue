@@ -4,7 +4,7 @@
             <div class="mt-4"></div>
             <article v-for="i in paginatedData" :key="i.id">
                 <!-- <a @click="moveToCon(i.id)" href="#"> -->
-                <router-link :to="{name:'view',params:{con_no:i.id}}">
+                <router-link :to="{name:'view',params:{no:no,con_no:i.id}}">
                     <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
                     <b-container style="border:1px solid #cecece;">
@@ -69,11 +69,6 @@ export default {
                 name:'write',params: { no:this.no }
             })
         },
-        moveToCon(idd) {
-            this.$router.push({
-                name:'view',params:{con_no:idd}
-            })
-        }
     },
     computed: {
         pageCount() {

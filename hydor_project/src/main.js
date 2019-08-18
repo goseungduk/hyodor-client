@@ -72,7 +72,7 @@ const router = new VueRouter({
                 component: WriteBoard,
                 props: true
             }, {
-                path: 'viewboard/:con_no',
+                path: 'viewboard/:no/:con_no',
                 name: 'view',
                 component: ViewBoard,
                 props: true
