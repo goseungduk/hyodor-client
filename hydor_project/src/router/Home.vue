@@ -7,6 +7,7 @@
         <b-col md>
           <vue-cal
           class="calendar"
+          :locale="'ko'"
           :time-from="7 * 60"
           :time-to="23 * 60"
           xsmall
@@ -41,6 +42,7 @@
 import NavbarVue from "../components/Navbar.vue";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
+import 'vue-cal/dist/i18n/ko.js'
 export default {
   data: () => ({
     events: [
