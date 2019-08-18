@@ -51,8 +51,13 @@ export default {
                     alert("다시 로그인 해주세요!!");
                     this.items = [];
                     location.href = "/login";
-                } else {
+                }else if(e.response.status==404){
+                    alert("존재하지않는 글입니다");
+                    history.back();
+                } 
+                else {
                     alert("서버오류!");
+                    history.back();
                 }
             })
     },
