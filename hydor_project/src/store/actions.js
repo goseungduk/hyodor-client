@@ -43,10 +43,13 @@ export default {
                 store.commit(Constant.TOKENING, { access: response.data.access_token, refresh: response.data.refresh_token, username: response.data.username });
                 store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
             })
-        
-        
+
+
     },
     [Constant.CHANGE_ISLOADING]: (store, payload) => {
         store.commit(Constant.CHANGE_ISLOADING, payload);
+    },
+    [Constant.UPDATE_BOARD]: (store, payload) => {
+        store.commit(Constant.CHANGE_BOARD, payload);
     }
 }

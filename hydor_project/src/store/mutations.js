@@ -25,5 +25,10 @@ export default {
         state.post.count = payload.postlist.count;
         // console.log("mutations end");
         // console.log(state.post.posts);
+    },
+    [Constant.CHANGE_BOARD]: (state, payload) => {
+        state.currentView = payload.currentView;
+        if (payload.num)
+            state.no = payload.num;
     }
 }

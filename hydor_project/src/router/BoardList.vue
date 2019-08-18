@@ -9,7 +9,7 @@
             <b-button squared variant="outline-danger" @click="change(1)">자유게시판</b-button>
           </li>
           <li>
-            <b-button squared variant="outline-danger" @click="change(2)">선물 추천</b-button>
+            <b-button squared variant="outline-danger" @click="change(4)">선물 추천</b-button>
           </li>
           <li>
             <b-button squared variant="outline-danger" @click="change(3)">고민 상담</b-button>
@@ -33,27 +33,30 @@
 import NavbarVue from "../components/Navbar.vue";
 import Constant from "../Constant";
 import FreeBoard from "./FreeBoard";
+import WriteBoard from "./WriteBoard";
 import { mapState } from "vuex";
 export default {
   name: "boardlist",
   components: {
     "b-nav": NavbarVue,
-    FreeBoard
+    FreeBoard, WriteBoard
   },
   data: function() {
     return {
-      no: '',
-      currentView: ""
+      //no: '',
+      // currentView: ""
     };
   },
   methods: {
     change(number) {
       // no번호 체인지 해주는 메소드가 될것임.
-      this.no = number;
-      this.currentView = "FreeBoard";
+      this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"FreeBoard",num:number});
+      // this.no = number;
+      // this.currentView = "FreeBoard";
       console.log(this.no);
     }
-  }
+  },
+  computed:mapState(['currentView','no'])
 };
 </script>
 <style scoped>

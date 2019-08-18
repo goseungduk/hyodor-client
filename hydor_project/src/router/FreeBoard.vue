@@ -3,6 +3,8 @@
     <div id="example">
       <article v-for="i in paginatedData" :key="i.id">
         <a href="#">
+          <!-- 게시물 각각은 stacked view -->
+          <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
           <h2>{{i.title}}</h2>
           <p>{{i.content}}</p>
           <h3>{{i.writer.nickname}}</h3>
@@ -12,6 +14,7 @@
         <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</button>
         <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
         <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</button>
+        <span class="right-box"><button @click="change()">글쓰기</button></span>
       </div>
     </div>
   </div>
@@ -19,6 +22,7 @@
 <script>
 import Constant from "../Constant";
 import axios from "axios";
+import mapState from 'vuex';
 import * as session from "../utils/loginService.js";
 export default {
   name: "freeboard",
@@ -44,6 +48,9 @@ export default {
     },
     prevPage() { // 이전 페이지로 가는 함수
       this.pageNum -= 1;
+    },
+    change(){
+      this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"WriteBoard"})
     }
   },
   computed: {
@@ -63,7 +70,7 @@ export default {
       const start = this.pageNum * this.pageSize,
         end = start + this.pageSize;
       return this.items.slice(start, end);
-    }
+    },
   },
   mounted: function() {
     axios
@@ -176,5 +183,9 @@ img.thumbnail {
   margin-bottom: auto;
   display: block;
   cursor: pointer;
+}
+.right-box {
+  background: white;
+  float: right;
 }
 </style>

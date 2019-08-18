@@ -6,9 +6,11 @@ export default {
     CERTIFICATE: "certificate",
     TOKENING: "tokening",
     VIEWING: "viewing",
+    CHANGE_BOARD: "changeboard",
     //actions 에서 쓰이는 것
     LOGIN_GO: "loginGo",
     CHECK_TOKEN: "checkToken",
     REFRESH_CHECK: "refreshcheck",
+    UPDATE_BOARD: "updateboard"
 
 }

@@ -14,5 +14,6 @@ export default {
         count: '',
         posts: []
     },
-    currentView: ""
+    currentView: "",
+    no: ''
 }
