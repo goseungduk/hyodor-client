@@ -3,7 +3,7 @@
         <div class="container">
             <div class="mt-4"></div>
             <article v-for="i in paginatedData" :key="i.id">
-                <a @click="a(i.id)" href="#">
+                <a @click="moveToCon(i.id)" href="#">
                     <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
                     <b-container style="border:1px solid #cecece;">
@@ -64,7 +64,7 @@ export default {
                 currentView: "WriteBoard"
             });
         },
-        a(idd) {
+        moveToCon(idd) {
             this.$store.dispatch(Constant.UPDATE_BOARD, { currentView: "ViewBoard", con_id: idd });
         }
     },
@@ -100,17 +100,7 @@ export default {
                 alert("서버오류!" + e);
                 this.items = [];
             });
-        // axios
-        //   .get(session.apiurl+ "board/" + this.no)
-        //   .then(response => {
-        //     this.items = response.data.posts;
-        //     this.length = response.data.count;
-        //     // this.itemss=response.data.posts;
-        //   })
-        //   .catch(e => {
-        //     alert("서버오류!" + e);
-        //     this.items = [];
-        //   });
+        
     },
     watch: {
         // 게시판 번호의 변화에 따라 즉각적으로 게시물 업뎃 하기위한 watch
@@ -128,17 +118,6 @@ export default {
                     alert("서버오류!" + e);
                     this.items = [];
                 });
-            // axios
-            //     .get(session.apiurl + "board/" + this.no)
-            //     .then(response => {
-            //         this.items = response.data.posts;
-            //         this.length = response.data.count;
-            //         // this.itemss=response.data.posts;
-            //     })
-            //     .catch(e => {
-            //         alert("서버오류!" + e);
-            //         this.items = [];
-            //     });
         }
     }
 };

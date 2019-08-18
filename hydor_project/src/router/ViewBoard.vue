@@ -1,8 +1,8 @@
 <template>
     <div>
-        <b-card title="제목" sub-title="닉네임">
+        <b-card :title="items.title" :sub-title="items.writer.nickname">
             <b-card-text>
-                "내용"
+                {{items.content}}
             </b-card-text>
         </b-card>
     </div>
@@ -10,6 +10,7 @@
 
 <script>
 //state에는 con_no가 있다.
+import * as session from "../utils/loginService";
 export default {
     props:{
         con_no:Number
@@ -18,6 +19,12 @@ export default {
         return {
             items:[] //axios 응답 데이터 다 때려박아!!!
         }
+    },
+    mounted:function(){
+        session.get(session.apiurl+"board/post/"+this.con_no)
+        .then((response)=>{
+            this.items=response.data;
+        })
     }
 
 }
