@@ -97,6 +97,7 @@ export default {
                 this.length = response.data.count;
             })
             .catch(e => {
+                
                 alert("서버오류!" + e);
                 this.items = [];
             });
@@ -115,8 +116,15 @@ export default {
                     this.length = response.data.count;
                 })
                 .catch(e => {
-                    alert("서버오류!" + e);
+                  // console.log(e.response.status); 에러코드
+                  if(e.response.status==401){
+                    alert("다시 로그인 해주세요!!");
                     this.items = [];
+                    location.href="/login";
+                  }else{
+                    alert("서버오류!");
+                  }
+                    
                 });
         }
     }
