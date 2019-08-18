@@ -1,44 +1,29 @@
 <template>
     <div>
-    
-        <div id="example">
-    
+        <div class="container">
+            <div class="mt-4"></div>
             <article v-for="i in paginatedData" :key="i.id">
-    
                 <a @click="a(i.id)" href="#">
-    
-                    <!-- 게시물 각각은 stacked view -->
-    
+                    <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
-    
-                    <h2>{{i.title}}</h2>
-    
-                    <p>{{i.content}}</p>
-    
-                    <h3>{{i.writer.nickname}}</h3>
-    
+                    <b-container style="border:1px solid #cecece;">
+                        <b-row>
+                            <b-col class="ml-md-auto p-2 hov">
+                                <h5 style="color:black;">{{i.title}}</h5>
+                                <h6 style="color:grey;">{{i.content}}</h6>    
+                                <p style="color:black;">{{i.writer.nickname}}</p>   
+                            </b-col>
+                        </b-row>
+                    </b-container>
                 </a>
-    
             </article>
-    
-            <div class="btn-cover">
-    
-                <b-button variant="outline-primary" :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</b-button>
-    
-                <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-    
-                <b-button variant="outline-primary" :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</b-button>
-    
-                <span class="example">
-    
-              <b-button variant="outline-primary" @click="change()">글쓰기</b-button>
-    
-            </span>
-    
+            <div class="mt-3">    
+                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>    
+                <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+                <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>
+                <span class="right-box"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
             </div>
-    
         </div>
-    
     </div>
 </template>
 <script>
@@ -79,8 +64,8 @@ export default {
                 currentView: "WriteBoard"
             });
         },
-        a(idd){
-          this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"ViewBoard",con_id:idd});
+        a(idd) {
+            this.$store.dispatch(Constant.UPDATE_BOARD, { currentView: "ViewBoard", con_id: idd });
         }
     },
     computed: {
@@ -134,15 +119,15 @@ export default {
             this.pageSize = 5;
             // 게시판이 바뀔때마다 첫페이지로 바꿔주자
             session
-            .get(session.apiurl + "board/" + this.no)
-            .then(response => {
-                this.items = response.data.posts;
-                this.length = response.data.count;
-            })
-            .catch(e => {
-                alert("서버오류!" + e);
-                this.items = [];
-            });
+                .get(session.apiurl + "board/" + this.no)
+                .then(response => {
+                    this.items = response.data.posts;
+                    this.length = response.data.count;
+                })
+                .catch(e => {
+                    alert("서버오류!" + e);
+                    this.items = [];
+                });
             // axios
             //     .get(session.apiurl + "board/" + this.no)
             //     .then(response => {
@@ -257,5 +242,42 @@ img.thumbnail {
 .right-box {
     background: white;
     float: right;
+}
+
+.container {
+    margin: 0 auto;
+    width: 820px;
+}
+
+.hov:hover {
+    background-color: #F4FCFF;
+}
+
+.button {
+    border: 1px solid #A2D3F9;
+    color: #A2D3F9;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.button:hover {
+    color: white;
+    background-color: #A2D3F9;
+}
+
+.page {
+    text-decoration: none;
+    border: 1px solid #3764CC;
+    color: #3764CC;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.page:hover {
+    color: white;
+    background-color: #3764CC;
+}
+
+.pagenum {
+    color: #3764CC;
+    font-weight: bold;
 }
 </style>

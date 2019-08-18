@@ -3,7 +3,7 @@
     <div>
         <b-navbar toggleable="lg" type="light" variant="light">
          <img class="mr-3" src="../assets/logo2.png" width="40" height="30" />
-      <b-navbar-brand href="/home">Hyodor</b-navbar-brand>
+      <b-navbar-brand  class="hyodor" href="/home">Hyodor</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,7 +11,7 @@
         <b-navbar-nav>
           <b-nav-item href="/home" :active="isactive('home')" :class="[isactive('home') ? 'n_active':'non_active']" >일정</b-nav-item>
           <b-nav-item href="/boardlist" :active="isactive('boardlist')" :class="[isactive('boardlist') ? 'n_active':'non_active']" >커뮤니티</b-nav-item>
-          <b-nav-item href="/boardlist" :active="isactive('boardaaaa')" :class="[isactive('#') ? 'n_active':'non_active']" >복지정보</b-nav-item>  
+          <b-nav-item href="/boardlist" :active="isactive('board')" :class="[isactive('#') ? 'n_active':'non_active']" >복지정보</b-nav-item>  
           
         </b-navbar-nav>
 
@@ -80,4 +80,12 @@ float:left;
 .non_active{
   color:#3764CC; font-weight:bold;
 }
+.non_active:hover{
+  font-weight: bold;
+  border-bottom: 2px solid #026CAD;
+}
+.hyodor:hover{
+  color:#026CAD;
+}
+
 </style>
