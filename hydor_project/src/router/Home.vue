@@ -43,6 +43,7 @@ import NavbarVue from "../components/Navbar.vue";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 import 'vue-cal/dist/i18n/ko.js'
+import * as session from "../utils/loginService";
 export default {
   data: () => ({
     events: [
@@ -75,6 +76,21 @@ export default {
   components: {
     "h-nav": NavbarVue,
     "vue-cal": VueCal
+  },
+  mounted:function(){
+    session.loginRefresh()
+    .then((response)=>{
+      console.log(response);
+    })
+    .catch((e)=>{
+      if (e.response.status == 401) {
+          alert("다시 로그인 해주세요!!");
+          this.items = [];
+          location.href = "/login";
+      } else {
+          alert("서버오류!");
+      }
+    })
   }
 };
 </script>
