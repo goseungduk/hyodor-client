@@ -19,6 +19,7 @@
             <b-button variant="outline-primary" @click="commenting()">작성</b-button>
         </span>
         <div>
+            <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
             <article v-for="i in items.comments" :key="i.id">
                 <h5>{{i.writer.nickname}}</h5>
                 <p>{{i.content}}</p>
