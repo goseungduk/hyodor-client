@@ -14,11 +14,7 @@ import Register from './router/Register';
 import Home from './router/Home';
 import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
-// import GiftBoard from './router/GiftBoard';
-// import GominBoard from './router/GominBoard';
-// import LetterBoard from './router/LetterBoard';
-// import PartyPlaceBoard from './router/PartyPlaceBoard';
-//import Axios from 'axios';
+import WriteBoard from './router/WriteBoard';
 import Constant from './Constant';
 /* eslint-disable no-console */
 
@@ -70,15 +66,12 @@ const router = new VueRouter({
                 // path: 'freeboard/:no',
                 path: 'freeboard',
                 name: 'free',
-                component: FreeBoard,
-                // beforeEnter: (to, from, next) => {
-                //     console.log("before");
-                //     console.log(to.params.no)
-                //         //store.dispatch(Constant.FETCH_POSTS, { no: to.params.no })
-                //     next();
-                // },
-                // props: true
-            }, ]
+                component: FreeBoard
+            }, {
+                path: 'writeboard',
+                name: 'write',
+                component: WriteBoard
+            }]
         }
     ]
 })

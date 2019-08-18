@@ -1,16 +1,16 @@
 <template>
   <div>
     <b-nav current-page="boardlist"></b-nav>
-    <b-nav pills>
-      <ul class="menubar_set mt-3">
-        <b-nav-item class="menu_set mb-2" @click="change(1)" :class="[mnactive('free') ? 'active':'non_active']">자유게시판</b-nav-item>
+    <!-- <b-nav pills>
+      <ul class="menubar_set mt-3"> -->
+        <!-- <b-nav-item class="menu_set mb-2" @click="change(1)" :class="[mnactive('free') ? 'active':'non_active']">자유게시판</b-nav-item>
         <b-nav-item class="menu_set mb-2" @click="change(2)" :class="[mnactive('gift') ? 'active':'non_active']">선물 추천</b-nav-item>
         <b-nav-item class="menu_set mb-2" @click="change(3)" :class="[mnactive('gomin') ? 'active':'non_active']">고민 상담</b-nav-item>
         <b-nav-item class="menu_set mb-2" @click="change(4)" :class="[mnactive('letter') ? 'active':'non_active']">편지 쓰기</b-nav-item>
-        <b-nav-item class="menu_set mb-2" @click="change(5)" :class="[mnactive('partyPlace') ? 'active':'non_active']">경조사 장소 알려주세요!</b-nav-item>
+        <b-nav-item class="menu_set mb-2" @click="change(5)" :class="[mnactive('partyPlace') ? 'active':'non_active']">경조사 장소 알려주세요!</b-nav-item> -->
 <!-- 뭐가 바뀔지 몰라서 추가만 해놨어요--->
-      </ul>
-    </b-nav>
+      <!-- </ul>
+    </b-nav> -->
     <div id="app" ref="app"></div>
     <div class="header">
       <nav>
@@ -19,7 +19,7 @@
             <b-button squared variant="outline-danger" @click="change(1)">자유게시판</b-button>
           </li>
           <li>
-            <b-button squared variant="outline-danger" @click="change(2)">선물 추천</b-button>
+            <b-button squared variant="outline-danger" @click="change(4)">선물 추천</b-button>
           </li>
           <li>
             <b-button squared variant="outline-danger" @click="change(3)">고민 상담</b-button>
@@ -43,27 +43,30 @@
 import NavbarVue from "../components/Navbar.vue";
 import Constant from "../Constant";
 import FreeBoard from "./FreeBoard";
+import WriteBoard from "./WriteBoard";
 import { mapState } from "vuex";
 export default {
   name: "boardlist",
   components: {
     "b-nav": NavbarVue,
-    FreeBoard
+    FreeBoard, WriteBoard
   },
   data: function() {
     return {
-      no: '',
-      currentView: ""
+      //no: '',
+      // currentView: ""
     };
   },
   methods: {
     change(number) {
       // no번호 체인지 해주는 메소드가 될것임.
-      this.no = number;
-      this.currentView = "FreeBoard";
+      this.$store.dispatch(Constant.UPDATE_BOARD,{currentView:"FreeBoard",num:number});
+      // this.no = number;
+      // this.currentView = "FreeBoard";
       console.log(this.no);
     }
-  }
+  },
+  computed:mapState(['currentView','no'])
 };
 </script>
 <style scoped>
