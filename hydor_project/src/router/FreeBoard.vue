@@ -18,7 +18,7 @@
                 </a>
             </article>
             <div class="mt-3">    
-                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>    
+                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이</b-button>    
                 <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
                 <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>
                 <span class="right-box"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
