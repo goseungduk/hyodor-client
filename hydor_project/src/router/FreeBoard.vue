@@ -1,7 +1,8 @@
 <template>
     <div>
     
-        <div id="example">
+        <div class="container">
+        <div class="mt-4"></div>
     
             <article v-for="i in paginatedData" :key="i.id">
     
@@ -11,31 +12,24 @@
     
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
     
-                    <h2>{{i.title}}</h2>
-    
-                    <p>{{i.content}}</p>
-    
-                    <h3>{{i.writer.nickname}}</h3>
-    
+                    <b-container style="border:1px solid #cecece;">
+                    <b-row ><b-col class="ml-md-auto p-2 hov" >
+                    <h5 style="color:black;" >{{i.title}}</h5>
+                    <h6 style="color:grey;">{{i.content}}</h6>
+                    <p style="color:black;">{{{i.writer.nickname}}</p>
+                    </b-col></b-row>
+                    </b-container>
                 </a>
     
             </article>
     
-            <div class="btn-cover">
-    
-                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</button>
-    
-                <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-    
-                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</button>
-    
-                <span class="right-box">
-    
-              <button @click="change()">글쓰기</button>
-    
-            </span>
-    
-            </div>
+           <div class="mt-3">
+          <b-button class="page" :disabled="pageNum === 0" @click="prevPage" >이전</b-button>
+          <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+          <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage" >다음</b-button>
+       
+          <span class="right-box"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
+        </div>
     
         </div>
     
@@ -257,5 +251,38 @@ img.thumbnail {
 .right-box {
     background: white;
     float: right;
+}
+.container{
+    margin: 0 auto;
+    width:820px;
+}
+.hov:hover{
+    background-color : #F4FCFF;
+}
+.button{
+    border: 1px solid #A2D3F9;
+            color: #A2D3F9;
+    background-color: rgba(0,0,0,0);
+
+}
+.button:hover{
+            color:white;
+            background-color: #A2D3F9;
+}
+.page{
+ 
+  text-decoration: none;
+  border: 1px solid #3764CC;
+            color: #3764CC;
+  background-color: rgba(0,0,0,0);
+}
+.page:hover{
+            color:white;
+            background-color: #3764CC;
+}
+.pagenum{
+    
+    color: #3764CC;
+    font-weight: bold;
 }
 </style>
