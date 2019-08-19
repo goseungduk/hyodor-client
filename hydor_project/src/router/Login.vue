@@ -7,17 +7,31 @@
     <div class="mt-3">
       <b-form @submit.prevent="inLogin" class="login-form">
         <b-form-group>
-          <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus></b-form-input>
+          <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus
+                        v-wait:disabled="'loginLoading'"></b-form-input>
         </b-form-group>
         <b-form-group>
-          <b-form-input name="pw" type="password" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"></b-form-input>
+          <b-form-input name="pw" type="password" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"
+                        v-wait:disabled="'loginLoading'"></b-form-input>
           <b-form-invalid-feedback :state="loginvalid" class="float-left">
             아이디 또는 비밀번호가 일치하지 않습니다.
           </b-form-invalid-feedback>
         </b-form-group>
 
-        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')">로그인</b-button>
+        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')">
+          <v-wait for="loginLoading">
+            <template slot="waiting">
+              <div class="d-flex justify-content-center">
+                <Spinner name="fading-circle" color="black" :noFadeIn="true" height="25"/>
+              </div>
+                
+            </template>
+            로그인 
+          </v-wait>
+          
+          </b-button>
       </b-form>
+      
 
       <div class="mt-3">
         <p class="text-register">
@@ -26,18 +40,19 @@
         </p>
       </div>
     </div>
-    <loading v-show="$wait.is('loginLoading')"></loading>
+    <!-- <loading v-show="$wait.is('loginLoading')"></loading> -->
   </div>
 </template>
 <script>
 import Constant from "../Constant";
 //import {mapActions} from 'vuex';
-import Loading from "../components/Loading";
+//import Loading from "../components/Loading";
 import { mapState } from "vuex";
-//import axios from 'axios';
+import Spinner from 'vue-spinkit'
+
 export default {
   name: "login",
-  components: { Loading },
+  components: { Spinner },
   data: function() {
     return {
       acc: {}, // 비어있는 객체
@@ -63,9 +78,11 @@ export default {
     inLogin() {
       if (this.acc.id == null || this.acc.pw == null) {
         this.loginfailed = true;
+        this.$wait.end('loginLoading');
         return 0;
       } else if (this.acc.id == "" || this.acc.pw == "") {
         this.loginfailed = true;
+        this.$wait.end('loginLoading');
         return 0;
       }
       this.$store
@@ -73,6 +90,7 @@ export default {
         .then(() => {
           //dispatch의 then구문을 이어받음.s
           this.$router.push({ name: "home" });
+          this.$wait.end('loginLoading');
         })
         .catch(e => {
           this.loginfailed = true;
