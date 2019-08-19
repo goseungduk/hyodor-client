@@ -1,4 +1,6 @@
+
 <template>
+
     <div>
         <div class="container">
             <div class="mt-4"></div>
@@ -17,6 +19,7 @@
                         </b-row>
                     </b-container>
                 </router-link>
+                <router-view></router-view>
                 <!-- </a> -->
             </article>
            <span class="right-box mt-2"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
@@ -35,6 +38,7 @@ import Constant from "../Constant";
 import axios from "axios";
 import mapState from "vuex";
 import * as session from "../utils/loginService.js";
+import x2j from 'xml2js';
 export default {
     name: "freeboard",
     props: {
@@ -58,15 +62,44 @@ export default {
         nextPage() {
             // 다음 페이지로 가는 함수
             this.pageNum += 1;
+            var parseString=x2j.parseString;
+            axios({method:'GET',
+                url:'/api/svc/list',
+                params:{pageIndex:3,jrsdOrgCd:6110000,srhQuery:"노인",format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
+            })
+            .then((response)=>{
+                console.log(response.data);
+                parseString(response.data,function(e,result){
+                    console.log(result);
+                })
+            })
+            .catch((e)=>{
+                console.log(e);
+            });
         },
         prevPage() {
             // 이전 페이지로 가는 함수
             this.pageNum -= 1;
+            var parseString=x2j.parseString;
+            axios({method:'GET',
+                url:'/api/svc/list',
+                params:{jrsdOrgCd:6110000,srhQuery:"노인",format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
+            })
+            .then((response)=>{
+                console.log(response.data);
+                parseString(response.data,function(e,result){
+                    console.log(result);
+                })
+            })
+            .catch((e)=>{
+                console.log(e);
+            });
         },
         change() {           
             this.$router.push({
                 name:'write',params: { no:this.no }
             })
+
         },
     },
     computed: {
@@ -102,6 +135,7 @@ export default {
                 alert("서버오류!" + e);
                 this.items = [];
             });
+            
         
     },
     watch: {

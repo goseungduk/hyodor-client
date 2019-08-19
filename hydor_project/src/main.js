@@ -16,6 +16,7 @@ import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
 import WriteBoard from './router/WriteBoard';
 import ViewBoard from './router/ViewBoard';
+import ServiceInfo from './router/ServiceInfo';
 import Constant from './Constant';
 /* eslint-disable no-console */
 
@@ -77,6 +78,11 @@ const router = new VueRouter({
                 component: ViewBoard,
                 props: true
             }]
+        },
+        {
+            path: '/serviceinfo',
+            name: 'service',
+            component: ServiceInfo
         }
     ]
 })
