@@ -1,8 +1,8 @@
 <template>
     <div>
-        <b-form-input v-model="title" placeholder="제목을 입력하세요"></b-form-input>
-        <b-form-textarea id="textarea" v-model="content" placeholder="내용을 입력하세요" rows="3" max-rows="6"></b-form-textarea>
-        <b-button variant="outline-primary" @click="submit()">Button</b-button>
+       <b-form-input class="mt-2" v-model="title" placeholder="제목을 입력하세요"></b-form-input>
+        <b-form-textarea class="mt-2" id="textarea" v-model="content" placeholder="내용을 입력하세요" rows="8" max-rows="8"></b-form-textarea>
+        <b-button class="mt-1 button"  @click="submit()">작성하기</b-button>
     </div>
 </template>
 <script>
@@ -48,5 +48,15 @@ export default {
 };
 </script>
 <style scoped>
-
+.button{
+    border: 2px solid #58B4FB;
+            color: #2B75AD;
+    background-color: rgba(0,0,0,0);
+    font-weight:bold;
+    float: right;
+}
+.button:hover{
+            color:white;
+            background-color: #58B4FB;
+}
 </style>
