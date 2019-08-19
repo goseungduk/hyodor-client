@@ -16,7 +16,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
 
-        <b-button type="submit" block variant="outline-primary">로그인</b-button>
+        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')">로그인</b-button>
       </b-form>
 
       <div class="mt-3">
@@ -26,7 +26,7 @@
         </p>
       </div>
     </div>
-    <loading v-show="isloading"></loading>
+    <loading v-show="$wait.is('loginLoading')"></loading>
   </div>
 </template>
 <script>
@@ -51,7 +51,7 @@ export default {
     // contactsapp_strict of chap.11
   },
   computed: {
-    ...mapState(["account", "isloading"]),
+    ...mapState(["account"]),
     loginvalid: function() {
         if (this.loginfailed) {
             return false;
@@ -61,13 +61,6 @@ export default {
   },
   methods: {
     inLogin() {
-    //   if (this.acc.id == null || this.acc.pw == null) {
-    //     alert("모두 입력해주세요!");
-    //     return 0;
-    //   } else if (this.acc.id == "" || this.acc.pw == "") {
-    //     alert("모두 입력해주세요!");
-    //     return 0;
-    //   }
       if (this.acc.id == null || this.acc.pw == null) {
         this.loginfailed = true;
         return 0;
@@ -80,12 +73,10 @@ export default {
         .then(() => {
           //dispatch의 then구문을 이어받음.s
           this.$router.push({ name: "home" });
-          //alert("로그인 성공");
         })
         .catch(e => {
-          //alert("로그인 실패", e);
           this.loginfailed = true;
-          this.$store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
+          this.$wait.end('loginLoading');
         });
     }
   }
