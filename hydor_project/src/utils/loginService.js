@@ -190,6 +190,31 @@ export function isLoggedIn() {
 
 }
 
+
+export function isAdmin() {
+    if (!isLoggedIn()) {
+        return new Promise(function (_resolve, reject) {
+            reject();
+        });
+    }
+
+    return get(apiurl + "admin")
+    .then(function (response) {
+        return new Promise(function (resolve, _reject) {
+            resolve();
+        });
+    })
+    .catch(function (error) {
+        return new Promise(function (_resolve, reject) {
+            reject();
+        });
+    });
+
+
+}
+
+
+
 export function getUsername() {
     return localStorage.getItem("username");
 }

@@ -9,6 +9,8 @@ import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Slider from '@jeremyhamm/vue-slider'
+import VueWait from 'vue-wait';
+
 import Login from './router/Login';
 import Register from './router/Register';
 import Home from './router/Home';
@@ -16,13 +18,17 @@ import BoardList from './router/BoardList';
 import FreeBoard from './router/FreeBoard';
 import WriteBoard from './router/WriteBoard';
 import ViewBoard from './router/ViewBoard';
+import AdminConsole from './router/AdminConsole.vue';
 import Constant from './Constant';
+
+import * as session from './utils/loginService'
 /* eslint-disable no-console */
 
 ES6Promise.polyfill()
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(Slider);
+Vue.use(VueWait);
 // Vue.use(BootstrapVue);
 // 위에 이미
 // import 해놨습니다 수정 NONO
@@ -77,11 +83,29 @@ const router = new VueRouter({
                 component: ViewBoard,
                 props: true
             }]
-        }
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: AdminConsole,
+            beforeEnter: (to, from, next) => {
+                session.isAdmin()
+                .then(function () {
+                    next();
+                })
+                .catch(function () {
+                    next('/home');
+                })
+                
+            }
+        },
     ]
 })
 new Vue({
     store,
     router,
-    render: h => h(App)
+    render: h => h(App),
+    wait: new VueWait({
+        useVuex: true
+    })
 }).$mount('#app')
