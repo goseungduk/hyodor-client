@@ -19,6 +19,7 @@ import FreeBoard from './router/FreeBoard';
 import WriteBoard from './router/WriteBoard';
 import ViewBoard from './router/ViewBoard';
 import AdminConsole from './router/AdminConsole.vue';
+import ServiceInfo from './router/ServiceInfo';
 import Constant from './Constant';
 
 import * as session from './utils/loginService'
@@ -99,6 +100,11 @@ const router = new VueRouter({
                 
             }
         },
+        {
+            path: '/serviceinfo',
+            name: 'service',
+            component: ServiceInfo
+        }
     ]
 })
 new Vue({

@@ -14,7 +14,7 @@
         <b-navbar-nav>
           <b-nav-item href="/home" :active="isactive('home')" :class="[isactive('home') ? 'n_active':'non_active']" >일정</b-nav-item>
           <b-nav-item href="/boardlist" :active="isactive('boardlist')" :class="[isactive('boardlist') ? 'n_active':'non_active']" >커뮤니티</b-nav-item>
-          <b-nav-item onclick="location.href='http://api.korea.go.kr/openapi/svc/list?lrgAstCd=060000&jrsdOrgCd=3110000&format=html&serviceKey=EzpVCm%2By8ApwlDIaSCc%2BzV%2FXiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa%2BUQg%3D%3D'" :active="isactive('board')" :class="[isactive('#') ? 'n_active':'non_active']" >복지정보(demo)</b-nav-item>  
+          <b-nav-item href="/serviceinfo" :active="isactive('serviceinfo')" :class="[isactive('serviceinfo') ? 'n_active':'non_active']" >복지정보(demo)</b-nav-item>  
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
