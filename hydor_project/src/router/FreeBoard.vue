@@ -19,16 +19,15 @@
                 </router-link>
                 <!-- </a> -->
             </article>
-            <div class="mt-3">    
-                <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>    
-                <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-                <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>
-                <span class="right-box">
-                    <b-button block class="button"  @click="change()">글쓰기</b-button>
-                    <!-- <router-link :to="{name:'write',params:{no:this.no}}">글쓰기</router-link> -->
-                </span>
-            </div>
-        </div>
+           <span class="right-box mt-2"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
+       </div>
+       
+       <span  class="container"  style="display: inline-block;text-align: center;" >   
+          <b-button class="page" :disabled="pageNum === 0" @click="prevPage" >이전</b-button>
+          <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+          <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage" >다음</b-button>
+    </span>
+
     </div>
 </template>
 <script>
@@ -238,34 +237,34 @@ img.thumbnail {
     width: 820px;
 }
 
-.hov:hover {
-    background-color: #F4FCFF;
+.hov:hover{
+    background-color : #F4FCFF;
 }
+.button{
+    border: 2px solid #58B4FB;
+            color: #2B75AD;
+    background-color: rgba(0,0,0,0);
+    font-weight:bold;
 
-.button {
-    border: 1px solid #A2D3F9;
-    color: #A2D3F9;
-    background-color: rgba(0, 0, 0, 0);
 }
-
-.button:hover {
-    color: white;
-    background-color: #A2D3F9;
+.button:hover{
+            color:white;
+            background-color: #58B4FB;
 }
-
-.page {
-    text-decoration: none;
-    border: 1px solid #3764CC;
-    color: #3764CC;
-    background-color: rgba(0, 0, 0, 0);
+.page{
+ 
+  text-decoration: none;
+  border: 2px solid #3764CC;
+            color: #3764CC;
+  background-color: rgba(0,0,0,0);
+  font-weight: bold;
 }
-
-.page:hover {
-    color: white;
-    background-color: #3764CC;
+.page:hover{
+            color:white;
+            background-color: #3764CC;
 }
-
-.pagenum {
+.pagenum{
+    
     color: #3764CC;
     font-weight: bold;
 }
