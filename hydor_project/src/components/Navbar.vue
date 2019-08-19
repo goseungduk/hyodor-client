@@ -95,5 +95,31 @@ float:left;
 .hyodor:hover{
   color:#026CAD;
 }
-
+@media(max-width: 720px){
+.n_active { font-weight:bold; 
+ background-color: #EDF2F9;
+}
+.non_active:hover{
+  font-weight: bold;
+  background-color: #EDF2F9;
+}
+} 
+@media(min-width: 720px)and (max-width:990px){
+.n_active { font-weight:bold; 
+ background-color: #EDF2F9;
+}
+.non_active:hover{
+  font-weight: bold;
+  background-color: #EDF2F9;
+}
+} 
+@media(min-width: 990px){
+.n_active { font-weight:bold; 
+ text-decoration:none; border-bottom: 2px solid #026CAD;
+} 
+.non_active:hover{
+  font-weight: bold;
+  border-bottom: 2px solid #026CAD;
+}
+}
 </style>
