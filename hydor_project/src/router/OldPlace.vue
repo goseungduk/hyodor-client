@@ -71,7 +71,8 @@ export default {
         };
         map = new kakao.maps.Map(container, options);
         ps = new kakao.maps.services.Places();
-    }
+    },
+    
 };
 let infowindow = null; // 지도 좌표의 상세정보를 표시해주기 위한 객체
 let markers = [];
