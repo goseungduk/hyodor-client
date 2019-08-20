@@ -1,7 +1,17 @@
 <template>
     <div class="con mt-2">
         <div>
-            <b-card :title="items.title" :sub-title="items.writer.nickname">
+            <b-card :title="items.title" v-if="items.writer.nickname!=null" :sub-title="items.writer.nickname">
+            
+                <b-card-text>
+                    <p style="font-size:16px">{{items.content}}</p>
+                </b-card-text>
+                <!-- 삭제버튼 꾸며주세용 -->
+                <b-card-text> 
+                    <b-button @click="con_del()">삭제</b-button>
+                </b-card-text>
+            </b-card>
+            <b-card :title="items.title" :sub-title="'탈퇴한 유저'" v-else>
                 <b-card-text>
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
@@ -16,11 +26,12 @@
             <div class="comments" style="display: block;">
                 <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
                 <article v-for="i in items.comments" :key="i.id" class="parent">
-                    <div class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
+                    <div v-if="i.writer.nickname!=null" class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
+                    <div v-else class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한 유저)</div>
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
                          <!-- 삭제버튼 꾸며주세용 -->
-                        <li class="vote" style="display: list-item;"><b-button @click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px"> : {{i.vote_up}}</li>
+                        <li class="vote" style="display: list-item;"><b-button @click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
                     </ul>
                 </article>
             </div>
@@ -72,6 +83,9 @@ export default {
             })
     },
     methods:{
+        a(){
+            alert('추천완료');
+        },
         comment_del(id){
             session.del(session.apiurl+"board/comment/"+id)
             .then((response)=>{

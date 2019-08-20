@@ -14,7 +14,8 @@
                             <b-col class="ml-md-auto p-2 hov">
                                 <h5 style="color:black;">{{i.title}}</h5>
                                 <h6 style="color:grey;">{{i.content}}</h6>    
-                                <p style="color:black;">{{i.writer.nickname}}</p>   
+                                <p v-if="i.writer.nickname==null" style="color:black;">(탈퇴한유저)</p>
+                                <p v-else style="color:black;">{{i.writer.nickname}}</p>      
                             </b-col>
                         </b-row>
                     </b-container>
@@ -62,37 +63,37 @@ export default {
         nextPage() {
             // 다음 페이지로 가는 함수
             this.pageNum += 1;
-            var parseString=x2j.parseString;
-            axios({method:'GET',
-                url:'/api/org/code',
-                params:{pageIndex:1,upOrgCd:6110000,orgClsCd:'BA0303',format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
-            })
-            .then((response)=>{
-                parseString(response.data,function(e,result){
-                    console.log(result.result);
-                })
-            })
-            .catch((e)=>{
-                console.log(e);
-            });
+            // var parseString=x2j.parseString;
+            // axios({method:'GET',
+            //     url:'/api/org/code',
+            //     params:{pageIndex:1,upOrgCd:6110000,orgClsCd:'BA0303',format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
+            // })
+            // .then((response)=>{
+            //     parseString(response.data,function(e,result){
+            //         console.log(result.result);
+            //     })
+            // })
+            // .catch((e)=>{
+            //     console.log(e);
+            // });
         },
         prevPage() {
             // 이전 페이지로 가는 함수
             this.pageNum -= 1;
-            var parseString=x2j.parseString;
-            axios({method:'GET',
-                url:'/api/svc/list',
-                params:{jrsdOrgCd:6110000,srhQuery:"노인",format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
-            })
-            .then((response)=>{
-                console.log(response.data);
-                parseString(response.data,function(e,result){
-                    console.log(result);
-                })
-            })
-            .catch((e)=>{
-                console.log(e);
-            });
+            // var parseString=x2j.parseString;
+            // axios({method:'GET',
+            //     url:'/api/svc/list',
+            //     params:{jrsdOrgCd:6110000,srhQuery:"노인",format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
+            // })
+            // .then((response)=>{
+            //     console.log(response.data);
+            //     parseString(response.data,function(e,result){
+            //         console.log(result);
+            //     })
+            // })
+            // .catch((e)=>{
+            //     console.log(e);
+            // });
         },
         change() {           
             this.$router.push({
