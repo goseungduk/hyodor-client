@@ -3,9 +3,10 @@
     <h-nav current-page="serviceinfo"></h-nav>
     <div>
       <!-- <b-nav> -->
-      <b-nav class="menubar_set mt-5">
-        <b-nav-item class="menu_set mb-2" :to="{name:'oldplace'}">시설</b-nav-item>
-        <b-nav-item class="menu_set mb-2" :to="{name:'oldwelfare'}">노인지원정책</b-nav-item>
+       <b-nav class="menubar_set mt-5 justify-content-center ">
+      
+        <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'active':'non_active']" >시설</b-nav-item>
+        <b-nav-item class="menu_set mb-2 " :to="{name:'oldwelfare',params:{no:1}}" :class="[isSelected(2) ? 'active':'non_active']" >노인지원정책</b-nav-item>
       </b-nav>
       
       <!-- <div id="map" style="position:relative;margin:auto;width:500px;height:400px;"></div> -->
@@ -67,11 +68,18 @@ export default {
       var temp=this.sub_selected.name+" 건강검진";
       ps.keywordSearch(temp, placesSearchCB);
       
+    },
+    isSelected(boardId) {
+      //부모가 자식의 인자를 $route 객체의 params로 다룰 수 있다.
+      if (boardId == this.$route.params.no) {
+        return true;
+      }
+      return false;
     }
+  
   },
   
 };
-
 let infowindow = null; // 지도 좌표의 상세정보를 표시해주기 위한 객체
 let markers=[];
 
@@ -255,7 +263,6 @@ function displayMarker(place) {
   background-color: #bbdefb;
   color: navy;
   font-weight: bold;
-  padding: 4px 8px;
 }
 .non_active {
   display: block;
