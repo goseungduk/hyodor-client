@@ -1,21 +1,32 @@
 <template>
     <div class="con mt-2">
         <div>
-            <b-card :title="items.title" :sub-title="items.writer.nickname">
+            <b-card :title="items.title">
+                <b-card-text>
+                    <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
+                    <p v-else style="font-size:16px">{{items.writer.nickname}}</p>
+                </b-card-text>
                 <b-card-text>
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
+                <!-- 삭제버튼 꾸며주세용 -->
+                <b-card-text> 
+                    <b-button class="delete" @click="con_del()">삭제</b-button>
+                </b-card-text>
             </b-card>
+            
         </div>
         
         <div class="mother mt-1">
             <div class="comments" style="display: block;">
                 <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
                 <article v-for="i in items.comments" :key="i.id" class="parent">
-                    <div class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
+                    <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
+                    <div v-else class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
-                        <li class="vote" style="display: list-item;"><img class="mb-2" src="../assets/good.png" width="16px" height="16px"> : {{i.vote_up}}</li>
+                         <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
+                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm"@click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
                     </ul>
                 </article>
             </div>
@@ -42,7 +53,11 @@ export default {
     },
     data: function() {
         return {
-            items: [], //axios 응답 데이터 다 때려박아!!!
+            items: {
+                writer:{
+                    'nickname':''
+                }
+            }, //axios 응답 데이터 다 때려박아!!!
             comment:''
         }
     },
@@ -67,6 +82,23 @@ export default {
             })
     },
     methods:{
+        a(){
+            alert('추천완료');
+        },
+        comment_del(id){
+            session.del(session.apiurl+"board/comment/"+id)
+            .then((response)=>{
+                alert("삭제되었습니다!!");
+                location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
+            })
+        },
+        con_del(){
+            session.del(session.apiurl+"board/post/"+this.con_no)
+            .then((response)=>{
+                alert("삭제되었습니다!!");
+                location.href="/boardlist/freeboard/"+this.no;
+            })
+        },
         commenting(){
             console.log(this.comment);
             if(this.comment==''){
@@ -166,5 +198,16 @@ element.style {
 .btn-img{
     border: none;
     background-color: #58b4fb;
+}
+.delete{
+  border: 1px solid red;
+  color : red;
+  background-color: rgba(0,0,0,0);
+  float:right;
+}
+.delete:hover{
+  background-color: #DA0202;
+  border: 1px solid #DA0202;
+  color: white;
 }
 </style>

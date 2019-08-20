@@ -21,6 +21,7 @@ import ViewBoard from './router/ViewBoard';
 import AdminConsole from './router/AdminConsole.vue';
 import ServiceInfo from './router/ServiceInfo';
 import OldWelfare from './router/OldWelfare';
+import MyPage from './router/Mypage.vue';
 import Constant from './Constant';
 
 import * as session from './utils/loginService'
@@ -56,12 +57,13 @@ const router = new VueRouter({
             path: '/home',
             name: 'home',
             component: Home,
-            beforeEnter: (to, from, next) => {
-                //store.dispatch(Constant.REFRESH_CHECK, { next });
-                next();
-            }
-        },
 
+        },
+        {
+            path: '/mypage',
+            name: 'mypage',
+            component: MyPage,
+        },
         {
             path: '/boardlist',
             name: 'boardlist',
