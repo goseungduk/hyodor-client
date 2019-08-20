@@ -26,7 +26,7 @@
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
                          <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
-                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm"@click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
+                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
                     </ul>
                 </article>
             </div>
