@@ -29,7 +29,7 @@
 
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown :text="username" right>
-            <b-dropdown-item href="#">사용자 정보</b-dropdown-item>
+            <b-dropdown-item href="/mypage">사용자 정보</b-dropdown-item>
             <b-dropdown-item @click="logout()">로그아웃</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
