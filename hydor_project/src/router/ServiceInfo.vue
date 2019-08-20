@@ -5,30 +5,15 @@
       <!-- <b-nav> -->
       <b-nav class="menubar_set mt-5">
         <b-nav-item class="menu_set mb-2" @click="a();">시설</b-nav-item>
-        <b-nav-item class="menu_set mb-2" @click="b();">노인지원정책</b-nav-item>
+        <b-nav-item class="menu_set mb-2" >노인지원정책</b-nav-item>
       </b-nav>
       <div class="example">
         지역설정
-        <b-form-select v-model="selected" class="form-control">
-          <option :value="null">시,도</option>
-          <option value="6110000">서울특별시</option>
-          <option value="인천광역시" disabled>인천광역시 (disabled)</option>
+        <b-form-select v-model="selected" :options="options" class="form-control">
         </b-form-select>&nbsp;
-        <b-form-select v-model="sub_selected" class="form-control">
-          <option :value="null">군,구</option>
-          <option value="3220000">강남구</option>
-          <option value="3240000">강동구</option>
-          <option value="3080000">강북구</option>
-          <option value="3150000">강서구</option>
-          <option value="3200000">관악구</option>
-          <option value="3040000">광진구</option>
-          <option value="3160000">구로구</option>
-          <option value="3170000">금천구</option>
-          <option value="3100000">노원구</option>
-          <option value="3090000">도봉구</option>
-          <option value="3050000">동대문구</option>
+        <b-form-select v-model="sub_selected" :options="sub_options" class="form-control">
         </b-form-select>&nbsp;
-        <b-button type="submit" variant="primary" @click="a()">확인</b-button>
+        <b-button type="submit" variant="primary" @click="b()">확인</b-button>
       </div>
       <br />
       <div id="map" style="position:relative;margin:auto;width:500px;height:400px;"></div>
@@ -54,7 +39,27 @@ export default {
   data() {
     return {
       selected: null,
+      options:[
+        {value:null,text:'시,도'},
+        {value:{cd:6110000,name:'서울특별시'},text:'서울특별시'},
+        {value:"인천광역시",text:'인천광역시(disabled)', disabled:true}
+      ],
       sub_selected: null,
+      sub_options:[
+        {value:null,text:'시,군,구'},
+        {value:{cd:3220000,name:'강남구'},text:'강남구'},
+        {value:{cd:3240000,name:'강동구'},text:'강동구'},
+        {value:{cd:3080000,name:'강북구'},text:'강북구'},
+        {value:{cd:3150000,name:'강서구'},text:'강서구'},
+        {value:{cd:3200000,name:'관악구'},text:'관악구'},
+        {value:{cd:3040000,name:'광진구'},text:'광진구'},
+        {value:{cd:3160000,name:'구로구'},text:'구로구'},
+        {value:{cd:3170000,name:'금천구'},text:'금천구'},
+        {value:{cd:3100000,name:'노원구'},text:'노원구'},
+        {value:{cd:3090000,name:'도봉구'},text:'도봉구'},
+        {value:{cd:3050000,name:'동대문구'},text:'동대문구'},
+        // {value:{cd:,name:''},text:''},
+      ],
       gulist: []
     };
   },
@@ -62,18 +67,15 @@ export default {
     a() {
       var moveLatLon = new kakao.maps.LatLng(33.452613, 126.570888);
       map.setCenter(moveLatLon);
+      console.log(this.sub_selected.name+" "+this.sub_selected.cd);
     },
     b() {
       infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-      for (var key in infowindow) {
-        console.log(key + " value: " + infowindow[key]);
-      }
-      ps.keywordSearch("강남구 건강검진", placesSearchCB);
+      var temp=this.sub_selected.name+" 건강검진";
+      console.log(temp);
+      ps.keywordSearch(temp, placesSearchCB);
     }
   },
-  mounted: function() {
-    console.log(map);
-  }
   //   mounted: function() {
   //     var parseString = x2j.parseString;
   //     axios({
