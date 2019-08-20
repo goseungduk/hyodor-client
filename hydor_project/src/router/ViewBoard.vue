@@ -5,6 +5,10 @@
                 <b-card-text>
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
+                <!-- 삭제버튼 꾸며주세용 -->
+                <b-card-text> 
+                    <b-button @click="con_del()">삭제</b-button>
+                </b-card-text>
             </b-card>
         </div>
         
@@ -15,7 +19,8 @@
                     <div class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
-                        <li class="vote" style="display: list-item;"><img class="mb-2" src="../assets/good.png" width="16px" height="16px"> : {{i.vote_up}}</li>
+                         <!-- 삭제버튼 꾸며주세용 -->
+                        <li class="vote" style="display: list-item;"><b-button @click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px"> : {{i.vote_up}}</li>
                     </ul>
                 </article>
             </div>
@@ -67,6 +72,20 @@ export default {
             })
     },
     methods:{
+        comment_del(id){
+            session.del(session.apiurl+"board/comment/"+id)
+            .then((response)=>{
+                alert("삭제되었습니다!!");
+                location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
+            })
+        },
+        con_del(){
+            session.del(session.apiurl+"board/post/"+this.con_no)
+            .then((response)=>{
+                alert("삭제되었습니다!!");
+                location.href="/boardlist/freeboard/"+this.no;
+            })
+        },
         commenting(){
             console.log(this.comment);
             if(this.comment==''){
