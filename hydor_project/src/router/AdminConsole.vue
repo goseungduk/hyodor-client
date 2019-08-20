@@ -16,45 +16,8 @@
               <b-row></b-row>
             </b-container>
           </b-tab>
-          <b-tab title="커뮤니티 관리" @click="updateBoardList()">
-            <div class="mt-2">
-              <div class="d-flex justify-content-between">
-                <b-form-group>
-                  <b-input-group size="sm">
-                    <b-form-input
-                      v-model="userfilter"
-                      type="search"
-                      id="filterInput"
-                      placeholder="필터.."
-                    ></b-form-input>
-                  </b-input-group>
-                </b-form-group>
-                <p>
-                  <span v-if="board.selected.length > 0">123 선택됨</span>
-                </p>
-                <p>
-                  <b-button size="sm" v-b-modal="'user-delete-modal'" variant="danger">선택한 유저 탈퇴</b-button>
-                </p>
-              </div>
-              <v-wait for="boardmanagetable">
-                <template slot="waiting">
-                  <div class="d-flex justify-content-center">
-                    <Spinner name="fading-circle" color="black" :noFadeIn="true" height="25" />
-                  </div>
-                </template>
-                <b-table
-                  ref="boardtable"
-                  :items="board.list"
-                  :filter="board.filter"
-                  sticky-header
-                  select-mode="multi"
-                  selectable
-                  @row-selected="onBoardSelected"
-                ></b-table>
-              </v-wait>
-            </div>
-          </b-tab>
-          <b-tab title="유저 관리" @click="updateUserList()">
+          <b-tab title="커뮤니티 관리"></b-tab>
+          <b-tab title="유저 관리" @click="$wait.start('usermanagetable');updateUserList()">
             <v-wait for="usermanagetable">
               <template slot="waiting">
                 <div class="d-flex justify-content-center">
@@ -141,14 +104,6 @@ export default {
       userselected: [],
       userfilter: null,
 
-
-      board: {
-          list: [],
-          filter: null,
-          selected: [],
-      },
-
-
       infoModal: {
         title: "",
         content: ""
@@ -157,7 +112,6 @@ export default {
   },
   methods: {
     updateUserList() {
-      this.$wait.start("usermanagetable");
       session
         .get(session.apiurl + "admin/user")
         .then(response => {
@@ -198,13 +152,6 @@ export default {
             this.showInfo("회원 탈퇴 실패", "탈퇴 처리에 실패했습니다.");
           }
         });
-    },
-
-    updateBoardList() {
-        this.$wait.start('boardmanagetable');
-    },
-    onBoardSelected(items) {
-        board.selected = items;
     },
 
     showInfo(title, msg) {
