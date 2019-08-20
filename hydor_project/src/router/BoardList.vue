@@ -2,7 +2,7 @@
   <div>
     <h-nav current-page="boardlist"></h-nav>
 
-    <div >
+    <div>
       <!-- <b-nav> -->
       <b-nav class="menubar_set mt-3" >
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:1}}" :active='isSelected(1)' :class="[isSelected(1) ? 'active':'non_active']" >자유게시판</b-nav-item>
@@ -10,11 +10,6 @@
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:3}}" :active='isSelected(3)' :class="[isSelected(3) ? 'active':'non_active']">고민상담</b-nav-item>
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:4}}" :active='isSelected(4)' :class="[isSelected(4) ? 'active':'non_active']">편지쓰기</b-nav-item>
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:5}}" :active='isSelected(5)' :class="[isSelected(5) ? 'active':'non_active']">경조사 장소 알려주세요!</b-nav-item>
-        <!-- <b-nav-item @click="change(1)" :active='isSelected(1)'>자유게시판</b-nav-item>
-        <b-nav-item @click="change(2)" :active='isSelected(2)'>선물 추천</b-nav-item>
-        <b-nav-item @click="change(3)" :active='isSelected(3)'>고민 상담</b-nav-item>
-        <b-nav-item @click="change(4)" :active='isSelected(4)'>편지 쓰기</b-nav-item>
-        <b-nav-item @click="change(5)" :active='isSelected(5)'>경조사 장소 알려주세요!</b-nav-item> -->
       </b-nav>
     </div>
     <b-container>

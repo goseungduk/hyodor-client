@@ -20,6 +20,7 @@ import WriteBoard from './router/WriteBoard';
 import ViewBoard from './router/ViewBoard';
 import AdminConsole from './router/AdminConsole.vue';
 import ServiceInfo from './router/ServiceInfo';
+import OldWelfare from './router/OldWelfare';
 import Constant from './Constant';
 
 import * as session from './utils/loginService'
@@ -91,19 +92,25 @@ const router = new VueRouter({
             component: AdminConsole,
             beforeEnter: (to, from, next) => {
                 session.isAdmin()
-                .then(function () {
-                    next();
-                })
-                .catch(function () {
-                    next('/home');
-                })
-                
+                    .then(function() {
+                        next();
+                    })
+                    .catch(function() {
+                        next('/home');
+                    })
+
             }
         },
         {
             path: '/serviceinfo',
             name: 'service',
-            component: ServiceInfo
+            component: ServiceInfo,
+            children: [{
+                path: 'oldwelfare',
+                name: 'oldwelfare',
+                component: OldWelfare,
+                props: true
+            }]
         }
     ]
 })

@@ -29,7 +29,7 @@
           <b-button class="page" :disabled="pageNum === 0" @click="prevPage" >이전</b-button>
           <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
           <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage" >다음</b-button>
-    </span>
+        </span>
 
     </div>
 </template>
@@ -64,13 +64,12 @@ export default {
             this.pageNum += 1;
             var parseString=x2j.parseString;
             axios({method:'GET',
-                url:'/api/svc/list',
-                params:{pageIndex:3,jrsdOrgCd:6110000,srhQuery:"노인",format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
+                url:'/api/org/code',
+                params:{pageIndex:1,upOrgCd:6110000,orgClsCd:'BA0303',format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="}
             })
             .then((response)=>{
-                console.log(response.data);
                 parseString(response.data,function(e,result){
-                    console.log(result);
+                    console.log(result.result);
                 })
             })
             .catch((e)=>{
