@@ -14,7 +14,7 @@
                             <b-col class="ml-md-auto p-2 hov">
                                 <h5 style="color:black;">{{i.title}}</h5>
                                 <h6 style="color:grey;">{{i.content}}</h6>    
-                                <p v-if="i.writer.nickname==null" style="color:black;">(탈퇴한유저)</p>
+                                <p v-if="i.writer==null" style="color:black;">(탈퇴한유저)</p>
                                 <p v-else style="color:black;">{{i.writer.nickname}}</p>      
                             </b-col>
                         </b-row>

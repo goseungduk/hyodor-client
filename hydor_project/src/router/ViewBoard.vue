@@ -1,33 +1,28 @@
 <template>
     <div class="con mt-2">
         <div>
-            <b-card :title="items.title" v-if="items.writer.nickname!=null" :sub-title="items.writer.nickname">
+            <b-card :title="items.title">
+                <b-card-text>
+                    <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
+                    <p v-else style="font-size:16px">{{items.writer.nickname}}</p>
+                </b-card-text>
+                <b-card-text>
+                    <p style="font-size:16px">{{items.content}}</p>
+                </b-card-text>
+                <!-- 삭제버튼 꾸며주세용 -->
+                <b-card-text> 
+                    <b-button @click="con_del()">삭제</b-button>
+                </b-card-text>
+            </b-card>
             
-                <b-card-text>
-                    <p style="font-size:16px">{{items.content}}</p>
-                </b-card-text>
-                <!-- 삭제버튼 꾸며주세용 -->
-                <b-card-text> 
-                    <b-button @click="con_del()">삭제</b-button>
-                </b-card-text>
-            </b-card>
-            <b-card :title="items.title" :sub-title="'탈퇴한 유저'" v-else>
-                <b-card-text>
-                    <p style="font-size:16px">{{items.content}}</p>
-                </b-card-text>
-                <!-- 삭제버튼 꾸며주세용 -->
-                <b-card-text> 
-                    <b-button @click="con_del()">삭제</b-button>
-                </b-card-text>
-            </b-card>
         </div>
         
         <div class="mother mt-1">
             <div class="comments" style="display: block;">
                 <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
                 <article v-for="i in items.comments" :key="i.id" class="parent">
-                    <div v-if="i.writer.nickname!=null" class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
-                    <div v-else class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한 유저)</div>
+                    <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
+                    <div v-else class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
                          <!-- 삭제버튼 꾸며주세용 -->
@@ -58,7 +53,11 @@ export default {
     },
     data: function() {
         return {
-            items: [], //axios 응답 데이터 다 때려박아!!!
+            items: {
+                writer:{
+                    'nickname':''
+                }
+            }, //axios 응답 데이터 다 때려박아!!!
             comment:''
         }
     },
