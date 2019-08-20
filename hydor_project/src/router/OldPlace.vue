@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="example">
+        <div class="example text-center mt-1">
             지역설정
-            <b-form-select v-model="selected" :options="main_options" class="form-control">
+            <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
-            <b-form-select v-model="sub_selected" :options="sub_options" class="form-control">
+            <b-form-select v-model="sub_selected" :options="sub_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
-            <b-button type="submit" variant="primary" @click="b()">확인</b-button>
+            <b-button squared type="submit" class="btn mt-2 mb-2" @click="b()">확인</b-button>
         </div>
         <br />
         아직은 구를 선택하면 건강검진 기관만 보여줌
@@ -297,9 +297,15 @@ function displayMarker(place) {
 
 .example {
     display: table;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1%;
+    border: 2px solid #AEDCFD ;
+    width: 700px;
+    margin: 0 auto;
+}
+.btn{
+  background-color: #99C9EC;
+  color : white;
+  border: 2px solid #EDF2F9 ;
+
 }
 .map_wrap, .map_wrap * {margin:auto;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
