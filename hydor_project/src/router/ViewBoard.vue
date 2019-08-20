@@ -11,7 +11,7 @@
                 </b-card-text>
                 <!-- 삭제버튼 꾸며주세용 -->
                 <b-card-text> 
-                    <b-button @click="con_del()">삭제</b-button>
+                    <b-button class="delete" @click="con_del()">삭제</b-button>
                 </b-card-text>
             </b-card>
             
@@ -25,8 +25,8 @@
                     <div v-else class="mb-1" style="font-weight:bold; font-size:13px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">{{i.writer.nickname}}</div>
                     <p>{{i.content}}</p>
                     <ul class="status commentvotestatus">
-                         <!-- 삭제버튼 꾸며주세용 -->
-                        <li class="vote" style="display: list-item;"><b-button @click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
+                         <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
+                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm"@click="comment_del(i.id)">삭제</b-button><img class="mb-2" src="../assets/good.png" width="16px" height="16px" @click="a();"> : {{i.vote_up}}</li>
                     </ul>
                 </article>
             </div>
@@ -198,5 +198,16 @@ element.style {
 .btn-img{
     border: none;
     background-color: #58b4fb;
+}
+.delete{
+  border: 1px solid red;
+  color : red;
+  background-color: rgba(0,0,0,0);
+  float:right;
+}
+.delete:hover{
+  background-color: #DA0202;
+  border: 1px solid #DA0202;
+  color: white;
 }
 </style>
