@@ -19,26 +19,45 @@
           :max-date="maxDate"
           :events="events"
         ></vue-cal>
-        <button
+        </b-col>
+        <b-col md class="col-color mt-2" >
+          <div class="mt-1" style="font-size:20px; text-align:center; color:gray;"> 2019년 8월 14일</div>
+          <h3 class="mb-3 mt-2" >8월14일의 효도 현황은 . . . </h3>
+          <div> 방문횟수 : 0번     전화횟수 : 0번</div>
+          <div class="mb-2"> 방문시간 : 0시간   전화시간 : 0시간<b-button class="btn-color" size="sm">효도추가</b-button><b-button class="btn-color" size="sm">효도삭제</b-button></div>
+          
+          
+          <h3 class="mt-1" >8월 14일의 일정은 . . . </h3>
+          <div style="color:gray;">오늘은 일정이 없어요!</div>
+        <b-button class="btn-color mb-2" size="sm"
           @click="events.push({
         start: '2019-08-14 12:00',
         end: '2019-08-14 17:00',
         title: 'A new event',
         class: 'blue-event'
       })"
-        >Add an event</button>
-        <button @click="events.pop()">Remove last event</button>
+        >일정추가</b-button>
+        <b-button  class="btn-color mb-2" size="sm"  @click="events.pop()">일정삭제</b-button>
+      
         </b-col>
-        <b-col md>
-          <h2>당신의 효도 현황은 . . . </h2>
-        </b-col>
+        
       </b-row>
+      
       <b-row>
         <b-col>
+          <div style="font-weight:bold; color:green;">8월의 방문(30% 달성)</div>
+          <div class="progress">
+        <div  class="progress-bar bg-success" role="progressbar"  style="width:30%" aria-valuemin="0" aria-valuemax="8"></div>
+      </div>
         </b-col>
-        <b-col md>
-          <p>(이제 여기 윗부분 공간에 방문횟수, 전화 횟수 파싱해서 게이지? 등으로 보여줘야 함.)</p>
-        </b-col>
+      </b-row>
+        <b-row>
+        <b-col>
+          <div style="font-weight:bold; color:#FFD400">8월의 전화(25% 달성)</div>
+          <div class="progress">
+        <div  class="progress-bar  bg-warning" role="progressbar" style="width: 25% " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      </b-col>
       </b-row>
 
     </b-container>
@@ -105,5 +124,20 @@ export default {
 .calendar {
   height: 30em;
 }
-
+.btn-color{
+  color: #026CAD;
+  background-color: rgba(0,0,0,0);
+  border: 1.5px solid #99C9EC;
+  float: right;
+  
+}
+.col-color{
+  background-color: #EDF2F9;
+  border :2px solid #F9FBFE;
+}
+.btn-color:hover{
+  border: 1.5px solid #99C9EC;
+  color: white;
+  background-color: #99C9EC;
+}
 </style>
