@@ -120,7 +120,7 @@
                     </div>
                   <div v-show="currentTab == 2">
                     <b-row  class="mt-3">
-                            <b-col  md="3"  class="colboard" >
+                            <b-col  md="4"  class="colboard" >
                                현재비밀번호
                             </b-col>
                             <b-col cols="7">
@@ -128,7 +128,7 @@
                             </b-col>
                         </b-row>
                         <b-row class="mt-3">
-                            <b-col   md="3"  class="colboard" >
+                            <b-col   md="4"  class="colboard" >
                                새 비밀번호
                             </b-col>
                             <b-col cols="7">
@@ -136,8 +136,8 @@
                             </b-col>
                         </b-row>
                         <b-row class="mt-3">
-                            <b-col   md="3"  class="colboard" >
-                               새 비밀번호 다시입력
+                            <b-col   md="4"  class="colboard" >
+                               <div>새 비밀번호</div><div> 다시입력</div>
                             </b-col>
                             <b-col cols="7">
                                 <b-form-input v-model="pwwill2" placeholder="새 비밀번호를 다시 입력해주세요"></b-form-input>
@@ -184,7 +184,9 @@ export default {
             user_nickname:'',
             pwnow:'',
             pwwill1:'',
-            pwwill2:''
+            pwwill2:'',
+            currentTab:0,
+            tabs:['홈','개인정보 변경', '비밀번호 변경', '부모님정보 추가 및 변경','회원탈퇴']
         }
     },
     components:{
