@@ -21,6 +21,7 @@ import ViewBoard from './router/ViewBoard';
 import AdminConsole from './router/AdminConsole.vue';
 import ServiceInfo from './router/ServiceInfo';
 import OldWelfare from './router/OldWelfare';
+import OldPlace from './router/OldPlace';
 import MyPage from './router/Mypage.vue';
 import Constant from './Constant';
 
@@ -106,11 +107,17 @@ const router = new VueRouter({
         {
             path: '/serviceinfo',
             name: 'service',
+            // redirect: '/serviceinfo/oldplace',
             component: ServiceInfo,
             children: [{
                 path: 'oldwelfare',
                 name: 'oldwelfare',
                 component: OldWelfare,
+                props: true
+            }, {
+                path: 'oldplace',
+                name: 'oldplace',
+                component: OldPlace,
                 props: true
             }]
         }
