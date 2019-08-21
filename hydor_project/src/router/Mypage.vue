@@ -1,4 +1,4 @@
-<<template>
+<template>
     <div>
         <!-- 여기는 width 조절을 잘 맞춰야합니다 -->
         <!--  화이팅 -->
