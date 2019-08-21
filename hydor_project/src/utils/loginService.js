@@ -171,6 +171,38 @@ export function del(url, param) {
 }
 
 
+export function patch(url, data) {
+    return axios.patch(url, data, {
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken()
+        }
+    })
+    .then(function (response) {
+        return response;
+    })
+    .catch(function (error) {
+        if (error.response) {
+            if (error.response.status == 401) {
+
+                return loginRefresh()
+                .then(function () {
+                    return axios.patch(url, data, {
+                        headers: {
+                            'Authorization': 'Bearer ' + getAccessToken()
+                        }
+                    });
+                })
+                .catch(function () {
+                    throw error
+                })
+
+            }
+        }
+        throw error;
+    })
+}
+
+
 export function logout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
