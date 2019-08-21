@@ -1,8 +1,7 @@
-
 <template>
 
     <div>
-        <div class="container">
+        <div class="con">
             <div class="mt-4"></div>
             <article v-for="i in paginatedData" :key="i.id">
                 <!-- <a @click="moveToCon(i.id)" href="#"> -->
@@ -23,15 +22,20 @@
                 <router-view></router-view>
                 <!-- </a> -->
             </article>
-           <span class="right-box mt-2"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
-       </div>
-       
-       <span  class="container"  style="display: inline-block;text-align: center;" >   
+            </div>
+           <b-container class="con">
+               <b-row class="mt-2"><b-col>
+           <span class="right-box"><b-button block class="button"  @click="change()">글쓰기</b-button></span>
+           </b-col></b-row>
+           <b-row class="justify-content-md-center" >
+            <b-col  md="auto" >
+            <div>   
           <b-button class="page" :disabled="pageNum === 0" @click="prevPage" >이전</b-button>
           <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
           <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage" >다음</b-button>
-        </span>
-
+        </div>
+        </b-col></b-row>
+           </b-container>
     </div>
 </template>
 <script>
@@ -175,11 +179,12 @@ export default {
 }
 
 #example {
-    margin: 1px auto;
+   padding-right: 15px;
+    padding-left: 15px;
     max-width: 820px;
     min-width: 820px;
-    padding: 40px;
-    position: absolute;
+    padding: 10px;
+    
     font: 13px "verdana";
 }
 
@@ -265,12 +270,6 @@ img.thumbnail {
     background: white;
     float: right;
 }
-
-.container {
-    margin: 0 auto;
-    width: 820px;
-}
-
 .hov:hover{
     background-color : #F4FCFF;
 }
@@ -301,5 +300,30 @@ img.thumbnail {
     
     color: #3764CC;
     font-weight: bold;
+}
+.con {
+  padding-right: 20px;
+  padding-left: 15px;
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
+
+@media (min-width: 768px) {
+  .con {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .con {
+    width: 850px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .con {
+    width: 900px;
+  }
 }
 </style>
