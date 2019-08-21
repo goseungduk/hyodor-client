@@ -95,7 +95,7 @@
           <b-col md="4">
         <div class="btn-group-vertical" >
           <b-button class="btn" v-for="(tab,index) in tabs" 
-                v-bind:class="{active: currentTab===index}" 
+                v-bind:class="{active: currentTab===index}" :key="tab"
                 v-on:click="currentTab = index">{{tab}}</b-button>
           </div>
           </b-col>
