@@ -32,9 +32,9 @@ export default {
             
             selected: null,
             main_options: [
-                { value: null, text: '시,도' },
-                { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
-                { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
+                { value: null, text: '서울특별시' },
+                // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
+                // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
             sub_selected: null,
             sub_options: [
