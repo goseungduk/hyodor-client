@@ -91,12 +91,27 @@ export default {
                 alert("삭제되었습니다!!");
                 location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
             })
+            .catch((e)=>{
+                if(e.response.status==403){
+                    alert('권한이 없습니다');
+                }else {
+                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                }
+            })
         },
         con_del(){
             session.del(session.apiurl+"board/post/"+this.con_no)
             .then((response)=>{
                 alert("삭제되었습니다!!");
                 location.href="/boardlist/freeboard/"+this.no;
+            })
+            .catch((e)=>{
+                if(e.response.status==403){
+                    alert('권한이 없습니다');
+                }
+                else {
+                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                }
             })
         },
         commenting(){
