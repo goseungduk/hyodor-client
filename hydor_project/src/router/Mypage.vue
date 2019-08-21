@@ -173,7 +173,7 @@
         </b-row>
         </b-container>
     </div>
-</template
+</template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
 import * as session from '../utils/loginService';
