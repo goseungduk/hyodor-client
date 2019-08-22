@@ -73,7 +73,7 @@ export default {
         ps = new kakao.maps.services.Places();
         axios({
                 method:'GET',
-                url:'http://hyodor.azurewebsites.net/apicache/org/code',
+                url:'https://hyodor.azurewebsites.net/apicache/org/code',
                 params:{
                     serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     upOrgCd:6110000,

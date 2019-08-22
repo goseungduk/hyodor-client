@@ -98,7 +98,7 @@
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
-          
+            <b-button id="show-btn" @click="showModal()">+</b-button>
           </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
@@ -135,10 +135,15 @@
           </b-tab>
         </b-tabs>
       </b-row>
-    </b-container>-
+    </b-container>
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
+    <b-modal ref="my-modal" id="bv-modal-example">
+      <template slot="modal-title">
+        <span style="font-size:30px;font-weight:bold;">adf</span>
+      </template>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -208,6 +213,9 @@ export default {
     }
   },
   methods: {
+    showModal(){
+      this.$refs['my-modal'].show();
+    },
     checkMove: function(e) {
       window.console.log("Future index: " + e.draggedContext.futureIndex);
     },

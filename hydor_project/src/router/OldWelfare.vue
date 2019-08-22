@@ -111,7 +111,7 @@ export default {
     mounted(){
             axios({
                 method:'GET',
-                url:'http://hyodor.azurewebsites.net/apicache/org/code',
+                url:'https://hyodor.azurewebsites.net/apicache/org/code',
                 params:{
                     serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     upOrgCd:6110000,
@@ -149,7 +149,7 @@ export default {
             
             axios({
                 method:'GET',
-                url:'http://hyodor.azurewebsites.net/apicache/svc',
+                url:'https://hyodor.azurewebsites.net/apicache/svc',
                 params:{
                     serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     format:"xml",
@@ -189,7 +189,7 @@ export default {
             console.log(this.sub_selected.cd);
             axios({
                 method:"GET",
-                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                url:"https://hyodor.azurewebsites.net/apicache/svc/list",
                 // url:'api/svc/list',
                 params:{
                     // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
@@ -226,7 +226,7 @@ export default {
             // this.$refs.InfiniteLoading.stateChanger.reset(); 
             axios({
                 method:"GET",
-                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                url:"https://hyodor.azurewebsites.net/apicache/svc/list",
                 // url:'/api/svc/list',
                 params:{
                     // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
