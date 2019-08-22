@@ -7,23 +7,22 @@
           <vue-cal
             class="calendar"
             :locale="'ko'"
-            :time-from="7 * 60"
-            :time-to="23 * 60"
+            
             xsmall
             hide-view-selector
-            click-to-navigate
-            :time="false"
+            :selected-date="cal.selected"
+            
             default-view="month"
-            :min-date="minDate"
-            :max-date="maxDate"
+            :disable-views="['day', 'week']"
             :events="events"
+            @cell-focus="onCalChanged"
           ></vue-cal>
         </b-col>
         <b-col md class="col-color mt-2">
-          <div class="mt-1" style="font-size:20px; text-align:center; color:gray;">2019년 8월 14일</div>
+          <div class="mt-1" style="font-size:20px; text-align:center; color:gray;">{{ moment(cal.selected, "LL") }}</div>
           
 
-          <h3 class="mt-1">8월 14일의 일정은 . . .</h3>
+          <h3 class="mt-1">{{ moment(cal.selected, "MMM Do") }}의 일정은 . . .</h3>
           <div style="color:gray;">오늘은 일정이 없어요!</div>
           <b-button
             class="btn-color mb-2"
@@ -92,6 +91,8 @@ import NavbarVue from "../components/Navbar.vue";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/i18n/ko.js";
+import "moment/locale/ko";
+import moment from 'moment'
 import * as session from "../utils/loginService";
 export default {
   components: {
@@ -106,15 +107,17 @@ export default {
       visit: 11
     },
 
+    cal: {
+      selected: new Date()
+    },
+
     schedules: [],
 
     events: [
       {
         start: "2019-08-19 10:35",
         end: "2019-08-19 11:30",
-        title: "Doctor appointment",
-        content: '<i class="v-icon material-icons">local_hospital</i>',
-        class: "health"
+        
       }
     ],
     value: 4,
@@ -122,6 +125,14 @@ export default {
     striped: true
   }),
   methods: {
+    
+    onCalChanged(dt) {
+      this.cal.selected = dt;
+
+    },
+    moment(d, fmt) {
+      return moment(d).format(fmt);
+    },
     updateGroupList() {
       session.get(session.apiurl + "parentgroup").then(response => {
         this.groups = response.data.groups;
@@ -139,7 +150,8 @@ export default {
         datetime: new Date().toISOString().slice(0,10)
       })
       .then(response => {
-        alert("success");
+        alert("SUCCESS!")
+        this.updateSchedules()
       })
     },
     makeVisit(group_id) {
@@ -149,11 +161,16 @@ export default {
         datetime: new Date().toISOString().slice(0,10)
       })
       .then(response => {
-        alert("success");
+        alert("SUCCESS!")
+        this.updateSchedules()
       })
     }
   },
   computed: {
+    today() {
+      return moment(this.cal.selected).format('LL');
+    },
+    
     calledList() {
       return this.schedules.filter(sch => {
         return sch.type == this.const.call;
@@ -203,7 +220,7 @@ export default {
         }
         else {
           try{
-            output[i.id] = Math.min(val,1) * 100
+            output[i.id] = Math.ceil(Math.min(val,1) * 100)
           }
           catch (error) {
           }
@@ -220,7 +237,7 @@ export default {
         }
         else {
           try{
-            output[i.id] = Math.min(val,1) * 100
+            output[i.id] = Math.ceil(Math.min(val,1) * 100)
           }
           catch (error) {
           }

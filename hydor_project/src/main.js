@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-free/css/all.css"
 import Slider from '@jeremyhamm/vue-slider'
 import VueWait from 'vue-wait';
 
+
 import Login from './router/Login';
 import Register from './router/Register';
 import Home from './router/Home';
