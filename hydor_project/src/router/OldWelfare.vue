@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="example text-center mt-1">
+        <div class="example text-center mt-1" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
             지역설정
             <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
             <b-form-select v-model="sub_selected" :options="sub_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="k2()">확인</b-button>
+            <div class="d-flex justify-content-center">
+            <input type="text" v-model="search" placeholder="찾고싶은 복지서비스를 검색하세요!" style="width:50%;" class="form-control mt-2 mb-2"/>
+            </div>
         </div>
         <br />
         <!-- <vue-fuse :keys="['svcPpo']" :list="list" :defaultAll="false"></vue-fuse> -->
-        <div class="d-flex justify-content-center">
-            <input type="text" v-model="search" placeholder="찾고싶은 복지서비스를 검색하세요!" style="width:40%;"/>
-        </div>
         <div v-for="(i, $index) in filteredList" :key="$index">
             <!-- {{$index}} -->
             <!-- <p>{{list.length}}</p> -->
@@ -21,7 +21,7 @@
             <p>{{i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
             <p>{{i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
             <p>{{i.svcInfoUrl['_text'].replace(/<!HS>|<!HE>/g,'')}}</p> -->
-            <b-card :title="i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')" :sub-title="i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')">
+            <b-card :title="i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')" :sub-title="i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
                 <b-text>
                     <b-button id="show-btn" @click="showModal(i.svcId['_text'])">상세정보</b-button>
                 </b-text>
@@ -31,22 +31,22 @@
         <div>
             <b-modal ref="my-modal" id="bv-modal-example" hide-footer>
                 <template slot="modal-title">
-                {{svcInfo.svcNm}}
+                <span style="font-size:30px;font-weight:bold;">{{svcInfo.svcNm}}</span>
                 </template>
                 <div class="d-block text-left">
-                <h5>대상</h5>
+                <h5 style="font-weight:bold">대상</h5>
                 <h6>{{svcInfo.slctnStdr}}</h6>
-                <h5>제출서류</h5>
+                <h5 style="font-weight:bold">제출서류</h5>
                 <h6>{{svcInfo.posesPapers}}</h6>
-                <h5>신청방법</h5>
+                <h5 style="font-weight:bold">신청방법</h5>
                 <h6>{{svcInfo.reqstProcss}}</h6>
-                <h5>목적</h5>
+                <h5 style="font-weight:bold">목적</h5>
                 <h6>{{svcInfo.svcPpo}}</h6>
-                <h5>상세설명</h5>
+                <h5 style="font-weight:bold">상세설명</h5>
                 <h6>{{svcInfo.svcCts}}</h6>
-                <h5>사이트</h5>
+                <h5 style="font-weight:bold">사이트</h5>
                 <h6>{{svcInfo.refrncSiteUrl}}</h6>
-                <h5>전화번호</h5>
+                <h5 style="font-weight:bold">전화번호</h5>
                 <h6>{{svcInfo.refrncTelNo}}</h6>
                 </div>
                 <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
