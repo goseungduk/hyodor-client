@@ -17,6 +17,13 @@ module.exports = {
                 pathRewrite: {
                     '^/api': ''
                 }
+            },
+            '/apii': {
+                target: 'http://hyodor.azurewebsites.net/apicache',
+                changeOrigint: true,
+                pathRewrite: {
+                    '^/apii': ''
+                }
             }
         }
     }

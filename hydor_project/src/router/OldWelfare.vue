@@ -9,12 +9,16 @@
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="k2()">확인</b-button>
         </div>
         <br />
-        <!-- <b-button @click="k()">최고기관분류코드생성</b-button>
-        <b-button @click="k2()">공공서비스 목록생성</b-button> -->
-        
-        <div v-for="(i, $index) in list" :key="i">
+        <!-- <vue-fuse :keys="['svcPpo']" :list="list" :defaultAll="false"></vue-fuse> -->
+        <input type="text" v-model="search" placeholder="Search title.."/>
+        <div v-for="(i, $index) in filteredList" :key="$index">
             {{$index}}
-            <p>{{i}}</p> -->
+            <p>{{list.length}}</p>
+            <!-- <p>{{i}}</p> -->
+            <p>{{i.jrsdDptAllNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcInfoUrl['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
         </div>
         <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
     </div>
@@ -23,27 +27,34 @@
 import x2j from "xml-js";
 import axios from 'axios';
 import InfiniteLoading from 'vue-infinite-loading';
-const api = '//hn.algolia.com/api/v1/search_by_date?tags=story';
+import VueFuse from 'vue-fuse';
 export default {
     components:{
-        InfiniteLoading
+        InfiniteLoading,
+        VueFuse
     },
-    created(){
-        if(this.$refs.InfiniteLoading){
-        this.$refs.InfiniteLoading.stateChanger.reset(); 
-    }
+    computed: {
+        filteredList() {
+            return this.list.filter(item => {
+                return item.svcNm['_text'].includes(this.search)
+                //  
+            })
+        }
     },
     data:function(){
         return {
+            search:'',
+            pageNo:1,
             lists:[],
             list:[],
+            keys:["svcNm['_text']"],
             selected: null,
             main_options: [
                 { value: null, text: '서울특별시' },
                 // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
                 // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
-            sub_selected: null,
+            sub_selected:  { cd: 3220000, name: '강남구' },
             sub_options: [
                 { value: null, text: '시,군,구' },
                 { value: { cd: 3220000, name: '강남구' }, text: '강남구' },
@@ -63,16 +74,18 @@ export default {
     },
     methods:{
         infiniteHandler($state) {
-            // console.log($state);
+            console.log(this.sub_selected.cd);
             axios({
                 method:"GET",
-                url:"/api/svc/list",
+                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                // url:'api/svc/list',
                 params:{
-                    serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     format:"xml",
                     srhQuery:"노인",
-                    // jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
-                    pageIndex:1,
+                    jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
+                    pageIndex:this.pageNo,
                     pageSize:10
                 }
             })
@@ -82,9 +95,10 @@ export default {
                 // console.log(result.result);
                 console.log(result.result.svcList.svc);
                 if(result.result.svcList.svc.length){
+                    this.pageNo+=1;
                     this.list=this.list.concat(result.result.svcList.svc);
                     $state.loaded();
-                    if(result.result.svcList.svc.length==5){
+                    if(result.result.svcList.svc.length<10){
                         $state.complete();
                     }
                 }else{
@@ -92,33 +106,21 @@ export default {
                 }
             })
         },
-        k(){
-            axios({
-                method:"GET",
-                url:"/api/org/cls/code",
-                params:{
-                // format:"xml",
-                serviceKey:
-                "b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ=="
-                }
-            })
-            .then((response)=>{
-                var result=x2j.xml2js(response.data,{compact:true});
-                console.log(result.result);
-            })
-        },
         k2(){
+            this.pageNo=1;
             this.list=[];
             axios({
                 method:"GET",
-                url:"/api/svc/list",
+                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                // url:'/api/svc/list',
                 params:{
-                    serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     format:"xml",
                     srhQuery:"노인",
                     jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
                     pageIndex:1,
-                    pageSize:5
+                    pageSize:10
                 }
             })
             .then((response)=>{
@@ -126,6 +128,7 @@ export default {
                 // console.log(result.result.svcList.svc['0']);
                 // console.log(result.result);
                 console.log(result.result.svcList.svc);
+                console.log("길이 "+result.result.svcList.svc.length);
                 this.list=this.list.concat(result.result.svcList.svc);
                 /*
                 (2) [{…}, {…}, __ob__: Observer]
