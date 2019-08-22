@@ -25,7 +25,7 @@
               </b-row>
             </b-container>
           </b-tab>
-          <b-tab title="개인정보 변경">
+          <!-- <b-tab title="개인정보 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재 닉네임</b-col>
               <b-col cols="7">{{user_nickname}}</b-col>
@@ -56,8 +56,8 @@
                 ></b-form-input>
               </b-col>
             </b-row>
-            <!-- 개인정보 변경함수 -->
-            <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
+             개인정보 변경함수 -->
+            <!-- <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
               <v-wait for="changeloading">
                 <template slot="waiting">
                   <div class="d-flex justify-content-center">
@@ -67,7 +67,7 @@
                 정보변경
               </v-wait>
             </b-button>
-          </b-tab>
+          </b-tab> -->
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재비밀번호</b-col>
@@ -98,7 +98,99 @@
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
-            <b-button id="show-btn" @click="showModal()">+</b-button>
+            <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
+            <b-button id="show-btn" @click="show()">+</b-button>
+            <div v-if="isShow==true" class="d-block text-left">
+              <h5 style="font-weight:bold">성함</h5>
+              <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+              <h5 style="font-weight:bold">성별</h5>
+              <b-form-select v-model="parentSex" class="mb-3">
+                <option :value="null">부모님 성별을 선택해주세요</option>
+                <option value="남">남</option>
+                <option value="여">여</option>
+              </b-form-select>
+              <h5 style="font-weight:bold">관계</h5>
+              <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+
+              <datalist id="my-list-id">
+                <option></option>
+                <option v-for="size in sizes" :key="size">{{ size }}</option>
+                <!-- 오류 신경쓰지마세요 -->
+              </datalist>
+              <h5 style="font-weight:bold">생년월일</h5>
+              <VueCtkDateTimePicker v-model="date" />
+              <b-button @click="submitParent()">전송</b-button>
+            </div>
+            <div>
+              <p>아무그룹없음</p>
+            <div v-for="(t,$index) in parentRes.parentList" :key="t.id">
+              <b-card v-if="t.group_id==null"
+                :title="t.name"
+                :sub-title="t.relation"
+                style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
+              >
+                <b-text>{{t.birthday}}</b-text>
+                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <!-- 8888888888888888888888 -->
+                <div v-if="curedit==$index" class="d-block text-left">
+                  <h5 style="font-weight:bold">성함</h5>
+                  <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+                  <h5 style="font-weight:bold">성별</h5>
+                  <b-form-select v-model="parentSex" class="mb-3">
+                    <option :value="null">부모님 성별을 선택해주세요</option>
+                    <option value="남">남</option>
+                    <option value="여">여</option>
+                  </b-form-select>
+                  <h5 style="font-weight:bold">관계</h5>
+                  <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+                  <datalist id="my-list-id">
+                    <option></option>
+                    <option v-for="size in sizes" :key="size">{{ size }}</option>
+                    <!-- 오류 신경쓰지마세요 -->
+                  </datalist>
+                  <h5 style="font-weight:bold">생년월일</h5>
+                  <VueCtkDateTimePicker v-model="date" />
+                  <b-button @click="updateParent(t.id)">수정</b-button>
+                </div>
+                <!-- 8888888888888888888888 -->
+              </b-card>
+            </div>
+            </div>
+            <div v-for="k in parentRes.parentGroup" :key="k.id">
+            <p>그룹이름 {{k.name}}</p>
+            <div v-for="(i, $index) in parentRes.parentList" :key="$index">
+              <b-card v-if="i.group_id==k.id"
+                :title="i.name"
+                :sub-title="i.relation"
+                style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
+              >
+                <b-text>{{i.birthday}}</b-text>
+                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <!-- 8888888888888888888888 -->
+                <div v-if="curedit==$index" class="d-block text-left">
+                  <h5 style="font-weight:bold">성함</h5>
+                  <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+                  <h5 style="font-weight:bold">성별</h5>
+                  <b-form-select v-model="parentSex" class="mb-3">
+                    <option :value="null">부모님 성별을 선택해주세요</option>
+                    <option value="남">남</option>
+                    <option value="여">여</option>
+                  </b-form-select>
+                  <h5 style="font-weight:bold">관계</h5>
+                  <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+                  <datalist id="my-list-id">
+                    <option></option>
+                    <option v-for="size in sizes" :key="size">{{ size }}</option>
+                    <!-- 오류 신경쓰지마세요 -->
+                  </datalist>
+                  <h5 style="font-weight:bold">생년월일</h5>
+                  <VueCtkDateTimePicker v-model="date" />
+                  <b-button @click="updateParent(i.id)">수정</b-button>
+                </div>
+                <!-- 8888888888888888888888 -->
+              </b-card>
+            </div>
+            </div>
           </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
@@ -139,53 +231,34 @@
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
-    <b-modal ref="my-modal" id="bv-modal-example">
-      <template slot="modal-title">
-        <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
-      </template>
-      <div class="d-block text-left">
-        <h5 style="font-weight:bold">성함</h5>
-        <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
-        <h5 style="font-weight:bold">성별</h5>
-        <b-form-select v-model="parentSex" class="mb-3">
-          <option :value="null">부모님 성별을 선택해주세요</option>
-          <option value="남">남</option>
-          <option value="여">여</option>
-        </b-form-select>
-        <h5 style="font-weight:bold">관계</h5>
-        <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
-
-        <datalist id="my-list-id">
-          <option></option>
-          <option v-for="size in sizes">{{ size }}</option>
-          <!-- 오류 신경쓰지마세요 -->
-        </datalist>
-        <h5 style="font-weight:bold">생년월일</h5>
-        <h6>a</h6>
-      </div>
-    </b-modal>
+    <b-modal ref="my-modal" id="bv-modal-example"></b-modal>
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
 import * as session from "../utils/loginService";
 import Loading from "../components/Loading.vue";
-import draggable from "vuedraggable";
+
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 export default {
   data: function() {
     return {
-      //***************************************** */
-      enabled: true,
-      list: [
-        { name: "John", id: 0 },
-        { name: "Joao", id: 1 },
-        { name: "Jean", id: 2 }
-      ],
-      dragging: false,
-      //**************************************** */
+      parentRes:{
+        parentGroup:[],
+        parentList:[]
+        // 맨처음 바깥에 parentGroup에 따라 v-for
+        // 그리고 그 v-for 구문안에서 parentList를 v-if 로 걸러내서 보여줌 parentList에는 groupid가 있다
+        // v-for="i in parentGroup"
+      },
+      curedit: -1,
+      parentList: [],
+      isShow: false,
+      date: new Date([2000, 8, 23]),
+      parentName: "",
       parentSex: null,
-      parentRelation:'',
-      sizes: ['부', '모', '조부', '조모'],
+      parentRelation: "",
+      sizes: ["부", "모", "조부", "조모"],
       withdraw: {
         password: ""
       },
@@ -212,30 +285,88 @@ export default {
       ]
     };
   },
-  computed: {
-    draggingInfo() {
-      return this.dragging ? "under drag" : "";
-    }
-  },
   components: {
     "h-nav": NavbarVue,
     loading: Loading,
-    draggable
+    VueCtkDateTimePicker
   },
   mounted: function() {
     console.log(session.getRefreshToken());
     if (session.getRefreshToken() == null) {
-      alert("로그인 해주세요!");
+      // alert("로그인 해주세요!");
       location.href = "/login";
     } else {
       this.user_id = session.getUsername();
       this.user_nickname = session.getNickname();
       session.get(session.apiurl + "login").then(response => {
         this.emailnow = response.data.email;
+        
       });
+      session.get(session.apiurl + "parent").then(response => {
+          this.parentRes.parentList = response.data.parents;
+          console.log(this.parentRes.parentList);
+        });
+      session.get(session.apiurl+"parentgroup")
+        .then((response)=>{
+          this.parentRes.parentGroup=response.data.groups;
+          console.log(this.parentRes.parentGroup);
+        })
     }
   },
   methods: {
+    ccuredit(num){
+      if(this.curedit!=num)
+        this.curedit=num;
+      else
+        this.curedit=-1;
+    },
+    updateParent(num){
+      session.patch(session.apiurl+"parent/"+num,{
+          name: this.parentName,
+          relation: this.parentRelation,
+          gender: this.parentSex,
+          birthday: this.date.slice(0, 10)
+        })
+      .then((response)=>{
+        this.curedit=-1;
+        session.get(session.apiurl + "parent").then(response => {
+            this.parentList = response.data.parents;
+            console.log(this.parentList);
+          });
+      })
+    },
+    submitParent() {
+      console.log(this.date);
+      // console.log(this.date.toISOString());
+      session
+        .post(session.apiurl + "parent", {
+          name: this.parentName,
+          relation: this.parentRelation,
+          gender: this.parentSex,
+          birthday: this.date.slice(0, 10)
+        })
+        .then(response => {
+          console.log(response);
+          session.get(session.apiurl + "parent").then(response => {
+            this.parentList = response.data.parents;
+            console.log(this.parentList);
+          });
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    show() {
+      if (this.isShow == false) {
+        this.isShow = true;
+      } else {
+        this.isShow = false;
+      }
+    },
+    log(val) {
+      this.date = val;
+      console.log(val);
+    },
     showModal() {
       this.$refs["my-modal"].show();
     },
