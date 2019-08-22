@@ -68,12 +68,12 @@ const router = new VueRouter({
         {
             path: '/boardlist',
             name: 'boardlist',
-            redirect: '/boardlist/freeboard/1',
+            redirect: '/boardlist/freeboard/1/1',
             component: BoardList,
             props: true,
             children: [{
                 // path: 'freeboard/:no',
-                path: 'freeboard/:no',
+                path: 'freeboard/:no/:pageNo',
                 name: 'free',
                 component: FreeBoard,
                 props: true

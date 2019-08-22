@@ -59,14 +59,19 @@ export default {
         return {
             items: [], // 게시판 post 모아두는 변수
             pageNum: 0, // 기본 pageNumber
-            length: ""
+            length: "",
+            pageNo:Number(this.$route.query.p) //p로 전달한 인자값 가져오는거 
+            //************************************************************** */
             // 전체 post 개수 , totalcount가 아닌 count 값(현재 삭제되지않고 유지되고 있는 게시물)을 가져옴
         };
     },
     methods: {
         nextPage() {
             // 다음 페이지로 가는 함수
+            console.log(this.p);
             this.pageNum += 1;
+            this.pageNo+=1;
+            console.log(this.pageNo);
             // var parseString=x2j.parseString;
             // axios({method:'GET',
             //     url:'/api/org/code',
@@ -84,6 +89,7 @@ export default {
         prevPage() {
             // 이전 페이지로 가는 함수
             this.pageNum -= 1;
+            this.pageNo-=1;
             // var parseString=x2j.parseString;
             // axios({method:'GET',
             //     url:'/api/svc/list',
@@ -128,6 +134,7 @@ export default {
         },
     },
     mounted: function() { //로딩 표시 띄워줘야함.
+    console.log(this.$route.params.pageNo);
         session
             .get(session.apiurl + "board/" + this.no)
             .then(response => {

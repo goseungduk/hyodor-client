@@ -9,15 +9,14 @@
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="k2()">확인</b-button>
         </div>
         <br />
-        <b-button @click="k()">최고기관분류코드생성</b-button>
-        <b-button @click="k2()">공공서비스 목록생성</b-button>
+        <!-- <b-button @click="k()">최고기관분류코드생성</b-button>
+        <b-button @click="k2()">공공서비스 목록생성</b-button> -->
         
-            <div v-for="(i, $index) in list" :key="i">
-                {{$index}}
-                <p>{{i}}</p> -->
-            </div>
-            <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
-        
+        <div v-for="(i, $index) in list" :key="i">
+            {{$index}}
+            <p>{{i}}</p> -->
+        </div>
+        <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
     </div>
 </template>
 <script>

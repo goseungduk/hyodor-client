@@ -9,7 +9,6 @@
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="b()">확인</b-button>
         </div>
         <br />
-        아직은 구를 선택하면 건강검진 기관만 보여줌
         <div class='map_wrap'>
           <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
             <div id="menu_wrap" class="bg_white">
