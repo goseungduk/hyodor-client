@@ -1,15 +1,8 @@
 <template>
-  <div>
-    <div
-      class="con mt-2"
-      style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 20px;margin-bottom: 30px;"
-    >
-      <div>
-        <b-card
-          :title="items.title"
-          style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);padding: 40px;margin-bottom: 40px;"
-        >
-          <v-wait for="contentloading">
+    <div class="con mt-2" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 20px;margin-bottom: 30px;">
+        <div>
+            <b-card :title="items.title" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);padding: 40px;margin-bottom: 40px;">
+                <v-wait for="contentloading">
             <template slot="waiting">
               <div class="text-center mt-5">
                 <b-spinner variant="dark" label="Spinning"></b-spinner>
@@ -17,121 +10,61 @@
             </template>
           </v-wait>
           <div v-wait:hidden="'contentloading'">
-            <span style="float:right;color:#BF1B0C;">
-              <b-button
-                @click="goodbad(true)"
-                style="background-color: rgba(0,0,0,0); border:none;"
-              >
-                <div class="imgswap">
-                  <div :class="[isUp ? 'is':'is_non']">
-                    <img
-                      src="../assets/good_non.png"
-                      class="mb-2"
-                      width="18px"
-                      height="18px"
-                      style="margin-right:5px;"
-                    />
-                    <img
-                      src="../assets/good.png"
-                      class="mb-2"
-                      width="18px"
-                      height="18px"
-                      style="margin-right:5px;"
-                    />
-                  </div>
+                <span style="float:right;color:#BF1B0C;">
+                   <b-button   @click="goodbad(true)" style="background-color: rgba(0,0,0,0); border:none;">
+                        <div class="imgswap" >
+                            <div :class="[isUp ? 'is':'is_non']">
+                        <img src="../assets/good_non.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;" >
+                        <img src="../assets/good.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">
+                        </div>
+                        </div>
+                        </b-button>{{items.vote_up}}
+                        <b-button  @click="goodbad(false)" style="background-color: rgba(0,0,0,0); border:none;">
+                        <div class="imgswap" >
+                        <div :class="[isDown ? 'is':'is_non']">
+                    <img class="mb-2"  src="../assets/bad_non.png" width="18px" height="18px" style="margin-right:5px;" >
+                    <img class="mb-2"  src="../assets/bad.png" width="18px" height="18px" style="margin-right:5px;">
+                    </div>
+                     </div>
+                        </b-button>
+                    {{items.vote_down}}
+                </span>
+                <b-card-text>
+                    <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
+                    <p v-else style="font-weight:bold;font-size:16px"><img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{items.writer.nickname}}</p>
+                    
+                </b-card-text>
+                <b-card-text>
+                    <p style="font-size:16px">{{items.content}}</p>
+                </b-card-text>
+                <b-card-text>
+                    <b-button class="delete" @click="con_alert()">삭제</b-button>
+                    <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
+                </b-card-text>
                 </div>
-              </b-button>
-              {{items.vote_up}}
-              <b-button
-                @click="goodbad(false)"
-                style="background-color: rgba(0,0,0,0); border:none;"
-              >
-                <div class="imgswap">
-                  <div :class="[isDown ? 'is':'is_non']">
-                    <img
-                      class="mb-2"
-                      src="../assets/bad_non.png"
-                      width="18px"
-                      height="18px"
-                      style="margin-right:5px;"
-                    />
-                    <img
-                      class="mb-2"
-                      src="../assets/bad.png"
-                      width="18px"
-                      height="18px"
-                      style="margin-right:5px;"
-                    />
-                  </div>
-                </div>
-              </b-button>
-              {{items.vote_down}}
-            </span>
-            <b-card-text>
-              <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
-              <p v-else style="font-weight:bold;font-size:16px">
-                <img
-                  src="../assets/profile2.png"
-                  style="border-radius:7px;margin-right:10px;"
-                  width="25px"
-                  height="25px"
-                />
-                {{items.writer.nickname}}
-              </p>
-            </b-card-text>
-            <b-card-text>
-              <p style="font-size:16px">{{items.content}}</p>
-            </b-card-text>
-            <!-- 삭제버튼 꾸며주세용 -->
-            <b-card-text>
-              <b-button class="delete" @click="con_alert()">삭제</b-button>
-              <b-button class="delete" @click="change(items.title,items.content)">수정</b-button>
-            </b-card-text>
-          </div>
-        </b-card>
-      </div>
-
-      <div>
-        <div class="comments" style="display: block;">
-          <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
-          <article
-            v-wait:hidden="'contentloading'"
-            v-for="i in items.comments"
-            :key="i.id"
-            style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;"
-          >
-            <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px ">
-              <img
-                src="../assets/profile2.png"
-                style="border-radius:7px"
-                width="25px"
-                height="25px"
-              />(탈퇴한유저)
-            </div>
-            <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
-              <img
-                src="../assets/profile2.png"
-                style="border-radius:7px;margin-right:10px;"
-                width="25px"
-                height="25px"
-              />
-              {{i.writer.nickname}}
-              <!-- <span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span> -->
-            </div>
-            <p style="font-size:16px;padding:5px;">{{i.content}}</p>
-
-            <ul class="status commentvotestatus">
-              <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
-              <li class="vote" style="display: list-item;">
-                <b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
-                <b-button class="delete" size="sm" @click="b()">수정</b-button>
-                <br />
-              </li>
-            </ul>
-          </article>
+            </b-card>
+            
         </div>
-      </div>
-      <b-form @submit.prevent="commenting()">
+        
+        <div>
+            <div class="comments" style="display: block;">
+                <article v-for="i in items.comments" :key="i.id" v-wait:hidden="'contentloading'" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;">
+                    <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
+                    <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
+                        <img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}
+                    </div>
+                    <p style="font-size:16px;padding:5px;">{{i.content}}</p>
+                    
+                    <ul class="status commentvotestatus">
+                        <li class="vote" style="display: list-item;">
+                            <b-button class="delete" size="sm" @click="comment_alert(i.id)">삭제</b-button>
+                            <b-button class="delete" size="sm" @click="b()">수정</b-button> 
+                        <br></li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+        <b-form @submit.prevent="commenting()">
         <b-input-group>
           <!-- 텍스트 박스랑 작성 버튼이 한 줄에 들어가게 부탁드립니당 -->
           <b-form-input
@@ -152,41 +85,44 @@
             </b-button>
           </b-input-group-append>
         </b-input-group>
-      </b-form>
-      <b-modal id="infomodal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
+      </b-form> 
+        <b-modal id="con_modal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="comment_modal" :title="infobox.title" @ok="comment_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="back_modal" :title="infobox.title">{{ infobox.content }}</b-modal>
     </div>
-  </div>
 </template>
 
 <script>
 //state에는 con_no가 있다.
 import * as session from "../utils/loginService";
 export default {
-  props: {
-    con_no: "",
-    no: ""
-  },
-  data: function() {
-    return {
-      items: {
-        writer: {
-          nickname: ""
+    props: {
+        con_no:'',
+        no:'',
+        
+    },
+    data: function() {
+        return {
+            commnet_num:'',
+            items: {
+                writer:{
+                    'nickname':''
+                }
+            }, //axios 응답 데이터 다 때려박아!!!
+            comment:'',
+            isUp:'',
+            isDown:'',
+            infobox: {
+                title:"",
+                content:""
+            },
         }
-      }, //axios 응답 데이터 다 때려박아!!!
-      comment: "",
-      isUp: "",
-      isDown: "",
-      infobox: {
-        title: "",
-        content: ""
-      }
-    };
-  },
-  mounted: function() {
-    this.updatePostView();
-  },
-  methods: {
-    updatePostView() {
+    },
+    mounted: function() {
+        this.updatePostView();
+    },
+    methods:{
+        updatePostView() {
       this.$wait.start("contentloading");
       session
         .get(session.apiurl + "board/post/" + this.con_no)
@@ -219,76 +155,85 @@ export default {
           this.$wait.end("contentloading");
         });
     },
-    a() {
-      alert("추천완료");
-    },
-    goodbad(what) {
-      if (what == true) {
-        session
-          .post(session.apiurl + "board/vote/" + this.con_no, { isup: true })
-          .then(response => {
-            alert("추천완료");
-            location.reload();
-          });
-      } else if (what == false) {
-        session
-          .post(session.apiurl + "board/vote/" + this.con_no, { isup: false })
-          .then(response => {
-            alert("추천완료");
-            location.reload();
-          });
-      }
-      console.log(what);
-    },
-    con_alert() {
-      this.infobox.title = "알림";
-      this.infobox.content = "게시글을 삭제하시겠습니까?";
-      this.$bvModal.show("infomodal");
-    },
-    comment_del(id) {
-      session
-        .del(session.apiurl + "board/comment/" + id)
-        .then(response => {
-          // alert("삭제되었습니다!!");
-          location.href = "/boardlist/viewboard/" + this.no + "/" + this.con_no;
-        })
-        .catch(e => {
-          if (e.response.status == 403) {
-            alert("권한이 없습니다");
-          } else {
-            alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
-          }
-        });
-    },
-    con_del() {
-      session
-        .del(session.apiurl + "board/post/" + this.con_no)
-        .then(response => {
-          // location.href="/boardlist/freeboard/"+this.no;
-          this.$router.push({
-            name: "free",
-            params: { no: this.no },
-            query: { p: "1" }
-          });
-        })
-        .catch(e => {
-          if (e.response.status == 403) {
-            alert("권한이 없습니다");
-          } else {
-            alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
-          }
-        });
-    },
-    change(tit, con) {
-      this.$router.push({
-        name: "write",
-        params: { no: this.no, tit: tit, con: con, con_no: this.con_no }
-      });
-    },
-    commenting() {
-      if (this.comment == "") {
-      } else {
-        this.$wait.start("commentwriteloading");
+        a(){
+            alert('추천완료');
+        },
+        goodbad(what){
+            if(what==true){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
+                .then((response)=>{
+                    alert("추천완료");
+                    location.reload();
+                })
+            }
+            else if(what==false){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
+                .then((response)=>{
+                    alert("추천완료");
+                    location.reload();
+                })
+            }
+            console.log(what);
+        },
+        comment_alert(id){
+            this.comment_num=id;
+            this.infobox.title="알림";
+            this.infobox.content="댓글을 삭제하시겠습니까?";
+            this.$bvModal.show('comment_modal');
+        },
+        con_alert(){
+            this.infobox.title="알림";
+            this.infobox.content="게시글을 삭제하시겠습니까?";
+            this.$bvModal.show('con_modal');
+        },
+        comment_del(){
+            session.del(session.apiurl+"board/comment/"+this.comment_num)
+            .then((response)=>{
+                // alert("삭제되었습니다!!");
+                location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
+            })
+            .catch((e)=>{
+                if(e.response.status==403){
+                    alert('권한이 없습니다');
+                }else {
+                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                }
+            })
+        },
+        con_del(){
+            session.del(session.apiurl+"board/post/"+this.con_no)
+            .then((response)=>{
+                // location.href="/boardlist/freeboard/"+this.no;
+                this.$router.push({name:'free',params:{no:this.no},query:{p:'1'}});
+            })
+            .catch((e)=>{
+                if(e.response.status==403){
+                    alert('권한이 없습니다');
+                }
+                else {
+                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                }
+            })
+        },
+        change(tit,con) {
+            if(localhost.username!=this.items.writer.username){
+                this.infobox.title="알림";
+                this.infobox.content="권한이 없습니다";
+                this.$bvModal.show('back_modal');
+                history.reload();
+            }           
+            this.$router.push({
+                name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
+            })
+
+        },
+        commenting(){
+            console.log(this.comment);
+            if(this.comment==''){
+                
+            }
+            else{
+                this.$wait.start("commentwriteloading");
         session
           .post(session.apiurl + "board/comment", {
             post_id: this.con_no,
@@ -313,108 +258,97 @@ export default {
               alert("서버오류!");
             }
           });
-      }
+            }
+        }
     }
-  }
-};
+
+}
 </script>
 <style scoped>
-#container
-  > div.articles
-  > article
-  > div.comments
-  article
-  ul.commentvotestatus {
-  float: left;
-  margin-left: 8px;
-  padding: 0 2px;
-  height: 20px;
-  line-height: 20px;
-  color: #a6a6a6;
-  font-size: 12px;
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: 12px 12px;
-  cursor: pointer;
+
+#container > div.articles > article > div.comments article ul.commentvotestatus {
+     float: left;
+    margin-left: 8px;
+    padding: 0 2px;
+    height: 20px;
+    line-height: 20px;
+    color: #a6a6a6;
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 12px 12px;
+    cursor: pointer;
 }
 .vote {
-  padding-left: 1px;
-  color: #c62917;
+    padding-left: 1px;
+    color: #c62917;
 }
-dl,
-ul,
-ol,
-menu,
-li {
-  list-style: none;
+dl, ul, ol, menu, li {
+    list-style: none;
 }
 element.style {
-  display: list-item;
+    display: list-item;
 }
-div.mother {
-  border: 1px solid gray;
+div.mother{
+    border:1px solid gray;
 }
 article.parent {
-  padding: 15px 15px 0 15px;
-  border-top: 1px solid black;
+    padding: 15px 15px 0 15px;
+    border-top: 1px solid black;
 }
 #container > div.articles > article > div.comments {
-  display: none;
+    display: none;
 }
 element.style {
-  display: block;
+    display: block;
 }
 .con {
-  color: #666;
-
-  font-size: 12px;
-  letter-spacing: -1px;
+    color: #666;
+    
+    font-size: 12px;
+    letter-spacing: -1px;
 }
-.img {
-  border: none;
-  width: 33px;
-  height: 25px;
-  cursor: pointer;
+.img{
+    
+    border: none;
+    width: 33px;
+    height: 25px;
+    cursor: pointer;
 }
-.btn-img {
-  border: none;
-  background-color: #58b4fb;
+.btn-img{
+    border: none;
+    background-color: #58b4fb;
 }
-.delete {
+.delete{
   border: 1px solid red;
-  color: red;
-  background-color: rgba(0, 0, 0, 0);
-  float: right;
+  color : red;
+  background-color: rgba(0,0,0,0);
+  float:right;
 }
-.delete:hover {
-  background-color: #da0202;
-  border: 1px solid #da0202;
+.delete:hover{
+  background-color: #DA0202;
+  border: 1px solid #DA0202;
   color: white;
 }
-h4 {
-  color: rgb(71, 70, 70);
-  font-weight: bold;
-  font-size: 30px;
+h4{
+    color: rgb(71, 70, 70);
+    font-weight: bold;
+    font-size: 30px;
 }
-.imgswap img:last-child {
-  display: none;
-}
-.imgswap:hover img:first-child {
-  display: none;
-}
-.imgswap:hover img:last-child {
-  display: inline-block;
-}
+.imgswap img:last-child{display:none} 
+.imgswap:hover img:first-child{display:none} 
+.imgswap:hover img:last-child{display:inline-block}
 .is img:last-child {
-  display: inline-block;
+    display:inline-block
 }
-.is img:first-child {
-  display: none;
+.is img:first-child{
+    display:none
 }
-.is_non img:last-child {
-  display: none;
+.is_non img:last-child{
+    display:none
 }
-.is_non img:first-child {
-  display: inline-block;
+.is_non img:first-child{
+    display:inline-block
 }
+
 </style>

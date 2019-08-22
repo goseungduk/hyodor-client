@@ -2,18 +2,13 @@
   <div>
     <h-nav current-page="serviceinfo"></h-nav>
     <div>
-      <!-- <b-nav> -->
        <b-nav class="menubar_set mt-5 justify-content-center ">
       
         <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'active':'non_active']" >건강검진기관</b-nav-item>
         <b-nav-item class="menu_set mb-2 " :to="{name:'oldwelfare',params:{no:2}}" :class="[isSelected(2) ? 'active':'non_active']" >노인지원정책</b-nav-item>
       </b-nav>
-      
-      <!-- <div id="map" style="position:relative;margin:auto;width:500px;height:400px;"></div> -->
     </div>
     <b-container>
-      <!-- <FreeBoard v-bind:no="no"></FreeBoard> -->
-      <!-- <component :is="currentView" :no="no" :con_no="con_no"></component> -->
       <keep-alive>
       <router-view></router-view>
       </keep-alive>
@@ -33,6 +28,7 @@ export default {
   },
   data() {
     return {
+      bid:1,
       selected: null,
       options:[
         {value:null,text:'시,도'},
@@ -70,14 +66,19 @@ export default {
       
     },
     isSelected(boardId) {
+      // console.log("bid: "+boardId);
+      console.log(this.$route.params.no);
       //부모가 자식의 인자를 $route 객체의 params로 다룰 수 있다.
-      if (boardId == this.$route.params.no) {
+      if (boardId == this.$route.params.no||(this.$route.params.no==undefined&&boardId+1==2)) {
         return true;
       }
       return false;
     }
   
   },
+  mounted(){
+    this.bid=1;
+  }
   
 };
 let infowindow = null; // 지도 좌표의 상세정보를 표시해주기 위한 객체
@@ -91,8 +92,7 @@ function placesSearchCB (data, status, pagination) {
         removeMarker();
         for (var i=0; i<data.length; i++) {
             var placePosition = new kakao.maps.LatLng(data[i].y, data[i].x),
-            marker=addMarker(placePosition,i);
-            // displayMarker(data[i]);    
+            marker=addMarker(placePosition,i);   
             bounds.extend(placePosition);
             (function(marker, title) {
               kakao.maps.event.addListener(marker, 'mouseover', function() {
@@ -151,11 +151,6 @@ function displayMarker(place) {
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
-    // // console.log(Object.keys(marker).length);
-    // for(var key in marker){
-    //   markers.push(marker[key]);
-    //   // console.log(typeof(key.setMap));
-    // }
     
 
     // 마커에 클릭이벤트를 등록합니다
@@ -166,74 +161,6 @@ function displayMarker(place) {
     });
 }
 
-//   mounted: function() {
-  //     var parseString = x2j.parseString;
-  //     axios({
-  //       method: "GET",
-  //       url: "/api/org/code",
-  //       params: {
-  //         upOrgCd: 6110000,
-  //         orgClsCd: "BA0303",
-  //         format: "xml",
-  //         serviceKey:
-  //           "EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="
-  //       }
-  //     })
-  //       .then(response => {
-  //         var result = x22j.xml2js(response.data, { compact: true, spaces: 4 });
-  //         // this.gulist=result;
-  //         // console.log(typeof(result));
-  //         // console.log(this.gulist.result.totalCount._text);
-  //         // console.log(this.gulist.elements['0'].elements['3'].elements['0'].text);
-  //         for (
-  //           var i = 1;
-  //           i <= Number(result.result.totalCount._text) / 10 + 1;
-  //           i++
-  //         ) {
-  //           axios({
-  //             method: "GET",
-  //             url: "/api/org/code",
-  //             params: {
-  //               pageIndex: i,
-  //               upOrgCd: 6110000,
-  //               orgClsCd: "BA0303",
-  //               format: "xml",
-  //               serviceKey:
-  //                 "EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="
-  //             }
-  //           }).then(response => {
-  //             var result2 = x22j.xml2js(response.data, {
-  //               compact: true,
-  //               spaces: 4
-  //             });
-  //           });
-  //         }
-  //         //*********************************************************
-  //         // parseString(response.data,(e,result)=>{
-  //         //     for(var i=1;i<=(result.result.totalCount/10)+1;i++){
-  //         //         axios({method:'GET',
-  //         //         url:'/api/org/code',
-  //         //         params:{
-  //         //             pageIndex:i,upOrgCd:6110000,orgClsCd:'BA0303',format:"xml",serviceKey:"EzpVCm+y8ApwlDIaSCc+zV/XiHxgmrx8LE4EHCWpiRIjIkoeFTsarW7ypISPwiMsPGIXWC7FPpy2VdNCCa+UQg=="
-  //         //         }
-  //         //         })
-  //         //         .then((response)=>{
-  //         //             parseString(response.data,(e,result)=>{
-  //         //                 console.log(result.result);
-  //         //                 console.log(typeof(result.result.orgs['0']['org']))
-  //         //                 this.gulist.push(result.result.orgs['0']['org']);
-
-  //         //             })
-  //         //         })
-  //         //     }
-  //         //     console.log(this.gulist);
-  //         // });
-  //         // console.log(this.gulist);
-  //       })
-  //       .catch(e => {
-  //         console.log("오류");
-  //       });
-  //   }
 </script>
 <style scoped>
 .header {

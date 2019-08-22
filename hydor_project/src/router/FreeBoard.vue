@@ -21,6 +21,10 @@
                 <h6 style="color:grey;">{{i.content}}</h6>
                 <p v-if="i.writer==null" style="color:black;">(탈퇴한유저)</p>
                 <p v-else style="color:black;">{{i.writer.nickname}}</p>
+                <span>
+                    <img src="../assets/good.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">{{i.vote_up}}
+                    <img src="../assets/bad.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">{{i.vote_down}}
+                </span>
               </b-col>
             </b-row>
           </b-container>
