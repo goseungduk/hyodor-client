@@ -192,40 +192,39 @@ export default {
             this.pageNo=1;
             this.list=[];
             this.state.reset();
-            this.infiniteHandler(this.state);
-            // this.$refs.InfiniteLoading.stateChanger.reset(); 
-            // axios({
-            //     method:"GET",
-            //     url:"http://hyodor.azurewebsites.net/apicache/svc/list",
-            //     // url:'/api/svc/list',
-            //     params:{
-            //         // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
-            //         serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
-            //         format:"xml",
-            //         srhQuery:"노인",
-            //         jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
-            //         pageIndex:1,
-            //         pageSize:10
-            //     }
-            // })
-            // .then((response)=>{
-            //     var result=x2j.xml2js(response.data,{compact:true});
-            //     // console.log(result.result.svcList.svc['0']);
-            //     // console.log(result.result);
-            //     console.log(result.result.svcList.svc);
-            //     console.log("길이 "+result.result.svcList.svc.length);
-            //     this.list=this.list.concat(result.result.svcList.svc);
-            //     this.state.loaded();
-            //     /*
-            //     (2) [{…}, {…}, __ob__: Observer]
-            //         0: {__ob__: Observer} => svc가 있음
-            //         1: {__ob__: Observer}
-            //         this.lists.length 로 길이 파악가능
-            //     */
-            //     // for(var key in this.lists){
-            //     //     console.log("key: "+key+"/ value: "+this.lists[key]);
-            //     // }
-            // })
+            // this.infiniteHandler(this.state);
+            this.$refs.InfiniteLoading.stateChanger.reset(); 
+            axios({
+                method:"GET",
+                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                // url:'/api/svc/list',
+                params:{
+                    // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
+                    format:"xml",
+                    srhQuery:"노인",
+                    jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
+                    pageIndex:1,
+                    pageSize:10
+                }
+            })
+            .then((response)=>{
+                var result=x2j.xml2js(response.data,{compact:true});
+                // console.log(result.result.svcList.svc['0']);
+                // console.log(result.result);
+                console.log(result.result.svcList.svc);
+                console.log("길이 "+result.result.svcList.svc.length);
+                this.list=this.list.concat(result.result.svcList.svc);
+                /*
+                (2) [{…}, {…}, __ob__: Observer]
+                    0: {__ob__: Observer} => svc가 있음
+                    1: {__ob__: Observer}
+                    this.lists.length 로 길이 파악가능
+                */
+                // for(var key in this.lists){
+                //     console.log("key: "+key+"/ value: "+this.lists[key]);
+                // }
+            })
         },
     }
 }

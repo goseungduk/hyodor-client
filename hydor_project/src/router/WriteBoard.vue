@@ -1,7 +1,7 @@
 <template>
     <div>
        <b-form-input class="mt-2" v-model="title" placeholder="제목을 입력하세요"></b-form-input>
-        <b-form-textarea class="mt-2" id="textarea" v-model="content" placeholder="내용을 입력하세요" rows="8" max-rows="8"></b-form-textarea>
+        <b-form-textarea class="mt-2" id="textarea" v-model="content" placeholder="내용을 입력하세요" rows="8" max-rows="8">asdf</b-form-textarea>
         <b-button class="mt-1 button"  @click="submit()">작성하기</b-button>
     </div>
 </template>

@@ -107,7 +107,7 @@ const router = new VueRouter({
         {
             path: '/serviceinfo',
             name: 'service',
-            // redirect: '/serviceinfo/oldplace',
+            redirect: '/serviceinfo/oldplace',
             component: ServiceInfo,
             children: [{
                 path: 'oldwelfare',
