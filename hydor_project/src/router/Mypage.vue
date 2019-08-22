@@ -118,7 +118,78 @@
                 <!-- 오류 신경쓰지마세요 -->
               </datalist>
               <h5 style="font-weight:bold">생년월일</h5>
-              <VueDatePicker v-model="date"></VueDatePicker>
+              <VueCtkDateTimePicker v-model="date" />
+              <b-button @click="submitParent()">전송</b-button>
+            </div>
+            <div>
+              <p>아무그룹없음</p>
+            <div v-for="(t,$index) in parentRes.parentList" :key="t.id">
+              <b-card v-if="t.group_id==null"
+                :title="t.name"
+                :sub-title="t.relation"
+                style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
+              >
+                <b-text>{{t.birthday}}</b-text>
+                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <!-- 8888888888888888888888 -->
+                <div v-if="curedit==$index" class="d-block text-left">
+                  <h5 style="font-weight:bold">성함</h5>
+                  <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+                  <h5 style="font-weight:bold">성별</h5>
+                  <b-form-select v-model="parentSex" class="mb-3">
+                    <option :value="null">부모님 성별을 선택해주세요</option>
+                    <option value="남">남</option>
+                    <option value="여">여</option>
+                  </b-form-select>
+                  <h5 style="font-weight:bold">관계</h5>
+                  <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+                  <datalist id="my-list-id">
+                    <option></option>
+                    <option v-for="size in sizes" :key="size">{{ size }}</option>
+                    <!-- 오류 신경쓰지마세요 -->
+                  </datalist>
+                  <h5 style="font-weight:bold">생년월일</h5>
+                  <VueCtkDateTimePicker v-model="date" />
+                  <b-button @click="updateParent(t.id)">수정</b-button>
+                </div>
+                <!-- 8888888888888888888888 -->
+              </b-card>
+            </div>
+            </div>
+            <div v-for="k in parentRes.parentGroup" :key="k.id">
+            <p>그룹이름 {{k.name}}</p>
+            <div v-for="(i, $index) in parentRes.parentList" :key="$index">
+              <b-card v-if="i.group_id==k.id"
+                :title="i.name"
+                :sub-title="i.relation"
+                style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
+              >
+                <b-text>{{i.birthday}}</b-text>
+                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <!-- 8888888888888888888888 -->
+                <div v-if="curedit==$index" class="d-block text-left">
+                  <h5 style="font-weight:bold">성함</h5>
+                  <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+                  <h5 style="font-weight:bold">성별</h5>
+                  <b-form-select v-model="parentSex" class="mb-3">
+                    <option :value="null">부모님 성별을 선택해주세요</option>
+                    <option value="남">남</option>
+                    <option value="여">여</option>
+                  </b-form-select>
+                  <h5 style="font-weight:bold">관계</h5>
+                  <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+                  <datalist id="my-list-id">
+                    <option></option>
+                    <option v-for="size in sizes" :key="size">{{ size }}</option>
+                    <!-- 오류 신경쓰지마세요 -->
+                  </datalist>
+                  <h5 style="font-weight:bold">생년월일</h5>
+                  <VueCtkDateTimePicker v-model="date" />
+                  <b-button @click="updateParent(i.id)">수정</b-button>
+                </div>
+                <!-- 8888888888888888888888 -->
+              </b-card>
+            </div>
             </div>
           </b-tab>
           <b-tab title="회원탈퇴">
@@ -167,12 +238,23 @@
 import NavbarVue from "../components/Navbar.vue";
 import * as session from "../utils/loginService";
 import Loading from "../components/Loading.vue";
-import { VueDatePicker } from "@mathieustan/vue-datepicker";
+
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 export default {
   data: function() {
     return {
-      isShow:false,
-      date: new Date([2019, 5, 16]),
+      parentRes:{
+        parentGroup:[],
+        parentList:[]
+        // 맨처음 바깥에 parentGroup에 따라 v-for
+        // 그리고 그 v-for 구문안에서 parentList를 v-if 로 걸러내서 보여줌 parentList에는 groupid가 있다
+        // v-for="i in parentGroup"
+      },
+      curedit: -1,
+      parentList: [],
+      isShow: false,
+      date: new Date([2000, 8, 23]),
       parentName: "",
       parentSex: null,
       parentRelation: "",
@@ -206,28 +288,79 @@ export default {
   components: {
     "h-nav": NavbarVue,
     loading: Loading,
-    VueDatePicker
+    VueCtkDateTimePicker
   },
   mounted: function() {
     console.log(session.getRefreshToken());
     if (session.getRefreshToken() == null) {
-      alert("로그인 해주세요!");
+      // alert("로그인 해주세요!");
       location.href = "/login";
     } else {
       this.user_id = session.getUsername();
       this.user_nickname = session.getNickname();
       session.get(session.apiurl + "login").then(response => {
         this.emailnow = response.data.email;
+        
       });
+      session.get(session.apiurl + "parent").then(response => {
+          this.parentRes.parentList = response.data.parents;
+          console.log(this.parentRes.parentList);
+        });
+      session.get(session.apiurl+"parentgroup")
+        .then((response)=>{
+          this.parentRes.parentGroup=response.data.groups;
+          console.log(this.parentRes.parentGroup);
+        })
     }
   },
   methods: {
-    show(){
-      if(this.isShow==false){
-        this.isShow=true;
-      }
-      else{
-        this.isShow=false;
+    ccuredit(num){
+      if(this.curedit!=num)
+        this.curedit=num;
+      else
+        this.curedit=-1;
+    },
+    updateParent(num){
+      session.patch(session.apiurl+"parent/"+num,{
+          name: this.parentName,
+          relation: this.parentRelation,
+          gender: this.parentSex,
+          birthday: this.date.slice(0, 10)
+        })
+      .then((response)=>{
+        this.curedit=-1;
+        session.get(session.apiurl + "parent").then(response => {
+            this.parentList = response.data.parents;
+            console.log(this.parentList);
+          });
+      })
+    },
+    submitParent() {
+      console.log(this.date);
+      // console.log(this.date.toISOString());
+      session
+        .post(session.apiurl + "parent", {
+          name: this.parentName,
+          relation: this.parentRelation,
+          gender: this.parentSex,
+          birthday: this.date.slice(0, 10)
+        })
+        .then(response => {
+          console.log(response);
+          session.get(session.apiurl + "parent").then(response => {
+            this.parentList = response.data.parents;
+            console.log(this.parentList);
+          });
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    show() {
+      if (this.isShow == false) {
+        this.isShow = true;
+      } else {
+        this.isShow = false;
       }
     },
     log(val) {

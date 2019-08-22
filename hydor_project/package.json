@@ -19,6 +19,7 @@
         "v-infinite-scroll": "^1.0.4",
         "vue": "^2.6.10",
         "vue-cal": "^2.4.0",
+        "vue-ctk-date-time-picker": "^2.1.1",
         "vue-infinite-loading": "^2.4.4",
         "vue-infinite-scroll": "^2.0.2",
         "vue-meta": "^2.2.1",
