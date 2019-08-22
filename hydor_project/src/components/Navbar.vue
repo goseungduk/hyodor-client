@@ -2,8 +2,8 @@
   <div>
     <b-navbar toggleable="lg" style="background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );">
       <b-navbar-brand class="hyodor" href="/home">
-        <img src="../assets/logo2.png" class="hyodorlogo mr-1 align-top" />
-        Hyodor
+        <img src="../assets/logo2.png" class="hyodorlogo mr-1 align-top" /><span style="font-size:23px;"> 
+        Hyodor</span>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

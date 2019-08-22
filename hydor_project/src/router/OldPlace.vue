@@ -4,7 +4,7 @@
             지역설정
             <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
-            <b-form-select v-model="sub_selected" :options="sub_options" class="form-control mt-2 mb-2">
+            <b-form-select v-model="sub_selected" :options="sub_options3" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="b()">확인</b-button>
         </div>
@@ -24,11 +24,13 @@
 <script>
 import Vue from 'vue';
 import NavbarVue from "../components/Navbar.vue";
-
+import axios from 'axios';
+import x2j from "xml-js";
 export default {
     data() {
         return {
-            
+            sub_options2:[],
+            sub_options3:[],
             selected: null,
             main_options: [
                 { value: null, text: '서울특별시' },
@@ -61,7 +63,6 @@ export default {
         }
     },
     mounted() {
-        console.log("welcome");
         container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         options = {
             //지도를 생성할 때 필요한 기본 옵션
@@ -70,6 +71,30 @@ export default {
         };
         map = new kakao.maps.Map(container, options);
         ps = new kakao.maps.services.Places();
+        axios({
+                method:'GET',
+                url:'https://hyodor.azurewebsites.net/apicache/org/code',
+                params:{
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
+                    upOrgCd:6110000,
+                    orgClsCd:'BA0303',
+                    pageIndex:1,
+                    pageSize:25
+                }
+            })
+            .then((response)=>{
+                var li=[];
+                var result=x2j.xml2js(response.data,{compact:true});
+                var res=result.result;
+                li=res.orgs.org;
+                for(var i=0;i<25;i++){
+                    this.sub_options2[i]=li[i];
+                }
+                this.sub_options3.push({value:null,text:"시,군,구"});
+                for(var i=0;i<25;i++){
+                    this.sub_options3.push({value:{cd:this.sub_options2[i].orgCode['_text'],name:this.sub_options2[i].orgName['_text']},text:this.sub_options2[i].orgName['_text']});
+                }
+            })
     },
     
 };

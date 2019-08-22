@@ -2,7 +2,7 @@
   <div>
     <!-- 여기는 width 조절을 잘 맞춰야합니다 -->
     <!--  화이팅 -->
-    <h-nav current-page="mypage"></h-nav>-
+    <h-nav current-page="mypage"></h-nav>
     <b-container class="mt-3">
       <b-row>
         <h2>My Page</h2>
@@ -98,31 +98,13 @@
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
-            <div class="col-6">
-            <h3>Draggable {{ draggingInfo }}</h3>
-            <draggable
-              :list="list"
-              :disabled="!enabled"
-              class="list-group"
-              ghost-class="ghost"
-              :move="checkMove"
-              @start="dragging = true"
-              @end="dragging = false"
-            >
-              <div
-                class="list-group-item"
-                v-for="element in list"
-                :key="element.name"
-              >{{ element.name }}</div>
-            </draggable>
-            </div>
+            <b-button id="show-btn" @click="showModal()">+</b-button>
           </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
               <b-col>
                 <p>회원탈퇴 시 가입시의 정보는 모두 삭제됩니다.</p>
                 <p>작성한 게시글과 덧글등은 삭제되지 않습니다.</p>
-
                 <div>
                   <b-input-group>
                     <b-form-input
@@ -153,10 +135,35 @@
           </b-tab>
         </b-tabs>
       </b-row>
-    </b-container>-
+    </b-container>
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
+    <b-modal ref="my-modal" id="bv-modal-example">
+      <template slot="modal-title">
+        <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
+      </template>
+      <div class="d-block text-left">
+        <h5 style="font-weight:bold">성함</h5>
+        <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+        <h5 style="font-weight:bold">성별</h5>
+        <b-form-select v-model="parentSex" class="mb-3">
+          <option :value="null">부모님 성별을 선택해주세요</option>
+          <option value="남">남</option>
+          <option value="여">여</option>
+        </b-form-select>
+        <h5 style="font-weight:bold">관계</h5>
+        <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+
+        <datalist id="my-list-id">
+          <option></option>
+          <option v-for="size in sizes">{{ size }}</option>
+          <!-- 오류 신경쓰지마세요 -->
+        </datalist>
+        <h5 style="font-weight:bold">생년월일</h5>
+        <h6>a</h6>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -176,6 +183,9 @@ export default {
       ],
       dragging: false,
       //**************************************** */
+      parentSex: null,
+      parentRelation:'',
+      sizes: ['부', '모', '조부', '조모'],
       withdraw: {
         password: ""
       },
@@ -226,6 +236,9 @@ export default {
     }
   },
   methods: {
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
     checkMove: function(e) {
       window.console.log("Future index: " + e.draggedContext.futureIndex);
     },
