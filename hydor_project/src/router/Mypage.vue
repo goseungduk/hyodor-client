@@ -141,8 +141,28 @@
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
     <b-modal ref="my-modal" id="bv-modal-example">
       <template slot="modal-title">
-        <span style="font-size:30px;font-weight:bold;">adf</span>
+        <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
       </template>
+      <div class="d-block text-left">
+        <h5 style="font-weight:bold">성함</h5>
+        <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+        <h5 style="font-weight:bold">성별</h5>
+        <b-form-select v-model="selected" class="mb-3">
+          <option :value="null">부모님 성별을 선택해주세요</option>
+          <option value="남">남</option>
+          <option value="여">여</option>
+        </b-form-select>
+        <h5 style="font-weight:bold">관계</h5>
+        <b-form-input list="my-list-id"></b-form-input>
+
+        <datalist id="my-list-id">
+          <option>Manual Option</option>
+          <option v-for="size in sizes">{{ size }}</option>
+          <!-- 오류 신경쓰지마세요 -->
+        </datalist>
+        <h5 style="font-weight:bold">생년월일</h5>
+        <h6>asdf</h6>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -163,6 +183,8 @@ export default {
       ],
       dragging: false,
       //**************************************** */
+      selected: null,
+      sizes: ['Small', 'Medium', 'Large', 'Extra Large'],
       withdraw: {
         password: ""
       },
@@ -213,8 +235,8 @@ export default {
     }
   },
   methods: {
-    showModal(){
-      this.$refs['my-modal'].show();
+    showModal() {
+      this.$refs["my-modal"].show();
     },
     checkMove: function(e) {
       window.console.log("Future index: " + e.draggedContext.futureIndex);
