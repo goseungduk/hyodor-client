@@ -164,7 +164,7 @@
             </div>
             </div>
             <div v-for="k in parentRes.parentGroup" :key="k.id">
-            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="show-btn" @click="delgroup(k.id)">X</b-button></p>
+            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="edit mr-1" @click="showModal3(k.id)">그룹 수정하기</b-button><b-button size="sm" class="show-btn" @click="delgroup(k.id)">X</b-button></p>
             <div v-for="(i, $index) in parentRes.parentList" :key="$index">
               <b-card v-if="i.group_id==k.id"
                 :title="i.name"
@@ -247,6 +247,12 @@
       <h6>그룹이름을 무엇으로 하시겠습니까?</h6>
       <b-form-input v-model="groupname" placeholder="그룹 이름을 입력하시오"></b-form-input>
     </b-modal>
+    <b-modal id="my-modal3" ref="my-modal3" :title="'그룹 수정하기'" @ok="editgroup()" ok-only>
+      <h6>그룹이름을 무엇으로 하시겠습니까?</h6>
+      <b-form-input v-model="groupname" placeholder="새 그룹 이름을 입력하시오"></b-form-input>
+      <b-form-input v-model="tel_time" placeholder="목표 전화 횟수를 적으시오"></b-form-input>
+      <b-form-input v-model="visit_time" placeholder="목표 방문 횟수를 적으시오"></b-form-input>
+    </b-modal>
     <!-- <b-modal ref="my-modal" id="bv-modal-example">asdf</b-modal> -->
   </div>
 </template>
@@ -260,6 +266,8 @@ import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 export default {
   data: function() {
     return {
+      tel_time:'',
+      visit_time:'',
       groupname:'',
       tempid:'',
       sub_selected:[],
@@ -272,7 +280,7 @@ export default {
         // v-for="i in parentGroup"
       },
       curedit: -1,
-      parentList: [],
+      // parentList: [],
       isShow: false,
       date: new Date([2000, 8, 23]),
       parentName: "",
@@ -334,6 +342,24 @@ export default {
     }
   },
   methods: {
+    editgroup(){
+      session.patch(session.apiurl+"parentgroup/"+this.tempid,{
+        name:this.groupname,
+        prefer_call:this.tel_time,
+        prefer_visit:this.visit_time
+      })
+      .then((response)=>{
+        // session.get(session.apiurl + "parent").then(response => {
+        //   this.parentRes.parentList = response.data.parents;
+        //   console.log(this.parentRes.parentList);
+        // });
+        session.get(session.apiurl+"parentgroup")
+        .then((response)=>{
+          this.parentRes.parentGroup=response.data.groups;
+          console.log(this.parentRes.parentGroup);
+        })
+      })
+    },
     delpa(pid){
       session.del(session.apiurl+"parent/"+pid)
       .then((response)=>{
@@ -352,6 +378,10 @@ export default {
           console.log(this.parentRes.parentGroup);
         })
       })
+    },
+    showModal3(gid){
+      this.tempid=gid;
+      this.$refs["my-modal3"].show();
     },
     showModal2(){
       this.$refs["my-modal2"].show();
@@ -406,6 +436,7 @@ export default {
       })
     },
     submitParent() {
+      this.isShow=false;
       console.log(this.date);
       // console.log(this.date.toISOString());
       session
@@ -418,7 +449,7 @@ export default {
         .then(response => {
           console.log(response);
           session.get(session.apiurl + "parent").then(response => {
-            this.parentList = response.data.parents;
+            this.parentRes.parentList = response.data.parents;
             console.log(this.parentList);
           });
         })

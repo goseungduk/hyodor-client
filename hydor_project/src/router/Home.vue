@@ -275,7 +275,7 @@ export default {
         if (e.response.status == 401) {
           location.href = "/login";
         } else {
-          alert("서버오류!");
+          location.href = "/login";
         }
       });
   }

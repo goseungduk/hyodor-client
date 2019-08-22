@@ -101,7 +101,8 @@
         </b-input-group>
       </b-form> 
         <loading v-wait:visible="'withdrawloading'"></loading>
-        <b-modal id="con_modal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="con_modal" :title="infobox.title" @ok="con_del()" hide footer>{{ infobox.content }}</b-modal>
+        <b-modal id="con_modal2" :title="infobox.title" ok-only>{{ infobox.content }}</b-modal>
         <b-modal id="comment_modal" :title="infobox.title" @ok="comment_del()">{{ infobox.content }}</b-modal>
         <b-modal id="back_modal" :title="infobox.title" ok-only>{{ infobox.content }}</b-modal>
 
@@ -233,6 +234,11 @@ export default {
             this.infobox.content="게시글을 삭제하시겠습니까?";
             this.$bvModal.show('con_modal');
         },
+        con_alert2(){
+            this.infobox.title="알림";
+            this.infobox.content="게시글을 삭제하시겠습니까?";
+            this.$bvModal.show('con_modal2');
+        },
         comment_del(){
             session.del(session.apiurl+"board/comment/"+this.comment_num)
             .then((response)=>{
@@ -241,7 +247,9 @@ export default {
             })
             .catch((e)=>{
                 if(e.response.status==403){
-                    alert('권한이 없습니다');
+                    this.infobox.title="알림";
+                    this.infobox.content="권한이 없습니다.";
+                    this.$bvModal.show('con_modal2');
                 }else {
                     // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
@@ -258,7 +266,9 @@ export default {
             .catch((e)=>{
                 this.$wait.end("withdrawloading");
                 if(e.response.status==403){
-                    alert('권한이 없습니다');
+                    this.infobox.title="알림";
+                    this.infobox.content="권한이 없습니다.";
+                    this.$bvModal.show('con_modal2');
                 }
                 else {
                     // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
@@ -269,7 +279,7 @@ export default {
             if(localStorage.username!=this.items.writer.username){
                 this.infobox.title="알림";
                 this.infobox.content="권한이 없습니다";
-                this.$bvModal.show('back_modal');
+                this.$bvModal.show('con_modal2');
             }
             else{           
                 this.$router.push({
