@@ -1,10 +1,11 @@
 <template>
     <div>
+        <b-button @click="t()">adf</b-button>
         <div class="example text-center mt-1" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
             지역설정
             <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
-            <b-form-select v-model="sub_selected" :options="sub_options" class="form-control mt-2 mb-2">
+            <b-form-select v-model="sub_selected" :options="sub_options3" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="k2()">확인</b-button>
             <div class="d-flex justify-content-center">
@@ -95,7 +96,7 @@ export default {
                 // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
                 // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
-            sub_selected:  { cd: 3220000, name: '강남구' },
+            sub_selected:  { cd: 3050000, name: '동대문구' },
             sub_options: [
                 { value: null, text: '시,군,구' },
                 { value: { cd: 3220000, name: '강남구' }, text: '강남구' },
@@ -111,9 +112,46 @@ export default {
                 { value: { cd: 3050000, name: '동대문구' }, text: '동대문구' },
                 // {value:{cd:,name:''},text:''},
             ],
+            sub_options2:[],
+            sub_options3:[]
         }
     },
+    mounted(){
+            axios({
+                method:'GET',
+                url:'http://hyodor.azurewebsites.net/apicache/org/code',
+                params:{
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
+                    upOrgCd:6110000,
+                    orgClsCd:'BA0303',
+                    pageIndex:1,
+                    pageSize:25
+                }
+            })
+            .then((response)=>{
+                var li=[];
+                var result=x2j.xml2js(response.data,{compact:true});
+                var res=result.result;
+                // console.log(res.orgs.org);
+                li=res.orgs.org;
+                // console.log(li);
+                // console.log(li[1]);
+                for(var i=0;i<25;i++){
+                    this.sub_options2[i]=li[i];
+                }
+                console.log(this.sub_options2)
+                for(var i=0;i<25;i++){
+                    // this.sub_options3[i].value.cd=this.sub_options2[i].orgCode['_text'];
+                    // this.sub_options3[i].value.name=this.sub_options2[i].orgName['_text'];
+                    // this.sub_options3[i].text=this.sub_options2[i].orgName['_text'];
+                    this.sub_options3.push({value:{cd:this.sub_options2[i].orgCode['_text'],name:this.sub_options2[i].orgName['_text']},text:this.sub_options2[i].orgName['_text']});
+                }
+                console.log(this.sub_options3);
+            })
+            
+        },
     methods:{
+        
         showModal(str){
             this.svcInfo=[];
             
@@ -193,7 +231,7 @@ export default {
             this.list=[];
             this.state.reset();
             // this.infiniteHandler(this.state);
-            this.$refs.InfiniteLoading.stateChanger.reset(); 
+            // this.$refs.InfiniteLoading.stateChanger.reset(); 
             axios({
                 method:"GET",
                 url:"http://hyodor.azurewebsites.net/apicache/svc/list",
