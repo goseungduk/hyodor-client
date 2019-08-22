@@ -28,7 +28,7 @@
         "vue-spinkit": "^1.4.1",
         "vue-sweet-calendar": "^0.3.1",
         "vue-wait": "^1.4.6",
-        "vuedraggable": "^2.23.0",
+        "vuejs-datepicker": "^1.6.2",
         "vuejs-paginate": "^2.1.0",
         "vuex": "^3.1.1",
         "xml-js": "^1.6.11",

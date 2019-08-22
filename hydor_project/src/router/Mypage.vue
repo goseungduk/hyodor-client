@@ -98,7 +98,28 @@
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
-            <b-button id="show-btn" @click="showModal()">+</b-button>
+            <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
+            <b-button id="show-btn" @click="show()">+</b-button>
+            <div v-if="isShow==true" class="d-block text-left">
+              <h5 style="font-weight:bold">성함</h5>
+              <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
+              <h5 style="font-weight:bold">성별</h5>
+              <b-form-select v-model="parentSex" class="mb-3">
+                <option :value="null">부모님 성별을 선택해주세요</option>
+                <option value="남">남</option>
+                <option value="여">여</option>
+              </b-form-select>
+              <h5 style="font-weight:bold">관계</h5>
+              <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
+
+              <datalist id="my-list-id">
+                <option></option>
+                <option v-for="size in sizes" :key="size">{{ size }}</option>
+                <!-- 오류 신경쓰지마세요 -->
+              </datalist>
+              <h5 style="font-weight:bold">생년월일</h5>
+              <VueDatePicker v-model="date"></VueDatePicker>
+            </div>
           </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
@@ -139,53 +160,23 @@
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
-    <b-modal ref="my-modal" id="bv-modal-example">
-      <template slot="modal-title">
-        <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
-      </template>
-      <div class="d-block text-left">
-        <h5 style="font-weight:bold">성함</h5>
-        <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
-        <h5 style="font-weight:bold">성별</h5>
-        <b-form-select v-model="parentSex" class="mb-3">
-          <option :value="null">부모님 성별을 선택해주세요</option>
-          <option value="남">남</option>
-          <option value="여">여</option>
-        </b-form-select>
-        <h5 style="font-weight:bold">관계</h5>
-        <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
-
-        <datalist id="my-list-id">
-          <option></option>
-          <option v-for="size in sizes">{{ size }}</option>
-          <!-- 오류 신경쓰지마세요 -->
-        </datalist>
-        <h5 style="font-weight:bold">생년월일</h5>
-        <h6>a</h6>
-      </div>
-    </b-modal>
+    <b-modal ref="my-modal" id="bv-modal-example"></b-modal>
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
 import * as session from "../utils/loginService";
 import Loading from "../components/Loading.vue";
-import draggable from "vuedraggable";
+import { VueDatePicker } from "@mathieustan/vue-datepicker";
 export default {
   data: function() {
     return {
-      //***************************************** */
-      enabled: true,
-      list: [
-        { name: "John", id: 0 },
-        { name: "Joao", id: 1 },
-        { name: "Jean", id: 2 }
-      ],
-      dragging: false,
-      //**************************************** */
+      isShow:false,
+      date: new Date([2019, 5, 16]),
+      parentName: "",
       parentSex: null,
-      parentRelation:'',
-      sizes: ['부', '모', '조부', '조모'],
+      parentRelation: "",
+      sizes: ["부", "모", "조부", "조모"],
       withdraw: {
         password: ""
       },
@@ -212,15 +203,10 @@ export default {
       ]
     };
   },
-  computed: {
-    draggingInfo() {
-      return this.dragging ? "under drag" : "";
-    }
-  },
   components: {
     "h-nav": NavbarVue,
     loading: Loading,
-    draggable
+    VueDatePicker
   },
   mounted: function() {
     console.log(session.getRefreshToken());
@@ -236,6 +222,18 @@ export default {
     }
   },
   methods: {
+    show(){
+      if(this.isShow==false){
+        this.isShow=true;
+      }
+      else{
+        this.isShow=false;
+      }
+    },
+    log(val) {
+      this.date = val;
+      console.log(val);
+    },
     showModal() {
       this.$refs["my-modal"].show();
     },
