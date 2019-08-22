@@ -25,7 +25,7 @@
               </b-row>
             </b-container>
           </b-tab>
-          <b-tab title="개인정보 변경">
+          <!-- <b-tab title="개인정보 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재 닉네임</b-col>
               <b-col cols="7">{{user_nickname}}</b-col>
@@ -56,8 +56,8 @@
                 ></b-form-input>
               </b-col>
             </b-row>
-            <!-- 개인정보 변경함수 -->
-            <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
+             개인정보 변경함수 -->
+            <!-- <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
               <v-wait for="changeloading">
                 <template slot="waiting">
                   <div class="d-flex justify-content-center">
@@ -67,7 +67,7 @@
                 정보변경
               </v-wait>
             </b-button>
-          </b-tab>
+          </b-tab> -->
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재비밀번호</b-col>

@@ -225,14 +225,16 @@ export default {
             })
         },
         change(tit,con) {
-            if(localhost.username!=this.items.writer.username){
+            if(localStorage.username!=this.items.writer.username){
                 this.infobox.title="알림";
                 this.infobox.content="권한이 없습니다";
                 this.$bvModal.show('back_modal');
-            }           
-            this.$router.push({
-                name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
-            })
+            }
+            else{           
+                this.$router.push({
+                    name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
+                })
+            }
 
         },
         commenting(){
