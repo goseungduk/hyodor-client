@@ -4,7 +4,7 @@
             <b-card :title="items.title" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);padding: 40px;margin-bottom: 40px;">
                 <span style="float:right;color:#BF1B0C;">
                     <img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();">{{items.vote_up}}
-                    {{items.vote_down}}
+                    <img class="mb-2" src="../assets/bad.png" width="18px" height="18px" style="margin-right:5px;" @click="a();">{{items.vote_down}}
                 </span>
                 <b-card-text>
                     <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
