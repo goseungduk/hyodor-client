@@ -58,7 +58,7 @@
                     <ul class="status commentvotestatus">
                         <li class="vote" style="display: list-item;">
                             <b-button class="delete" size="sm" @click="comment_alert(i.id)">삭제</b-button>
-                            <b-button class="delete" size="sm" @click="b()">수정</b-button> 
+                            <b-button class="delete" size="sm">수정</b-button> 
                         <br></li>
                     </ul>
                 </article>
@@ -86,16 +86,22 @@
           </b-input-group-append>
         </b-input-group>
       </b-form> 
+        <loading v-wait:visible="'withdrawloading'"></loading>
         <b-modal id="con_modal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
         <b-modal id="comment_modal" :title="infobox.title" @ok="comment_del()">{{ infobox.content }}</b-modal>
         <b-modal id="back_modal" :title="infobox.title">{{ infobox.content }}</b-modal>
+
     </div>
 </template>
 
 <script>
 //state에는 con_no가 있다.
 import * as session from "../utils/loginService";
+import Loading from '../components/Loading.vue';
 export default {
+    components: {
+        loading: Loading
+    },
     props: {
         con_no:'',
         no:'',
@@ -201,12 +207,15 @@ export default {
             })
         },
         con_del(){
+            this.$wait.start("withdrawloading");
             session.del(session.apiurl+"board/post/"+this.con_no)
             .then((response)=>{
                 // location.href="/boardlist/freeboard/"+this.no;
+                this.$wait.end("withdrawloading");
                 this.$router.push({name:'free',params:{no:this.no},query:{p:'1'}});
             })
             .catch((e)=>{
+                this.$wait.end("withdrawloading");
                 if(e.response.status==403){
                     alert('권한이 없습니다');
                 }
@@ -220,7 +229,6 @@ export default {
                 this.infobox.title="알림";
                 this.infobox.content="권한이 없습니다";
                 this.$bvModal.show('back_modal');
-                history.reload();
             }           
             this.$router.push({
                 name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
@@ -228,7 +236,6 @@ export default {
 
         },
         commenting(){
-            console.log(this.comment);
             if(this.comment==''){
                 
             }
