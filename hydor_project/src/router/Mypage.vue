@@ -28,50 +28,67 @@
           <b-tab title="개인정보 변경"></b-tab>
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
-                <b-col md="4" class="colboard">현재비밀번호</b-col>
-                <b-col cols="7">
-                  <b-form-input v-model="pwnow" placeholder="현재비밀번호를 입력해주세요"></b-form-input>
-                </b-col>
-              </b-row>
-              <b-row class="mt-3">
-                <b-col md="4" class="colboard">새 비밀번호</b-col>
-                <b-col cols="7">
-                  <b-form-input v-model="pwwill1" placeholder="새 비밀번호를 입력해주세요"></b-form-input>
-                </b-col>
-              </b-row>
-              <b-row class="mt-3">
-                <b-col md="4" class="colboard">
-                  <div>새 비밀번호</div>
-                  <div>다시입력</div>
-                </b-col>
-                <b-col cols="7">
-                  <b-form-input v-model="pwwill2" placeholder="새 비밀번호를 다시 입력해주세요"></b-form-input>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col></b-col>
-                <b-col>
-                  <button class="change mt-2 ml-5">비밀번호 변경</button>
-                </b-col>
-              </b-row>
+              <b-col md="4" class="colboard">현재비밀번호</b-col>
+              <b-col cols="7">
+                <b-form-input v-model="pwnow" placeholder="현재비밀번호를 입력해주세요"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">새 비밀번호</b-col>
+              <b-col cols="7">
+                <b-form-input v-model="pwwill1" placeholder="새 비밀번호를 입력해주세요"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">
+                <div>새 비밀번호</div>
+                <div>다시입력</div>
+              </b-col>
+              <b-col cols="7">
+                <b-form-input v-model="pwwill2" placeholder="새 비밀번호를 다시 입력해주세요"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col></b-col>
+              <b-col>
+                <button class="change mt-2 ml-5">비밀번호 변경</button>
+              </b-col>
+            </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경"></b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
-                <b-col>
-                  <p>회원탈퇴 시 가입시의 정보는 모두 삭제됩니다.</p>
-                  <p>작성한 게시글과 덧글등은 삭제되지 않습니다.</p>
+              <b-col>
+                <p>회원탈퇴 시 가입시의 정보는 모두 삭제됩니다.</p>
+                <p>작성한 게시글과 덧글등은 삭제되지 않습니다.</p>
 
-                  <div>
-                    <b-input-group prepend="비밀번호">
-                      <b-form-input placeholder="비밀번호를 입력하세요."></b-form-input>
-                      <b-input-group-append>
-                        <b-button variant="info">회원탈퇴</b-button>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </div>
-                </b-col>
-              </b-row>
+                <div>
+                  <b-input-group>
+                    <b-form-input
+                      v-model="withdraw.password"
+                      placeholder="비밀번호를 입력하세요."
+                      :disabled="$wait.is('withdrawloading')"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-button
+                        variant="danger"
+                        @click="withdrawUser()"
+                        :disabled="$wait.is('withdrawloading')"
+                      >
+                        <v-wait for="withdrawloading">
+                          <template slot="waiting">
+                            <div class="d-flex justify-content-center">
+                              <b-spinner label="Loading..." small></b-spinner>
+                            </div>
+                          </template>
+                          회원탈퇴
+                        </v-wait>
+                      </b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+              </b-col>
+            </b-row>
           </b-tab>
         </b-tabs>
       </b-row>
@@ -160,14 +177,26 @@
         </b-col>
       </b-row>
     </b-container>-->
+    <loading v-wait:visible="'withdrawloading'"></loading>
+    <b-modal id="infomodal" :title="infobox.title" ok-only>{{ infobox.content }}</b-modal>
+   
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
 import * as session from "../utils/loginService";
+import Loading from "../components/Loading.vue";
 export default {
   data: function() {
     return {
+      withdraw: {
+        password: ""
+      },
+      infobox: {
+          title:"",
+          content:""
+      },
+
       user_id: "",
       user_nickname: "",
       pwnow: "",
@@ -184,7 +213,8 @@ export default {
     };
   },
   components: {
-    "h-nav": NavbarVue
+    "h-nav": NavbarVue,
+    loading: Loading
   },
   mounted: function() {
     console.log(session.getRefreshToken());
@@ -197,15 +227,29 @@ export default {
     }
   },
   methods: {
-    signdel() {
-      alert("탈퇴될 예정");
+    withdrawUser() {
+      this.$wait.start("withdrawloading");
+      session
+        .del(session.apiurl + "login", { password: this.withdraw.password })
+        .then(response => {
+          alert("회원탈퇴 되었습니다.");
+          this.$wait.end("withdrawloading");
+        })
+        .catch(error => {
+          if (error.response) {
+              this.infobox.title = "회원 탈퇴 실패";
+              this.infobox.content = "비밀번호가 일치하지 않습니다.";
+              this.$bvModal.show("infomodal");
+          }
+          this.$wait.end("withdrawloading");
+        });
     }
   }
 };
 </script>
 <style scoped>
 .nav-link.active {
-    background-color: black;
+  background-color: black;
 }
 
 /* .menubtn {

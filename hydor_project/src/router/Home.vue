@@ -43,20 +43,21 @@
         
       </b-row>
       
-      <b-row>
+       <b-row>
         <b-col>
-          <div style="font-weight:bold; color:green;">8월의 방문(30% 달성)</div>
-          <div class="progress">
-        <div  class="progress-bar bg-success" role="progressbar"  style="width:30%" aria-valuemin="0" aria-valuemax="8"></div>
-      </div>
+          <div style="font-weight:bold; color:green;" class="mt-1 mb-1">8월의 방문(30% 달성)</div>
+          <div class="progress-outer">      
+          <b-progress :value="value" :max="max" variant="success" :striped="striped" show-progress></b-progress>  
+            </div>
+      
         </b-col>
       </b-row>
         <b-row>
         <b-col>
-          <div style="font-weight:bold; color:#FFD400">8월의 전화(25% 달성)</div>
-          <div class="progress">
-        <div  class="progress-bar  bg-warning" role="progressbar" style="width: 25% " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
+          <div style="font-weight:bold; color:#FFD400" class="mb-1">8월의 전화(25% 달성)</div>
+          <div class="progress-outer">      
+          <b-progress :value="value" :max="max" variant="warning" :striped="striped" show-progress></b-progress>  
+            </div>
       </b-col>
       </b-row>
 
@@ -79,7 +80,10 @@ export default {
         content: '<i class="v-icon material-icons">local_hospital</i>',
         class: "health"
       }
-    ]
+    ],
+    value:4,
+    max: 10,
+    striped:true
   }),
   computed: {
     nick() {
@@ -125,19 +129,38 @@ export default {
   height: 30em;
 }
 .btn-color{
-  color: #026CAD;
+  color: #5f90df;
   background-color: rgba(0,0,0,0);
-  border: 1.5px solid #99C9EC;
+  border: 1.5px solid #5f90df;
+  font-size:13.5px;
   float: right;
   
 }
 .col-color{
-  background-color: #EDF2F9;
-  border :2px solid #F9FBFE;
+  background-color: white;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 }
 .btn-color:hover{
-  border: 1.5px solid #99C9EC;
+  
   color: white;
-  background-color: #99C9EC;
+  background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );
+}
+.progress-outer{
+    background: #fff;
+    padding: 5px 60px 5px 5px;
+    border: 5px solid #bebfbf;
+    border-radius: 45px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.progress{
+    background: white;
+    border-radius: 20px;
+    margin: 0;
+}
+.progress .progress-bar{
+    border-radius: 20px;
+    box-shadow: none;
+    
 }
 </style>

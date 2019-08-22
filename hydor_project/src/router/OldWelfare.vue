@@ -58,11 +58,9 @@
 import x2j from "xml-js";
 import axios from 'axios';
 import InfiniteLoading from 'vue-infinite-loading';
-import VueFuse from 'vue-fuse';
 export default {
     components:{
-        InfiniteLoading,
-        VueFuse
+        InfiniteLoading
     },
     computed: {
         filteredList() {
