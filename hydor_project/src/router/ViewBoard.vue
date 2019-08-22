@@ -241,7 +241,9 @@ export default {
             })
             .catch((e)=>{
                 if(e.response.status==403){
-                    alert('권한이 없습니다');
+                    this.infobox.title="알림";
+                    this.infobox.content="권한이 없습니다.";
+                    this.$bvModal.show('con_modal');
                 }else {
                     // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
@@ -258,7 +260,9 @@ export default {
             .catch((e)=>{
                 this.$wait.end("withdrawloading");
                 if(e.response.status==403){
-                    alert('권한이 없습니다');
+                    this.infobox.title="알림";
+                    this.infobox.content="권한이 없습니다.";
+                    this.$bvModal.show('con_modal');
                 }
                 else {
                     // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
