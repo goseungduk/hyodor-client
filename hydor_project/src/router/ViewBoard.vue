@@ -66,8 +66,7 @@ export default {
     props: {
         con_no:'',
         no:'',
-        isUp:'',
-        isDown:'',
+        
     },
     data: function() {
         return {
@@ -76,7 +75,9 @@ export default {
                     'nickname':''
                 }
             }, //axios 응답 데이터 다 때려박아!!!
-            comment:''
+            comment:'',
+            isUp:'',
+            isDown:'',
         }
     },
     mounted: function() {
