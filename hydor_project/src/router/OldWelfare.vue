@@ -38,7 +38,7 @@
                 <h5 style="font-weight:bold">상세설명</h5>
                 <h6>{{svcInfo.svcCts}}</h6>
                 <h5 style="font-weight:bold">사이트</h5>
-                <h6>{{svcInfo.refrncSiteUrl}}</h6>
+                <a :href="svcInfo.refrncSiteUrl">{{svcInfo.refrncSiteUrl}}</a>
                 <h5 style="font-weight:bold">전화번호</h5>
                 <h6>{{svcInfo.refrncTelNo}}</h6>
                 </div>

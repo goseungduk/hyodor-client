@@ -98,31 +98,13 @@
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
-            <div class="col-6">
-            <h3>Draggable {{ draggingInfo }}</h3>
-            <draggable
-              :list="list"
-              :disabled="!enabled"
-              class="list-group"
-              ghost-class="ghost"
-              :move="checkMove"
-              @start="dragging = true"
-              @end="dragging = false"
-            >
-              <div
-                class="list-group-item"
-                v-for="element in list"
-                :key="element.name"
-              >{{ element.name }}</div>
-            </draggable>
-            </div>
+          
           </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
               <b-col>
                 <p>회원탈퇴 시 가입시의 정보는 모두 삭제됩니다.</p>
                 <p>작성한 게시글과 덧글등은 삭제되지 않습니다.</p>
-
                 <div>
                   <b-input-group>
                     <b-form-input
