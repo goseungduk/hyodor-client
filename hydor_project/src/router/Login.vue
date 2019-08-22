@@ -8,17 +8,17 @@
       <b-form @submit.prevent="inLogin" class="login-form">
         <b-form-group>
           <b-form-input name="id" placeholder="아이디" v-model="acc.id" :state="loginvalid" autofocus
-                        v-wait:disabled="'loginLoading'"></b-form-input>
+                        :disabled="$wait.is('loginLoading')"></b-form-input>
         </b-form-group>
         <b-form-group>
           <b-form-input name="pw" type="password" placeholder="비밀번호" v-model="acc.pw" :state="loginvalid"
-                        v-wait:disabled="'loginLoading'"></b-form-input>
+                        :disabled="$wait.is('loginLoading')"></b-form-input>
           <b-form-invalid-feedback :state="loginvalid" class="float-left">
             아이디 또는 비밀번호가 일치하지 않습니다.
           </b-form-invalid-feedback>
         </b-form-group>
 
-        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')">
+        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')" :disabled="$wait.is('loginLoading')">
           <v-wait for="loginLoading">
             <template slot="waiting">
               <div class="d-flex justify-content-center">
