@@ -185,7 +185,7 @@ margin-right: auto;
 color:#5153c2; 
 font-weight:bold;
 
-border-bottom:4px solid #5153c2;
+border-bottom:2px solid #5153c2;
 }
 .active{ 
 color:#5153c2; 
@@ -203,7 +203,7 @@ border-bottom: 2px solid #5153c2;
     
   }
   .menu_set a{
-    font-size: 15px;
+    font-size: 18px;
   }
   
 }
@@ -214,7 +214,7 @@ border-bottom: 2px solid #5153c2;
     
   }
   .menu_set a{
-    font-size: 15px;
+    font-size: 18px;
   }
 }
 
@@ -224,7 +224,7 @@ border-bottom: 2px solid #5153c2;
     
   }
   .menu_set a{
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 </style>

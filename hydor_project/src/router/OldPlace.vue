@@ -296,12 +296,12 @@ function displayMarker(place) {
 
 .example {
     display: table;
-    border: 2px solid #AEDCFD ;
-    width: 700px;
+    border: 2px solid #5f90df ;
+   
     margin: 0 auto;
 }
 .btn{
-  background-color: #99C9EC;
+  background-color: #5f90df;
   color : white;
   border: 2px solid #EDF2F9 ;
 
@@ -342,4 +342,32 @@ function displayMarker(place) {
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+@media (min-width: 720px) and (max-width: 990px) {
+  .map_wrap{
+      width: 500px;
+  }
+  .example{
+      width: 500px;
+  
+  }
+}
+@media (min-width: 990px) {
+    .map_wrap{
+      width: 700px;
+  }
+  .example{
+      width: 700px;
+  
+  }
+}
+
+@media (min-width: 1200px) {
+   .map_wrap{
+      width: 900px;
+  }
+  .example{
+      width: 700px;
+  
+  }
+}
 </style>
