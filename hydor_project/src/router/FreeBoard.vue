@@ -60,7 +60,7 @@ export default {
             items: [], // 게시판 post 모아두는 변수
             pageNum: 0, // 기본 pageNumber
             length: "",
-            pageNo:Number(this.$route.query.p) //p로 전달한 인자값 가져오는거 
+            pageNo:Number(this.$route.query.p) // p로 전달한 인자값 가져오는거 
             //************************************************************** */
             // 전체 post 개수 , totalcount가 아닌 count 값(현재 삭제되지않고 유지되고 있는 게시물)을 가져옴
         };
@@ -144,6 +144,7 @@ export default {
             .catch(e => {
                 
                 alert("서버오류!" + e);
+                location.href="/login";
                 this.items = [];
             });
             

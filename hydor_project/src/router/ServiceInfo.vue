@@ -5,7 +5,7 @@
       <!-- <b-nav> -->
        <b-nav class="menubar_set mt-5 justify-content-center ">
       
-        <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'active':'non_active']" >시설</b-nav-item>
+        <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'active':'non_active']" >건강검진기관</b-nav-item>
         <b-nav-item class="menu_set mb-2 " :to="{name:'oldwelfare',params:{no:2}}" :class="[isSelected(2) ? 'active':'non_active']" >노인지원정책</b-nav-item>
       </b-nav>
       

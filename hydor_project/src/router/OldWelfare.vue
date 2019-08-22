@@ -67,7 +67,8 @@ export default {
     computed: {
         filteredList() {
             return this.list.filter(item => {
-                return item.svcNm['_text'].includes(this.search)  
+                var temp={};
+                return item.svcNm['_text'].includes(this.search) || item.svcPpo['_text'].includes(this.search);
             })
         }
     },
