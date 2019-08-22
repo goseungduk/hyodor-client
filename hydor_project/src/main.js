@@ -8,6 +8,7 @@ import store from './store';
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "@fortawesome/fontawesome-free/css/all.css"
 import Slider from '@jeremyhamm/vue-slider'
 import VueWait from 'vue-wait';
 
