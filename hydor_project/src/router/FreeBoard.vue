@@ -17,13 +17,14 @@
           <b-container class="hov">
             <b-row>
               <b-col class="ml-md-auto p-2">
-                <h5 style="color:black;">{{i.title}}</h5>
+                <h4 class="h4_hov">{{i.title}}</h4>
                 <h6 style="color:grey;">{{i.content}}</h6>
                 <p v-if="i.writer==null" style="color:black;">(탈퇴한유저)</p>
                 <p v-else style="color:black;">{{i.writer.nickname}}</p>
                 <span>
-                    <img src="../assets/good.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">{{i.vote_up}}
-                    <img src="../assets/bad.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">{{i.vote_down}}
+                    <img src="../assets/good_non.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;"><span style="color:#DA0202;">{{i.vote_up}}</span>
+                    <img src="../assets/bad_non.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">
+                    <span style="color:#00A5FF;">{{i.vote_down}}</span>
                 </span>
               </b-col>
             </b-row>
@@ -304,7 +305,12 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
 }
-
+.h4_hov{
+    color:black;
+}
+.h4_hov:hover{
+    color:#5153c2;
+}
 @media (min-width: 768px) {
   .con {
     width: 750px;

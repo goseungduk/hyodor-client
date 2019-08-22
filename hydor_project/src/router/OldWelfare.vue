@@ -354,6 +354,18 @@ export default {
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+@media (max-width: 720px) {
+  .map_wrap{
+      width: 300px;
+  }
+  .example{
+      width: 300px;
+  
+  }
+  #menu_wrap{
+      width:150px;
+  }
+}
 @media (min-width: 720px) and (max-width: 990px) {
   .map_wrap{
       width: 500px;
@@ -361,6 +373,9 @@ export default {
   .example{
       width: 500px;
   
+  }
+  #menu_wrap{
+      width:150px;
   }
 }
 @media (min-width: 990px) {
