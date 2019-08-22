@@ -155,7 +155,6 @@ export default {
     },
     methods:{
         editComment() {
-            console.log(this.curEdit)
             if (this.curEdit.idx == -1) {
                 return;
             }
@@ -212,18 +211,15 @@ export default {
             if(what==true){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
                 .then((response)=>{
-                    alert("추천완료");
-                    location.reload();
+                    this.updatePostView();
                 })
             }
             else if(what==false){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
                 .then((response)=>{
-                    alert("추천완료");
-                    location.reload();
+                    this.updatePostView();
                 })
             }
-            console.log(what);
         },
         comment_alert(id){
             this.comment_num=id;
@@ -293,7 +289,6 @@ export default {
             content: this.comment
           })
           .then(response => {
-            // console.log(this.comment);
             this.$wait.end("commentwriteloading");
             this.comment = "";
             this.updatePostView();
