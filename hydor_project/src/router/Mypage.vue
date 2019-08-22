@@ -21,11 +21,53 @@
               </b-row>
               <b-row class="mt-3">
                 <b-col md="2" class="colboard">이메일</b-col>
-                <b-col>(이메일 return해줘요)</b-col>
+                <b-col>{{emailnow}}</b-col>
               </b-row>
             </b-container>
           </b-tab>
-          <b-tab title="개인정보 변경"></b-tab>
+          <b-tab title="개인정보 변경">
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">현재 닉네임</b-col>
+              <b-col cols="7">{{user_nickname}}</b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">바꿀 닉네임</b-col>
+              <b-col cols="7">
+                <b-form-input v-model="nickwill" placeholder="바꿀 닉네임을 입력해주세요"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">현재 이메일</b-col>
+              <b-col cols="7">{{this.emailnow}}</b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">바꿀 이메일</b-col>
+              <b-col cols="7">
+                <b-form-input v-model="emailwill" placeholder="바꿀 이메일을 입력해주세요"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="mt-3">
+              <b-col md="4" class="colboard">비밀번호 확인</b-col>
+              <b-col cols="7">
+                <b-form-input
+                  v-model="pwnow"
+                  placeholder="비밀번호를 입력하세요."
+                  :disabled="$wait.is('changeloading')"
+                ></b-form-input>
+              </b-col>
+            </b-row>
+            <!-- 개인정보 변경함수 -->
+            <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
+              <v-wait for="changeloading">
+                <template slot="waiting">
+                  <div class="d-flex justify-content-center">
+                    <b-spinner label="Loading..." small></b-spinner>
+                  </div>
+                </template>
+                정보변경
+              </v-wait>
+            </b-button>
+          </b-tab>
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재비밀번호</b-col>
@@ -55,7 +97,26 @@
               </b-col>
             </b-row>
           </b-tab>
-          <b-tab title="부모님정보 추가 및 변경"></b-tab>
+          <b-tab title="부모님정보 추가 및 변경">
+            <div class="col-6">
+            <h3>Draggable {{ draggingInfo }}</h3>
+            <draggable
+              :list="list"
+              :disabled="!enabled"
+              class="list-group"
+              ghost-class="ghost"
+              :move="checkMove"
+              @start="dragging = true"
+              @end="dragging = false"
+            >
+              <div
+                class="list-group-item"
+                v-for="element in list"
+                :key="element.name"
+              >{{ element.name }}</div>
+            </draggable>
+            </div>
+          </b-tab>
           <b-tab title="회원탈퇴">
             <b-row>
               <b-col>
@@ -93,32 +154,44 @@
         </b-tabs>
       </b-row>
     </b-container>-
-    
+    <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
     <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
-   
   </div>
 </template>
 <script>
 import NavbarVue from "../components/Navbar.vue";
 import * as session from "../utils/loginService";
 import Loading from "../components/Loading.vue";
+import draggable from "vuedraggable";
 export default {
   data: function() {
     return {
+      //***************************************** */
+      enabled: true,
+      list: [
+        { name: "John", id: 0 },
+        { name: "Joao", id: 1 },
+        { name: "Jean", id: 2 }
+      ],
+      dragging: false,
+      //**************************************** */
       withdraw: {
         password: ""
       },
       infobox: {
-          title:"",
-          content:""
+        title: "",
+        content: ""
       },
 
       user_id: "",
       user_nickname: "",
+      emailnow: "",
       pwnow: "",
       pwwill1: "",
       pwwill2: "",
+      nickwill: "",
+      emailwill: "",
       currentTab: 0,
       tabs: [
         "홈",
@@ -129,9 +202,15 @@ export default {
       ]
     };
   },
+  computed: {
+    draggingInfo() {
+      return this.dragging ? "under drag" : "";
+    }
+  },
   components: {
     "h-nav": NavbarVue,
-    loading: Loading
+    loading: Loading,
+    draggable
   },
   mounted: function() {
     console.log(session.getRefreshToken());
@@ -141,9 +220,15 @@ export default {
     } else {
       this.user_id = session.getUsername();
       this.user_nickname = session.getNickname();
+      session.get(session.apiurl + "login").then(response => {
+        this.emailnow = response.data.email;
+      });
     }
   },
   methods: {
+    checkMove: function(e) {
+      window.console.log("Future index: " + e.draggedContext.futureIndex);
+    },
     withdrawUser() {
       this.$wait.start("withdrawloading");
       session
@@ -154,12 +239,19 @@ export default {
         })
         .catch(error => {
           if (error.response) {
-              this.infobox.title = "회원 탈퇴 실패";
-              this.infobox.content = "비밀번호가 일치하지 않습니다.";
-              this.$bvModal.show("infomodal");
+            this.infobox.title = "회원 탈퇴 실패";
+            this.infobox.content = "비밀번호가 일치하지 않습니다.";
+            this.$bvModal.show("infomodal");
           }
           this.$wait.end("withdrawloading");
         });
+    },
+    changeInfo() {
+      this.$wait.start("changeloading");
+      this.infobox.title = "기능구현안됨";
+      this.infobox.content = "기능구현하세요";
+      this.$bvModal.show("infomodal");
+      this.$wait.end("changeloading");
     }
   }
 };

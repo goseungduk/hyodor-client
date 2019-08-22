@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="light" variant="light">
+    <b-navbar toggleable="lg" style="background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );">
       <b-navbar-brand class="hyodor" href="/home">
         <img src="../assets/logo2.png" class="hyodorlogo mr-1 align-top" />
         Hyodor
@@ -79,45 +79,56 @@ export default {
 }
 
 .navbar .navbar-nav .nav-link {
-  color: #026cad !important;
+  color: white !important;
 }
 .non_active {
-  color: #3764cc;
+  color: white;
   font-weight: bold;
+  text-align: center;
 }
-
-.hyodor:hover {
-  color: #026cad;
+.hyodor{
+  color: white;
 }
 @media (max-width: 720px) {
   .n_active {
     font-weight: bold;
-    background-color: #edf2f9;
+    background-color:  rgba( 0, 0, 0, 0.07 );
+    text-align: center;
+
   }
   .non_active:hover {
     font-weight: bold;
-    background-color: #edf2f9;
+    background-color: white;
+    background-color:  rgba( 0, 0, 0, 0.07 );
+    text-align: center;
   }
+  
+
 }
 @media (min-width: 720px) and (max-width: 990px) {
   .n_active {
     font-weight: bold;
-    background-color: #edf2f9;
+    background-color: white;
+    background-color:  rgba( 0, 0, 0, 0.07 );
+    text-align: center;
   }
   .non_active:hover {
     font-weight: bold;
-    background-color: #edf2f9;
+    background-color: white;
+    background-color:  rgba( 0, 0, 0, 0.07 );
+    text-align: center;
   }
 }
 @media (min-width: 990px) {
   .n_active {
     font-weight: bold;
     text-decoration: none;
-    border-bottom: 2px solid #026cad;
+    border-bottom: 2px solid white;
   }
   .non_active:hover {
     font-weight: bold;
-    border-bottom: 2px solid #026cad;
+    border-bottom: 2px solid white;
   }
 }
+
 </style>
