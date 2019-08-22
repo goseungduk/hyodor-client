@@ -21,13 +21,7 @@
         </b-col>
         <b-col md class="col-color mt-2">
           <div class="mt-1" style="font-size:20px; text-align:center; color:gray;">2019년 8월 14일</div>
-          <h3 class="mb-3 mt-2">8월14일의 효도 현황은 . . .</h3>
-          <div>방문횟수 : 0번 전화횟수 : 0번</div>
-          <div class="mb-2">
-            방문시간 : 0시간 전화시간 : 0시간
-            <b-button class="btn-color" size="sm">효도추가</b-button>
-            <b-button class="btn-color" size="sm">효도삭제</b-button>
-          </div>
+          
 
           <h3 class="mt-1">8월 14일의 일정은 . . .</h3>
           <div style="color:gray;">오늘은 일정이 없어요!</div>
@@ -45,35 +39,52 @@
         </b-col>
       </b-row>
 
-      <b-row>
-        <b-col>
-          <div style="font-weight:bold; color:green;" class="mt-1 mb-1">8월의 방문(30% 달성)</div>
-          <div class="progress-outer">
-            <b-progress
-              :value="value"
-              :max="max"
-              variant="success"
-              :striped="striped"
-              show-progress
-            ></b-progress>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <div style="font-weight:bold; color:#FFD400" class="mb-1">8월의 전화(25% 달성)</div>
-          <div class="progress-outer">
-            <b-progress
-              :value="value"
-              :max="max"
-              variant="warning"
-              :striped="striped"
-              show-progress
-            ></b-progress>
-          </div>
-        </b-col>
-      </b-row>
+      <b-card v-for="i in groups" :key="i.id" :title="i.name">
+        <b-card-text>
+          <b-row>
+            <b-col>
+              <div
+                style="font-weight:bold; color:#FFD400"
+                class="mb-1"
+              >{{ new Date().getMonth() + 1 }}월의 전화({{ perGroupCallProgress[i.id] }}% 달성) ({{perGroupCalledList[i.id]}}/{{i.prefer_call}})</div>
+              <div class="progress-outer">
+                <b-progress
+                  :value="perGroupCallProgress[i.id]"
+                  :max="100"
+                  variant="warning"
+                  :striped="striped"
+                  show-progress
+                ></b-progress>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div
+                style="font-weight:bold; color:green;"
+                class="mt-1 mb-1"
+              >{{ new Date().getMonth() + 1 }}월의 방문({{perGroupVisitProgress[i.id]}}% 달성) ({{perGroupVisitedList[i.id]}}/{{i.prefer_visit}})</div>
+              <div class="progress-outer">
+                <b-progress
+                  :value="perGroupVisitProgress[i.id]"
+                  :max="100"
+                  variant="success"
+                  :striped="striped"
+                  show-progress
+                ></b-progress>
+              </div>
+            </b-col>
+          </b-row>
+        </b-card-text>
+        <b-card-text class="text-right">
+          오늘 나는
+          <b-button variant="light" size="sm" @click="makeCall(i.id)">전화</b-button>/
+          <b-button variant="light" size="sm" @click="makeVisit(i.id)">방문</b-button>하였습니다.
+        </b-card-text>
+      </b-card>
     </b-container>
+
+    <b-modal id="modal-addtype" size="lg" title="First Modal" ok-only no-stacking></b-modal>
   </div>
 </template>
 <script>
@@ -84,11 +95,19 @@ import "vue-cal/dist/i18n/ko.js";
 import * as session from "../utils/loginService";
 export default {
   components: {
-      "h-nav": NavbarVue,
-      "vue-cal": VueCal
-    },
+    "h-nav": NavbarVue,
+    "vue-cal": VueCal
+  },
   data: () => ({
-    
+    groups: [],
+
+    const: {
+      call: 10,
+      visit: 11
+    },
+
+    schedules: [],
+
     events: [
       {
         start: "2019-08-19 10:35",
@@ -102,7 +121,113 @@ export default {
     max: 10,
     striped: true
   }),
+  methods: {
+    updateGroupList() {
+      session.get(session.apiurl + "parentgroup").then(response => {
+        this.groups = response.data.groups;
+      });
+    },
+    updateSchedules() {
+      session.get(session.apiurl + "schedule").then(response => {
+        this.schedules = response.data.schedules;
+      });
+    },
+    makeCall(group_id) {
+      session.post(session.apiurl + "schedule", {
+        type: this.const.call,
+        content: JSON.stringify({ group: group_id }),
+        datetime: new Date().toISOString().slice(0,10)
+      })
+      .then(response => {
+        alert("success");
+      })
+    },
+    makeVisit(group_id) {
+      session.post(session.apiurl + "schedule", {
+        type: this.const.visit,
+        content: JSON.stringify({ group: group_id }),
+        datetime: new Date().toISOString().slice(0,10)
+      })
+      .then(response => {
+        alert("success");
+      })
+    }
+  },
   computed: {
+    calledList() {
+      return this.schedules.filter(sch => {
+        return sch.type == this.const.call;
+      });
+    },
+    visitedList() {
+      return this.schedules.filter(sch => {
+        return sch.type == this.const.visit;
+      });
+    },
+    perGroupCalledList() {
+      let output = {};
+      this.groups.forEach(i => {
+        output[i.id] = 0
+      });
+      this.calledList.forEach(sch => {
+        try {
+          output[JSON.parse(sch.content).group] += 1;
+        } catch (error) {
+          
+        }
+        
+      });
+      return output;
+    },
+    perGroupVisitedList() {
+      let output = {};
+      this.groups.forEach(i => {
+        output[i.id] = 0
+      });
+      this.visitedList.forEach(sch => {
+        try {
+          output[JSON.parse(sch.content).group] += 1;
+        } catch (error) {
+          
+        }
+        
+      });
+      return output;
+    },
+    perGroupCallProgress() {
+      let output = {};
+      this.groups.forEach(i => {
+        let val = this.perGroupCalledList[i.id] / i.prefer_call;
+        if (!val) {
+          output[i.id] = 0
+        }
+        else {
+          try{
+            output[i.id] = Math.min(val,1) * 100
+          }
+          catch (error) {
+          }
+        }
+      });
+      return output;
+    },
+    perGroupVisitProgress() {
+      let output = {};
+      this.groups.forEach(i => {
+        let val = this.perGroupVisitedList[i.id] / i.prefer_call;
+        if (!val) {
+          output[i.id] = 0
+        }
+        else {
+          try{
+            output[i.id] = Math.min(val,1) * 100
+          }
+          catch (error) {
+          }
+        }
+      });
+      return output;
+    },
     nick() {
       return localStorage.username;
     },
@@ -121,6 +246,9 @@ export default {
   },
 
   mounted: function() {
+    this.updateGroupList();
+    this.updateSchedules();
+
     session
       .loginRefresh()
       .then(response => {
