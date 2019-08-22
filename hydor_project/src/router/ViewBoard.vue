@@ -39,7 +39,7 @@
                 </b-card-text>
                 <b-card-text>
                     <b-button class="delete" @click="con_alert()">삭제</b-button>
-                    <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
+                    <b-button class="edit" @click="change(items.title,items.content)">수정</b-button> 
                 </b-card-text>
                 </div>
             </b-card>
@@ -58,7 +58,7 @@
                     <ul class="status commentvotestatus">
                         <li class="vote" style="display: list-item;">
                             <b-button class="delete" size="sm" @click="comment_alert(i.id)">삭제</b-button>
-                            <b-button class="delete" size="sm">수정</b-button> 
+                            <b-button class="edit" size="sm">수정</b-button> 
                         <br></li>
                     </ul>
                 </article>
@@ -75,12 +75,12 @@
           ></b-form-input>
           <b-input-group-append>
             <b-button class="btn-img" type="submit" :disabled="$wait.is('commentloading')">
-              <!-- <img class="img" src="../assets/write.png"> -->
+              <img class="img" src="../assets/write.png">
               <v-wait for="commentwriteloading">
                 <template slot="waiting">
                   <b-spinner variant="dark" label="Spinning" small></b-spinner>
                 </template>
-                <i class="fas fa-pen"></i>
+               
               </v-wait>
             </b-button>
           </b-input-group-append>
@@ -324,7 +324,7 @@ element.style {
 }
 .btn-img{
     border: none;
-    background-color: #58b4fb;
+    background-color: #5f90df;
 }
 .delete{
   border: 1px solid red;
@@ -336,6 +336,18 @@ element.style {
   background-color: #DA0202;
   border: 1px solid #DA0202;
   color: white;
+}
+.edit{
+  border: 1px solid #017F0C;
+  color : #017F0C ;
+  background-color: rgba(0,0,0,0);
+  float:right;
+}
+.edit:hover{
+    background-color: #00970D ;
+  border: 1px solid #00970D;
+  color: white;
+
 }
 h4{
     color: rgb(71, 70, 70);

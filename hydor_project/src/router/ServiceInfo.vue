@@ -4,8 +4,8 @@
     <div>
        <b-nav class="menubar_set mt-5 justify-content-center ">
       
-        <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'active':'non_active']" >건강검진기관</b-nav-item>
-        <b-nav-item class="menu_set mb-2 " :to="{name:'oldwelfare',params:{no:2}}" :class="[isSelected(2) ? 'active':'non_active']" >노인지원정책</b-nav-item>
+        <b-nav-item class="menu_set mb-2 " :to="{name:'oldplace',params:{no:1}}" :class="[isSelected(1) ? 'm_active':'non_active']" >건강검진기관</b-nav-item>
+        <b-nav-item class="menu_set mb-2 " :to="{name:'oldwelfare',params:{no:2}}" :class="[isSelected(2) ? 'm_active':'non_active']" >노인지원정책</b-nav-item>
       </b-nav>
     </div>
     <b-container>
@@ -168,11 +168,12 @@ function displayMarker(place) {
 }
 .menubar_set{  
 list-style-type:none; 
-
 padding-right: 20px;
 padding-left: 15px;
 margin-left: auto;
 margin-right: auto;
+
+
 }
 .menu_set{float: left;}
 .menu_set a{
@@ -181,17 +182,16 @@ margin-right: auto;
  text-decoration:none;
  
  }
-.menu_set :hover{ 
-color:#5153c2; 
+.menu_set a:hover{ 
+color:#5f90df; 
 font-weight:bold;
 
-border-bottom:2px solid #5153c2;
 }
-.active{ 
+.m_active{ 
 color:#5153c2; 
 font-weight:bold;
 
-border-bottom: 2px solid #5153c2;
+border-bottom: 3px solid #5153c2;
 }
 .non_active{
   display: block; color: navy; text-align:center;
