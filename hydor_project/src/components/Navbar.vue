@@ -77,11 +77,7 @@ export default {
 .n_active {
   float: left;
 }
-.n_active {
-  font-weight: bold;
-  text-decoration: none;
-  border-bottom: 2px solid #026cad;
-}
+
 .navbar .navbar-nav .nav-link {
   color: #026cad !important;
 }
@@ -89,10 +85,7 @@ export default {
   color: #3764cc;
   font-weight: bold;
 }
-.non_active:hover {
-  font-weight: bold;
-  border-bottom: 2px solid #026cad;
-}
+
 .hyodor:hover {
   color: #026cad;
 }
