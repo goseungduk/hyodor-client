@@ -56,8 +56,9 @@
                 ></b-form-input>
               </b-col>
             </b-row>
-             개인정보 변경함수 -->
-            <!-- <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
+            <b-row>
+            <b-col md="12" >
+            <b-button class="delete mr-5 mt-1" @click="changeInfo()" :disabled="$wait.is('changeloading')">
               <v-wait for="changeloading">
                 <template slot="waiting">
                   <div class="d-flex justify-content-center">
@@ -67,6 +68,8 @@
                 정보변경
               </v-wait>
             </b-button>
+            </b-col>
+            </b-row>
           </b-tab> -->
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
@@ -93,23 +96,24 @@
             <b-row>
               <b-col></b-col>
               <b-col>
-                <button class="change mt-2 ml-5">비밀번호 변경</button>
+                <button class="delete mt-2 mr-5">비밀번호 변경</button>
               </b-col>
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
             <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
-            <b-button id="show-btn" @click="show()">+</b-button>
+            <b-button size="sm" class="show-btn" @click="show()">+</b-button>
+            <b-button size="sm" class="show-btn" @click="showModal2()">그룹 추가</b-button>
             <div v-if="isShow==true" class="d-block text-left">
-              <h5 style="font-weight:bold">성함</h5>
+              <h5 style="font-weight:bold; color:gray;">성함</h5>
               <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
-              <h5 style="font-weight:bold">성별</h5>
+              <h5 style="font-weight:bold; color:gray;">성별</h5>
               <b-form-select v-model="parentSex" class="mb-3">
                 <option :value="null">부모님 성별을 선택해주세요</option>
                 <option value="남">남</option>
                 <option value="여">여</option>
               </b-form-select>
-              <h5 style="font-weight:bold">관계</h5>
+              <h5 style="font-weight:bold; color:gray;">관계</h5>
               <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
 
               <datalist id="my-list-id">
@@ -117,20 +121,23 @@
                 <option v-for="size in sizes" :key="size">{{ size }}</option>
                 <!-- 오류 신경쓰지마세요 -->
               </datalist>
-              <h5 style="font-weight:bold">생년월일</h5>
+              <h5 style="font-weight:bold; color:gray;">생년월일</h5>
               <VueCtkDateTimePicker v-model="date" />
-              <b-button @click="submitParent()">전송</b-button>
+              <b-button class="show-btn mt-1" style="float:right;" @click="submitParent()">전송</b-button>
+              
             </div>
             <div>
-              <p>아무그룹없음</p>
+              <p>[아무그룹없음]</p>
             <div v-for="(t,$index) in parentRes.parentList" :key="t.id">
               <b-card v-if="t.group_id==null"
                 :title="t.name"
                 :sub-title="t.relation"
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
-                <b-text>{{t.birthday}}</b-text>
-                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <b-text>{{t.birthday.slice(0,10)}}</b-text>
+                <b-button size="sm" class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
+                <b-button size="sm" class="addgroup" @click="showModal(t.id)">그룹에 추가</b-button>
+                <b-button size="sm" class="show-btn" @click="delpa(t.id)">X</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -157,15 +164,17 @@
             </div>
             </div>
             <div v-for="k in parentRes.parentGroup" :key="k.id">
-            <p>그룹이름 {{k.name}}</p>
+            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="show-btn" @click="delgroup(k.id)">X</b-button></p>
             <div v-for="(i, $index) in parentRes.parentList" :key="$index">
               <b-card v-if="i.group_id==k.id"
                 :title="i.name"
                 :sub-title="i.relation"
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
-                <b-text>{{i.birthday}}</b-text>
-                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <b-text>{{i.birthday.slice(0,10)}}</b-text>
+                <b-button class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
+                <b-button class="addgroup" @click="showModal(i.id)">그룹에 추가</b-button>
+                <b-button size="sm" class="show-btn" @click="delpa(i.id)">X</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -206,7 +215,7 @@
                     ></b-form-input>
                     <b-input-group-append>
                       <b-button
-                        variant="danger"
+                        style="background-color:#da0202; color:white; border:none;"
                         @click="withdrawUser()"
                         :disabled="$wait.is('withdrawloading')"
                       >
@@ -230,8 +239,15 @@
     </b-container>
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
-    <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
-    <b-modal ref="my-modal" id="bv-modal-example"></b-modal>
+    <b-modal id="my-modal" ref="my-modal" :title="'그룹에 추가'" @ok="ingroup(selected)" ok-only>
+      <h6>어느 그룹에 추가하시겠습니까?</h6>
+      <b-form-select v-model="selected" :options="sub_selected"></b-form-select>
+    </b-modal>
+    <b-modal id="my-modal2" ref="my-modal2" :title="'그룹 추가'" @ok="insertgroup(groupname)" ok-only>
+      <h6>그룹이름을 무엇으로 하시겠습니까?</h6>
+      <b-form-input v-model="groupname" placeholder="그룹 이름을 입력하시오"></b-form-input>
+    </b-modal>
+    <!-- <b-modal ref="my-modal" id="bv-modal-example">asdf</b-modal> -->
   </div>
 </template>
 <script>
@@ -244,6 +260,10 @@ import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 export default {
   data: function() {
     return {
+      groupname:'',
+      tempid:'',
+      sub_selected:[],
+      selected:null,
       parentRes:{
         parentGroup:[],
         parentList:[]
@@ -258,7 +278,7 @@ export default {
       parentName: "",
       parentSex: null,
       parentRelation: "",
-      sizes: ["부", "모", "조부", "조모"],
+      sizes: ["아버지", "어머니", "할아버지", "할머니"],
       withdraw: {
         password: ""
       },
@@ -314,6 +334,56 @@ export default {
     }
   },
   methods: {
+    delpa(pid){
+      session.del(session.apiurl+"parent/"+pid)
+      .then((response)=>{
+        session.get(session.apiurl + "parent").then(response => {
+          this.parentRes.parentList = response.data.parents;
+          console.log(this.parentRes.parentList);
+        });
+      })
+    },
+    delgroup(gid){
+      session.del(session.apiurl+"parentgroup/"+gid)
+      .then((response)=>{
+        session.get(session.apiurl+"parentgroup")
+        .then((response)=>{
+          this.parentRes.parentGroup=response.data.groups;
+          console.log(this.parentRes.parentGroup);
+        })
+      })
+    },
+    showModal2(){
+      this.$refs["my-modal2"].show();
+    },
+    insertgroup(name){
+      session.post(session.apiurl+"parentgroup",{
+        name:name
+      })
+      .then((response)=>{
+        session.get(session.apiurl + "parent").then(response => {
+          this.parentRes.parentList = response.data.parents;
+          console.log(this.parentRes.parentList);
+        });
+        session.get(session.apiurl+"parentgroup")
+        .then((response)=>{
+          this.parentRes.parentGroup=response.data.groups;
+          console.log(this.parentRes.parentGroup);
+        })
+      })
+    },
+    ingroup(parentno){
+      console.log(parentno);
+      session.put(session.apiurl+"parent/"+this.tempid,{
+        target_group_id:parentno
+      })
+      .then((response)=>{
+        session.get(session.apiurl + "parent").then(response => {
+          this.parentRes.parentList = response.data.parents;
+          console.log(this.parentRes.parentList);
+        });
+      })
+    },
     ccuredit(num){
       if(this.curedit!=num)
         this.curedit=num;
@@ -367,7 +437,14 @@ export default {
       this.date = val;
       console.log(val);
     },
-    showModal() {
+    showModal(idd) {
+      this.sub_selected=[];
+      this.sub_selected.push({value:null,text:'모아놓고 싶은 그룹을 선택하세요'})
+      this.tempid=idd;
+      for(var i=0;i<this.parentRes.parentGroup.length;i++){
+        this.sub_selected.push({value:this.parentRes.parentGroup[i].id,text:this.parentRes.parentGroup[i].name+" 그룹"})
+      }
+      console.log(this.sub_selected);
       this.$refs["my-modal"].show();
     },
     checkMove: function(e) {
@@ -429,6 +506,7 @@ export default {
   color: #2b75ad;
   background-color: #edf6f7;
 }
+*/
 .change {
   border: 1.4px solid #58b4fb;
   color: #2b75ad;
@@ -444,8 +522,9 @@ export default {
   font-weight: bold;
   color: gray;
 }
+
 .delete {
-  border: 1px solid red;
+  border: 1.5px solid red;
   color: red;
   background-color: rgba(0, 0, 0, 0);
   float: right;
@@ -454,7 +533,41 @@ export default {
 }
 .delete:hover {
   background-color: #da0202;
-  border: 1px solid #da0202;
+  border: 1.5px solid #da0202;
   color: white;
-} */
+}
+.show-btn{
+    background-color:rgba(0, 0, 0, 0);
+    border:1.5px solid #5f90df;
+    color:#5f90df;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+} 
+.show-btn:hover{
+    background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );
+    border:1.5px solid #5f90df;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    color:white;
+} 
+.edit{
+  border: 1.5px solid #017F0C;
+  color : #017F0C ;
+  background-color: rgba(0,0,0,0);
+ 
+}
+.edit:hover{
+    background-color: #00970D ;
+  border: 1.5px solid #00970D;
+  color: white;
+
+}
+.addgroup{
+    border: 1.5px solid #00B6BC;
+  color : #00B6BC ;
+  background-color: rgba(0,0,0,0);
+}
+.addgroup:hover{
+   background-color: #00B6BC ;
+  border: 1.5px solid #00B6BC;
+  color: white;
+}
 </style>

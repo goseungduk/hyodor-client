@@ -40,8 +40,6 @@ export default {
             this.conno=this.con_no;
 
         }
-        console.log(this.tit);
-        console.log(this.con);
     },
     methods: {
         update(){
@@ -63,12 +61,11 @@ export default {
                         this.items = [];
                         location.href = "/login";
                     } else {
-                        alert("서버오류!");
+                        // alert("서버오류!");
                     }
                 })
         }
     }
-    // computed:mapState(['no'])
 };
 </script>
 <style scoped>

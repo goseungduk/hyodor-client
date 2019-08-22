@@ -12,7 +12,6 @@
             </div>
         </div>
         <br />
-        <!-- <vue-fuse :keys="['svcPpo']" :list="list" :defaultAll="false"></vue-fuse> -->
         <div v-for="(i, $index) in filteredList" :key="$index">
             <b-card :title="i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')" :sub-title="i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
                 <b-text>
@@ -85,8 +84,6 @@ export default {
             selected: null,
             main_options: [
                 { value: null, text: '서울특별시' },
-                // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
-                // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
             sub_selected:  { cd: 3000000, name: '종로구' },
             sub_options: [
@@ -102,7 +99,6 @@ export default {
                 { value: { cd: 3100000, name: '노원구' }, text: '노원구' },
                 { value: { cd: 3090000, name: '도봉구' }, text: '도봉구' },
                 { value: { cd: 3050000, name: '동대문구' }, text: '동대문구' },
-                // {value:{cd:,name:''},text:''},
             ],
             sub_options2:[],
             sub_options3:[]
@@ -126,16 +122,11 @@ export default {
                 var res=result.result;
                 // console.log(res.orgs.org);
                 li=res.orgs.org;
-                // console.log(li);
-                // console.log(li[1]);
                 for(var i=0;i<25;i++){
                     this.sub_options2[i]=li[i];
                 }
                 console.log(this.sub_options2)
                 for(var i=0;i<25;i++){
-                    // this.sub_options3[i].value.cd=this.sub_options2[i].orgCode['_text'];
-                    // this.sub_options3[i].value.name=this.sub_options2[i].orgName['_text'];
-                    // this.sub_options3[i].text=this.sub_options2[i].orgName['_text'];
                     this.sub_options3.push({value:{cd:this.sub_options2[i].orgCode['_text'],name:this.sub_options2[i].orgName['_text']},text:this.sub_options2[i].orgName['_text']});
                 }
                 console.log(this.sub_options3);
@@ -192,7 +183,6 @@ export default {
                 url:"https://hyodor.azurewebsites.net/apicache/svc/list",
                 // url:'api/svc/list',
                 params:{
-                    // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
                     serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     format:"xml",
                     srhQuery:"노인",
@@ -203,8 +193,6 @@ export default {
             })
             .then((response)=>{
                 var result=x2j.xml2js(response.data,{compact:true});
-                // console.log(result.result.svcList.svc['0']);
-                // console.log(result.result);
                 console.log(Number(result.result.pageSize['_text']));
                 if(result.result.svcList.svc.length){
                     this.pageNo+=1;
@@ -222,8 +210,6 @@ export default {
             this.pageNo=1;
             this.list=[];
             this.state.reset();
-            // this.infiniteHandler(this.state);
-            // this.$refs.InfiniteLoading.stateChanger.reset(); 
             axios({
                 method:"GET",
                 url:"https://hyodor.azurewebsites.net/apicache/svc/list",

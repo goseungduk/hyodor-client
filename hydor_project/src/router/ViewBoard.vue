@@ -191,33 +191,34 @@ export default {
         })
         .catch(e => {
           if (e.response.status == 401) {
-            alert("다시 로그인 해주세요!!");
+            // alert("다시 로그인 해주세요!!");
             this.items = [];
             location.href = "/login";
           } else if (e.response.status == 404) {
             alert("존재하지않는 글입니다");
             history.back();
           } else {
-            alert("서버오류!");
+            // alert("서버오류!");
             history.back();
           }
           this.$wait.end("contentloading");
         });
     },
-        a(){
-            alert('추천완료');
-        },
         goodbad(what){
             if(what==true){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
                 .then((response)=>{
                     this.updatePostView();
+
                 })
             }
             else if(what==false){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
                 .then((response)=>{
+
+
                     this.updatePostView();
+
                 })
             }
         },
@@ -242,7 +243,7 @@ export default {
                 if(e.response.status==403){
                     alert('권한이 없습니다');
                 }else {
-                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                    // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
             })
         },
@@ -260,7 +261,7 @@ export default {
                     alert('권한이 없습니다');
                 }
                 else {
-                    alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
+                    // alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
             })
         },
@@ -303,7 +304,7 @@ export default {
               alert("존재하지않는 글입니다.");
               history.back();
             } else {
-              alert("서버오류!");
+            //   alert("서버오류!");
             }
           });
             }
