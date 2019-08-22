@@ -8,6 +8,7 @@ import store from './store';
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "@fortawesome/fontawesome-free/css/all.css"
 import Slider from '@jeremyhamm/vue-slider'
 import VueWait from 'vue-wait';
 
@@ -23,6 +24,7 @@ import ServiceInfo from './router/ServiceInfo';
 import OldWelfare from './router/OldWelfare';
 import OldPlace from './router/OldPlace';
 import MyPage from './router/Mypage.vue';
+import NotFound from './router/NotFound';
 import Constant from './Constant';
 
 import * as session from './utils/loginService'
@@ -68,12 +70,12 @@ const router = new VueRouter({
         {
             path: '/boardlist',
             name: 'boardlist',
-            redirect: '/boardlist/freeboard/1/1',
+            redirect: '/boardlist/freeboard/1',
             component: BoardList,
             props: true,
             children: [{
                 // path: 'freeboard/:no',
-                path: 'freeboard/:no/:pageNo',
+                path: 'freeboard/:no',
                 name: 'free',
                 component: FreeBoard,
                 props: true
@@ -120,7 +122,8 @@ const router = new VueRouter({
                 component: OldPlace,
                 props: true
             }]
-        }
+        },
+        { path: '*', component: NotFound }
     ]
 })
 new Vue({
