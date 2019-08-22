@@ -2,16 +2,22 @@
     <div class="con mt-2" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 20px;margin-bottom: 30px;">
         <div>
             <b-card :title="items.title" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);padding: 40px;margin-bottom: 40px;">
+                <span style="float:right;color:#BF1B0C;">
+                    <img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();">{{items.vote_up}}
+                    <img class="mb-2" src="../assets/bad.png" width="18px" height="18px" style="margin-right:5px;" @click="a();">{{items.vote_down}}
+                </span>
                 <b-card-text>
                     <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
                     <p v-else style="font-weight:bold;font-size:16px"><img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{items.writer.nickname}}</p>
+                    
                 </b-card-text>
                 <b-card-text>
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
                 <!-- 삭제버튼 꾸며주세용 -->
-                <b-card-text> 
+                <b-card-text>
                     <b-button class="delete" @click="con_del()">삭제</b-button>
+                    <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
                 </b-card-text>
             </b-card>
             
@@ -22,12 +28,17 @@
                 <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
                 <article v-for="i in items.comments" :key="i.id" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;">
                     <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
-                    <div v-else class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}<span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span></div>
+                    <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
+                        <img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}
+                        <span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span>
+                    </div>
                     <p style="font-size:16px;padding:5px;">{{i.content}}</p>
                     
                     <ul class="status commentvotestatus">
                          <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
-                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
+                        <li class="vote" style="display: list-item;">
+                            <b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
+                            <b-button class="delete" size="sm" @click="b()">수정</b-button> 
                         <br></li>
                     </ul>
                 </article>
@@ -108,7 +119,7 @@ export default {
             session.del(session.apiurl+"board/post/"+this.con_no)
             .then((response)=>{
                 alert("삭제되었습니다!!");
-                location.href="/boardlist/freeboard/"+this.no;
+                location.href="/boardlist/freeboard/"+this.no+"/1";
             })
             .catch((e)=>{
                 if(e.response.status==403){
@@ -118,6 +129,12 @@ export default {
                     alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
             })
+        },
+        change(tit,con) {           
+            this.$router.push({
+                name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
+            })
+
         },
         commenting(){
             console.log(this.comment);
