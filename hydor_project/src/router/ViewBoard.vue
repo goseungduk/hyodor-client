@@ -48,17 +48,31 @@
         
         <div>
             <div class="comments" style="display: block;">
-                <article v-for="i in items.comments" :key="i.id" v-wait:hidden="'contentloading'" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;">
+                <article v-for="i in orderedComment" :key="i.id" v-wait:hidden="'contentloading'" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;">
                     <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
                     <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
                         <img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}
                     </div>
-                    <p style="font-size:16px;padding:5px;">{{i.content}}</p>
+                    <p style="font-size:16px;padding:5px;">
+                        <span v-if="curEdit.idx!=i.id">{{i.content}}</span>
+                        <b-form @submit.prevent="editComment()" v-if="curEdit.idx==i.id">
+                            <b-input-group>
+                                <b-form-input v-model="curEdit.content">
+                                </b-form-input>
+                                <b-input-group-append>
+                                    <b-button type="submit" variant="info">수정</b-button>
+                                    <b-button @click="curEdit.idx=-1" variant="light">취소</b-button>
+                                </b-input-group-append>
+                            </b-input-group>
+                            
+                            
+                        </b-form>
+                    </p>
                     
-                    <ul class="status commentvotestatus">
+                    <ul class="status commentvotestatus" v-if="curEdit.idx!=i.id">
                         <li class="vote" style="display: list-item;">
                             <b-button class="delete" size="sm" @click="comment_alert(i.id)">삭제</b-button>
-                            <b-button class="edit" size="sm">수정</b-button> 
+                            <b-button class="edit" size="sm" @click="curEdit.idx=i.id;curEdit.content=i.content">수정</b-button> 
                         <br></li>
                     </ul>
                 </article>
@@ -89,7 +103,7 @@
         <loading v-wait:visible="'withdrawloading'"></loading>
         <b-modal id="con_modal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
         <b-modal id="comment_modal" :title="infobox.title" @ok="comment_del()">{{ infobox.content }}</b-modal>
-        <b-modal id="back_modal" :title="infobox.title">{{ infobox.content }}</b-modal>
+        <b-modal id="back_modal" :title="infobox.title" ok-only>{{ infobox.content }}</b-modal>
 
     </div>
 </template>
@@ -122,14 +136,43 @@ export default {
                 title:"",
                 content:""
             },
+            curEdit: {
+                idx: -1,
+                content: "",
+            }
         }
     },
     mounted: function() {
         this.updatePostView();
     },
+    computed: {
+        orderedComment: function () {
+            if (!this.items.comments) {
+                return []
+            }
+            return this.items.comments.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+        }
+    },
     methods:{
+        editComment() {
+            if (this.curEdit.idx == -1) {
+                return;
+            }
+
+            session.patch(session.apiurl + "board/comment/" + this.curEdit.idx, {"content":this.curEdit.content})
+            .then(response => {
+                this.updatePostView();
+            })
+            .catch(error => {
+                this.infobox.title="알림";
+                this.infobox.content="덧글 수정 실패";
+                this.$bvModal.show('back_modal');
+            })
+
+        },
         updatePostView() {
       this.$wait.start("contentloading");
+      this.curEdit.idx = -1;
       session
         .get(session.apiurl + "board/post/" + this.con_no)
         .then(response => {
@@ -165,15 +208,17 @@ export default {
             if(what==true){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
                 .then((response)=>{
-                    // alert("추천완료");
-                    location.reload();
+                    this.updatePostView();
+
                 })
             }
             else if(what==false){
                 session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
                 .then((response)=>{
-                    // alert("추천완료");
-                    location.reload();
+
+
+                    this.updatePostView();
+
                 })
             }
         },
@@ -245,7 +290,6 @@ export default {
             content: this.comment
           })
           .then(response => {
-            // console.log(this.comment);
             this.$wait.end("commentwriteloading");
             this.comment = "";
             this.updatePostView();
