@@ -4,6 +4,9 @@
         <b-form-textarea class="mt-2" :value="content" id="textarea"  v-model="content" rows="8" max-rows="8"></b-form-textarea>
         <b-button v-if="tit==''" class="mt-1 button"  @click="submit()">작성하기</b-button>
         <b-button v-else class="mt-1 button"  @click="update()">수정하기</b-button>
+    
+        <!-- <b-modal id="infomodal" :title="infobox.title" ok-only>{{ infobox.content }}</b-modal> -->
+        
     </div>
 </template>
 <script>
@@ -23,7 +26,11 @@ export default {
             test:'',
             title: '',
             content: '',
-            conno:''
+            conno:'',
+            infobox: {
+                title:"",
+                content:""
+            },
         }
     },
     mounted(){
@@ -40,21 +47,15 @@ export default {
         update(){
             session.patch(session.apiurl+"board/post/"+this.conno,{title:this.title,content:this.content})
             .then((response)=>{
-                alert('게시글 수정완료!');
                 history.back();
             })
         },
         submit() {
             session.post(session.apiurl + "board/" + this.no, { title: this.title, content: this.content })
                 .then((response) => {
-                    alert('게시글작성 완료!');
-                    // this.$store.dispatch(Constant.UPDATE_BOARD, {
-                    //     currentView: "FreeBoard"
-                    // });
                     this.$router.push(
                         { name: 'free', params: { no:this.no }}
                     )
-                    return response;
                 })
                 .catch((e) => {
                     if (e.response.status == 401) {

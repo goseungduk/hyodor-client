@@ -16,7 +16,7 @@
                 </b-card-text>
                 <!-- 삭제버튼 꾸며주세용 -->
                 <b-card-text>
-                    <b-button class="delete" @click="con_del()">삭제</b-button>
+                    <b-button class="delete" @click="con_alert()">삭제</b-button>
                     <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
                 </b-card-text>
             </b-card>
@@ -30,7 +30,7 @@
                     <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
                     <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
                         <img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}
-                        <span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span>
+                        <!-- <span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span> -->
                     </div>
                     <p style="font-size:16px;padding:5px;">{{i.content}}</p>
                     
@@ -55,7 +55,7 @@
                </b-button>
            </b-input-group-append>
             </b-input-group>     
-       
+        <b-modal id="infomodal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
     </div>
 </template>
 
@@ -78,6 +78,10 @@ export default {
             comment:'',
             isUp:'',
             isDown:'',
+            infobox: {
+                title:"",
+                content:""
+            },
         }
     },
     mounted: function() {
@@ -114,26 +118,31 @@ export default {
             alert('추천완료');
         },
         goodbad(what){
-            if(this.isUp==false&&what==true){
-                session.post(session.apiurl+"board/vote/"+this.con_no)
+            if(what==true){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
                 .then((response)=>{
                     alert("추천완료");
-                    location.back();
+                    location.reload();
                 })
             }
-            else if(this.isDown==false&&what==true){
-                session.post(session.apiurl+"board/vote/"+this.con_no)
+            else if(what==false){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
                 .then((response)=>{
                     alert("추천완료");
-                    location.back();
+                    location.reload();
                 })
             }
             console.log(what);
         },
+        con_alert(){
+            this.infobox.title="알림";
+            this.infobox.content="게시글을 삭제하시겠습니까?";
+            this.$bvModal.show('infomodal');
+        },
         comment_del(id){
             session.del(session.apiurl+"board/comment/"+id)
             .then((response)=>{
-                alert("삭제되었습니다!!");
+                // alert("삭제되었습니다!!");
                 location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
             })
             .catch((e)=>{
@@ -147,8 +156,8 @@ export default {
         con_del(){
             session.del(session.apiurl+"board/post/"+this.con_no)
             .then((response)=>{
-                alert("삭제되었습니다!!");
-                location.href="/boardlist/freeboard/"+this.no+"/1";
+                // location.href="/boardlist/freeboard/"+this.no;
+                this.$router.push({name:'free',params:{no:this.no},query:{p:'1'}});
             })
             .catch((e)=>{
                 if(e.response.status==403){
