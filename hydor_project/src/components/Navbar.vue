@@ -24,7 +24,7 @@
             href="/serviceinfo"
             :active="isactive('serviceinfo')"
             :class="[isactive('serviceinfo') ? 'n_active':'non_active']"
-          >복지정보(demo)</b-nav-item>
+          >부모님을 위한 복지서비스</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
