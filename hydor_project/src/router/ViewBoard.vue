@@ -80,7 +80,7 @@
                 <template slot="waiting">
                   <b-spinner variant="dark" label="Spinning" small></b-spinner>
                 </template>
-                <i class="fas fa-pen"></i>
+               
               </v-wait>
             </b-button>
           </b-input-group-append>
