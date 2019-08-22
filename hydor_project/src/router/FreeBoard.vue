@@ -107,7 +107,7 @@ export default {
         },
         change() {           
             this.$router.push({
-                name:'write',params: { no:this.no }
+                name:'write',params: { no:this.no,tit:'',con:'' }
             })
 
         },

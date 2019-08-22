@@ -10,8 +10,9 @@
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
                 <!-- 삭제버튼 꾸며주세용 -->
-                <b-card-text> 
+                <b-card-text>
                     <b-button class="delete" @click="con_del()">삭제</b-button>
+                    <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
                 </b-card-text>
             </b-card>
             
@@ -27,7 +28,9 @@
                     
                     <ul class="status commentvotestatus">
                          <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
-                        <li class="vote" style="display: list-item;"><b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
+                        <li class="vote" style="display: list-item;">
+                            <b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
+                            <b-button class="delete" size="sm" @click="b()">수정</b-button> 
                         <br></li>
                     </ul>
                 </article>
@@ -105,7 +108,7 @@ export default {
             session.del(session.apiurl+"board/post/"+this.con_no)
             .then((response)=>{
                 alert("삭제되었습니다!!");
-                location.href="/boardlist/freeboard/"+this.no;
+                location.href="/boardlist/freeboard/"+this.no+"/1";
             })
             .catch((e)=>{
                 if(e.response.status==403){
@@ -115,6 +118,12 @@ export default {
                     alert("탈퇴한 회원이거나 연결이 원활하지 않습니다.");
                 }
             })
+        },
+        change(tit,con) {           
+            this.$router.push({
+                name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
+            })
+
         },
         commenting(){
             console.log(this.comment);
