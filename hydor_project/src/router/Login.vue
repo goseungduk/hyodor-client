@@ -18,7 +18,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
 
-        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading')" :disabled="$wait.is('loginLoading')">
+        <b-button type="submit" block variant="outline-primary" @click="$wait.start('loginLoading');inLogin()" :disabled="$wait.is('loginLoading')">
           <v-wait for="loginLoading">
             <template slot="waiting">
               <div class="d-flex justify-content-center">
