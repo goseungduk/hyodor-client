@@ -83,11 +83,12 @@ import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/i18n/ko.js";
 import * as session from "../utils/loginService";
 export default {
-  data: () => ({
-    components: {
+  components: {
       "h-nav": NavbarVue,
       "vue-cal": VueCal
     },
+  data: () => ({
+    
     events: [
       {
         start: "2019-08-19 10:35",
