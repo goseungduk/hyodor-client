@@ -3,8 +3,23 @@
         <div>
             <b-card :title="items.title" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);padding: 40px;margin-bottom: 40px;">
                 <span style="float:right;color:#BF1B0C;">
-                    <b-button variant="light"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="goodbad(true);">{{items.vote_up}}</b-button>
-                    <b-button variant="light"><img class="mb-2" src="../assets/bad.png" width="18px" height="18px" style="margin-right:5px;" @click="goodbad(false);">{{items.vote_down}}</b-button>
+                   <b-button   @click="goodbad(true)" style="background-color: rgba(0,0,0,0); border:none;">
+                        <div class="imgswap" >
+                            <div :class="[isUp ? 'is':'is_non']">
+                        <img src="../assets/good_non.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;" >
+                        <img src="../assets/good.png" class="mb-2"  width="18px" height="18px" style="margin-right:5px;">
+                        </div>
+                        </div>
+                        </b-button>{{items.vote_up}}
+                        <b-button  @click="goodbad(false)" style="background-color: rgba(0,0,0,0); border:none;">
+                        <div class="imgswap" >
+                        <div :class="[isDown ? 'is':'is_non']">
+                    <img class="mb-2"  src="../assets/bad_non.png" width="18px" height="18px" style="margin-right:5px;" >
+                    <img class="mb-2"  src="../assets/bad.png" width="18px" height="18px" style="margin-right:5px;">
+                    </div>
+                     </div>
+                        </b-button>
+                    {{items.vote_down}}
                 </span>
                 <b-card-text>
                     <p v-if="items.writer==null" style="font-size:16px">(탈퇴한유저)</p>
@@ -112,6 +127,23 @@ export default {
     methods:{
         a(){
             alert('추천완료');
+        },
+        goodbad(what){
+            if(this.isUp==false&&what==true){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:true})
+                .then((response)=>{
+                    alert("추천완료");
+                    location.back();
+                })
+            }
+            else if(this.isDown==false&&what==true){
+                session.post(session.apiurl+"board/vote/"+this.con_no,{isup:false})
+                .then((response)=>{
+                    alert("추천완료");
+                    location.back();
+                })
+            }
+            console.log(what);
         },
         comment_del(id){
             session.del(session.apiurl+"board/comment/"+id)
@@ -264,4 +296,20 @@ h4{
     font-weight: bold;
     font-size: 30px;
 }
+.imgswap img:last-child{display:none} 
+.imgswap:hover img:first-child{display:none} 
+.imgswap:hover img:last-child{display:inline-block}
+.is img:last-child {
+    display:inline-block
+}
+.is img:first-child{
+    display:none
+}
+.is_non img:last-child{
+    display:none
+}
+.is_non img:first-child{
+    display:inline-block
+}
+
 </style>

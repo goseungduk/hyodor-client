@@ -24,6 +24,7 @@ import ServiceInfo from './router/ServiceInfo';
 import OldWelfare from './router/OldWelfare';
 import OldPlace from './router/OldPlace';
 import MyPage from './router/Mypage.vue';
+import NotFound from './router/NotFound';
 import Constant from './Constant';
 
 import * as session from './utils/loginService'
@@ -121,7 +122,8 @@ const router = new VueRouter({
                 component: OldPlace,
                 props: true
             }]
-        }
+        },
+        { path: '*', component: NotFound }
     ]
 })
 new Vue({
