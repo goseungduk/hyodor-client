@@ -25,7 +25,7 @@
               </b-row>
             </b-container>
           </b-tab>
-          <!-- <b-tab title="개인정보 변경">
+          <b-tab title="개인정보 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재 닉네임</b-col>
               <b-col cols="7">{{user_nickname}}</b-col>
@@ -56,8 +56,10 @@
                 ></b-form-input>
               </b-col>
             </b-row>
-             개인정보 변경함수 -->
-            <!-- <b-button variant="danger" @click="changeInfo()" :disabled="$wait.is('changeloading')">
+            <!-- 개인정보 변경함수 -->
+            <b-row>
+            <b-col md="12" >
+            <b-button class="delete mr-5 mt-1" @click="changeInfo()" :disabled="$wait.is('changeloading')">
               <v-wait for="changeloading">
                 <template slot="waiting">
                   <div class="d-flex justify-content-center">
@@ -67,7 +69,9 @@
                 정보변경
               </v-wait>
             </b-button>
-          </b-tab> -->
+            </b-col>
+            </b-row>
+          </b-tab>
           <b-tab title="비밀번호 변경">
             <b-row class="mt-3">
               <b-col md="4" class="colboard">현재비밀번호</b-col>
@@ -93,23 +97,23 @@
             <b-row>
               <b-col></b-col>
               <b-col>
-                <button class="change mt-2 ml-5">비밀번호 변경</button>
+                <button class="delete mt-2 mr-5">비밀번호 변경</button>
               </b-col>
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
             <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
-            <b-button id="show-btn" @click="show()">+</b-button>
+            <b-button class="show-btn" @click="show()">+</b-button>
             <div v-if="isShow==true" class="d-block text-left">
-              <h5 style="font-weight:bold">성함</h5>
+              <h5 style="font-weight:bold; color:gray;">성함</h5>
               <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
-              <h5 style="font-weight:bold">성별</h5>
+              <h5 style="font-weight:bold; color:gray;">성별</h5>
               <b-form-select v-model="parentSex" class="mb-3">
                 <option :value="null">부모님 성별을 선택해주세요</option>
                 <option value="남">남</option>
                 <option value="여">여</option>
               </b-form-select>
-              <h5 style="font-weight:bold">관계</h5>
+              <h5 style="font-weight:bold; color:gray;">관계</h5>
               <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
 
               <datalist id="my-list-id">
@@ -117,9 +121,10 @@
                 <option v-for="size in sizes" :key="size">{{ size }}</option>
                 <!-- 오류 신경쓰지마세요 -->
               </datalist>
-              <h5 style="font-weight:bold">생년월일</h5>
+              <h5 style="font-weight:bold; color:gray;">생년월일</h5>
               <VueCtkDateTimePicker v-model="date" />
-              <b-button @click="submitParent()">전송</b-button>
+              <b-button class="show-btn mt-1" style="float:right;" @click="submitParent()">전송</b-button>
+              
             </div>
             <div>
               <p>아무그룹없음</p>
@@ -130,7 +135,8 @@
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
                 <b-text>{{t.birthday}}</b-text>
-                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <b-button class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
+                <b-button class="addgroup ">그룹추가</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -165,7 +171,8 @@
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
                 <b-text>{{i.birthday}}</b-text>
-                <b-button @click="ccuredit($index)">수정하기</b-button>
+                <b-button class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
+                <b-button class="addgroup ">그룹추가</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -206,7 +213,7 @@
                     ></b-form-input>
                     <b-input-group-append>
                       <b-button
-                        variant="danger"
+                        style="background-color:#da0202; color:white; border:none;"
                         @click="withdrawUser()"
                         :disabled="$wait.is('withdrawloading')"
                       >
@@ -429,6 +436,7 @@ export default {
   color: #2b75ad;
   background-color: #edf6f7;
 }
+*/
 .change {
   border: 1.4px solid #58b4fb;
   color: #2b75ad;
@@ -444,8 +452,9 @@ export default {
   font-weight: bold;
   color: gray;
 }
+
 .delete {
-  border: 1px solid red;
+  border: 1.5px solid red;
   color: red;
   background-color: rgba(0, 0, 0, 0);
   float: right;
@@ -454,7 +463,41 @@ export default {
 }
 .delete:hover {
   background-color: #da0202;
-  border: 1px solid #da0202;
+  border: 1.5px solid #da0202;
   color: white;
-} */
+}
+.show-btn{
+    background-color:rgba(0, 0, 0, 0);
+    border:1.5px solid #5f90df;
+    color:#5f90df;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+} 
+.show-btn:hover{
+    background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );
+    border:1.5px solid #5f90df;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    color:white;
+} 
+.edit{
+  border: 1.5px solid #017F0C;
+  color : #017F0C ;
+  background-color: rgba(0,0,0,0);
+ 
+}
+.edit:hover{
+    background-color: #00970D ;
+  border: 1.5px solid #00970D;
+  color: white;
+
+}
+.addgroup{
+    border: 1.5px solid #00B6BC;
+  color : #00B6BC ;
+  background-color: rgba(0,0,0,0);
+}
+.addgroup:hover{
+   background-color: #00B6BC ;
+  border: 1.5px solid #00B6BC;
+  color: white;
+}
 </style>
