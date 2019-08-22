@@ -9,32 +9,85 @@
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="k2()">확인</b-button>
         </div>
         <br />
-        <!-- <b-button @click="k()">최고기관분류코드생성</b-button>
-        <b-button @click="k2()">공공서비스 목록생성</b-button> -->
-        
-        <div v-for="(i, $index) in list" :key="i">
-            {{$index}}
-            <p>{{i}}</p> -->
+        <!-- <vue-fuse :keys="['svcPpo']" :list="list" :defaultAll="false"></vue-fuse> -->
+        <div class="d-flex justify-content-center">
+            <input type="text" v-model="search" placeholder="찾고싶은 복지서비스를 검색하세요!" style="width:40%;"/>
+        </div>
+        <div v-for="(i, $index) in filteredList" :key="$index">
+            <!-- {{$index}} -->
+            <!-- <p>{{list.length}}</p> -->
+            <!-- <p>{{i}}</p> -->
+            <!-- <p>{{i.jrsdDptAllNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
+            <p>{{i.svcInfoUrl['_text'].replace(/<!HS>|<!HE>/g,'')}}</p> -->
+            <b-card :title="i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')" :sub-title="i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')">
+                <b-text>
+                    <b-button id="show-btn" @click="showModal(i.svcId['_text'])">상세정보</b-button>
+                </b-text>
+            </b-card>
         </div>
         <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
+        <div>
+            <b-modal ref="my-modal" id="bv-modal-example" hide-footer>
+                <template slot="modal-title">
+                {{svcInfo.svcNm}}
+                </template>
+                <div class="d-block text-left">
+                <h5>대상</h5>
+                <h6>{{svcInfo.slctnStdr}}</h6>
+                <h5>제출서류</h5>
+                <h6>{{svcInfo.posesPapers}}</h6>
+                <h5>신청방법</h5>
+                <h6>{{svcInfo.reqstProcss}}</h6>
+                <h5>목적</h5>
+                <h6>{{svcInfo.svcPpo}}</h6>
+                <h5>상세설명</h5>
+                <h6>{{svcInfo.svcCts}}</h6>
+                <h5>사이트</h5>
+                <h6>{{svcInfo.refrncSiteUrl}}</h6>
+                <h5>전화번호</h5>
+                <h6>{{svcInfo.refrncTelNo}}</h6>
+                </div>
+                <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+            </b-modal>
+        </div>
     </div>
 </template>
 <script>
 import x2j from "xml-js";
 import axios from 'axios';
 import InfiniteLoading from 'vue-infinite-loading';
-const api = '//hn.algolia.com/api/v1/search_by_date?tags=story';
+import VueFuse from 'vue-fuse';
 export default {
     components:{
-        InfiniteLoading
+        InfiniteLoading,
+        VueFuse
     },
-    created(){
-        if(this.$refs.InfiniteLoading){
-        this.$refs.InfiniteLoading.stateChanger.reset(); 
-    }
+    computed: {
+        filteredList() {
+            return this.list.filter(item => {
+                return item.svcNm['_text'].includes(this.search)  
+            })
+        }
     },
     data:function(){
         return {
+            state:null,
+            total:'',
+            svcInfo:{
+                posesPapers:'',
+                rcvOrgNm:'',
+                refrncSiteUrl:'',
+                refrncTelNo:'',
+                reqstProcss:'',
+                slctnStdr:'',
+                svcCts:'',
+                svcPpo:'',
+                svcNm:''
+            },
+            search:'',
+            pageNo:1,
             lists:[],
             list:[],
             selected: null,
@@ -43,7 +96,7 @@ export default {
                 // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
                 // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
-            sub_selected: null,
+            sub_selected:  { cd: 3220000, name: '강남구' },
             sub_options: [
                 { value: null, text: '시,군,구' },
                 { value: { cd: 3220000, name: '강남구' }, text: '강남구' },
@@ -62,17 +115,60 @@ export default {
         }
     },
     methods:{
+        showModal(str){
+            this.svcInfo=[];
+            
+            axios({
+                method:'GET',
+                url:'http://hyodor.azurewebsites.net/apicache/svc',
+                params:{
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
+                    format:"xml",
+                    svcId:str
+                }
+            })
+            .then((response)=>{
+                
+                var result=x2j.xml2js(response.data,{compact:true});
+                var res=result.result;
+                this.svcInfo={posesPapers:res.svc.posesPapers['_text'],
+                            rcvOrgNm:res.svc.rcvOrgNm['_text'],
+                            refrncSiteUrl:res.svc.refrncSiteUrl['_text'],
+                            refrncTelNo:res.svc.refrncTelNo['_text'],
+                            reqstProcss:res.svc.reqstProcss['_text'],
+                            slctnStdr:res.svc.slctnStdr['_text'],
+                            svcCts:res.svc.svcCts['_text'],
+                            svcPpo:res.svc.svcPpo['_text'],
+                            svcNm:res.svc.svcNm['_text']
+                };
+                this.$refs['my-modal'].show();
+                console.log(this.svcInfo);
+                // console.log(result.result);
+                // console.log(result.result.posesPapers['_text']); //준비물
+                // console.log(result.result.rcvOrgNm['_text']); // 제출 장소 , 신청장소
+                // console.log(result.result.refrncSiteUrl['_text']); // 사이트 url
+                // console.log(result.result.refrncTelNo['_text']); // 전화번호
+                // console.log(result.result.reqstProcss['_text']); // 신청방법
+                // console.log(result.result.slctnStdr['_text']); //대상
+                // console.log(result.result.svcCts['_text']); //서비스 상세내용
+                // console.log(result.result.svcPpo['_text']); // 서비스 목적
+                // console.log(result.result.svcNm['_text']); // 서비스 이름
+            })
+        },
         infiniteHandler($state) {
-            // console.log($state);
+            this.state=$state;
+            console.log(this.sub_selected.cd);
             axios({
                 method:"GET",
-                url:"/api/svc/list",
+                url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+                // url:'api/svc/list',
                 params:{
-                    serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+                    serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
                     format:"xml",
                     srhQuery:"노인",
-                    // jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
-                    pageIndex:1,
+                    jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
+                    pageIndex:this.pageNo,
                     pageSize:10
                 }
             })
@@ -80,11 +176,12 @@ export default {
                 var result=x2j.xml2js(response.data,{compact:true});
                 // console.log(result.result.svcList.svc['0']);
                 // console.log(result.result);
-                console.log(result.result.svcList.svc);
+                console.log(Number(result.result.pageSize['_text']));
                 if(result.result.svcList.svc.length){
+                    this.pageNo+=1;
                     this.list=this.list.concat(result.result.svcList.svc);
                     $state.loaded();
-                    if(result.result.svcList.svc.length==5){
+                    if(result.result.svcList.svc.length<10){
                         $state.complete();
                     }
                 }else{
@@ -92,51 +189,44 @@ export default {
                 }
             })
         },
-        k(){
-            axios({
-                method:"GET",
-                url:"/api/org/cls/code",
-                params:{
-                // format:"xml",
-                serviceKey:
-                "b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ=="
-                }
-            })
-            .then((response)=>{
-                var result=x2j.xml2js(response.data,{compact:true});
-                console.log(result.result);
-            })
-        },
         k2(){
+            this.pageNo=1;
             this.list=[];
-            axios({
-                method:"GET",
-                url:"/api/svc/list",
-                params:{
-                    serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
-                    format:"xml",
-                    srhQuery:"노인",
-                    jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
-                    pageIndex:1,
-                    pageSize:5
-                }
-            })
-            .then((response)=>{
-                var result=x2j.xml2js(response.data,{compact:true});
-                // console.log(result.result.svcList.svc['0']);
-                // console.log(result.result);
-                console.log(result.result.svcList.svc);
-                this.list=this.list.concat(result.result.svcList.svc);
-                /*
-                (2) [{…}, {…}, __ob__: Observer]
-                    0: {__ob__: Observer} => svc가 있음
-                    1: {__ob__: Observer}
-                    this.lists.length 로 길이 파악가능
-                */
-                // for(var key in this.lists){
-                //     console.log("key: "+key+"/ value: "+this.lists[key]);
-                // }
-            })
+            this.state.reset();
+            this.infiniteHandler(this.state);
+            // this.$refs.InfiniteLoading.stateChanger.reset(); 
+            // axios({
+            //     method:"GET",
+            //     url:"http://hyodor.azurewebsites.net/apicache/svc/list",
+            //     // url:'/api/svc/list',
+            //     params:{
+            //         // serviceKey:"b/kLuFCQo3nDRkavEnQWNrh1uv7hZiZmgfbPPPyOok/D1ltGhcQl3wI0/0Tr4M8glqdIK/rWDYHvgHZMFLUOsQ==",
+            //         serviceKey:"m1rkdVnBIV0wQnxptLQOUDW8W32Bc9Sp9uLMd8fKQDpLSjxrXgGt00KgJRcH4QvJvPNzemSuIYHcILyGdIDFVw==",
+            //         format:"xml",
+            //         srhQuery:"노인",
+            //         jrsdOrgCd:this.sub_selected.cd,//각 구의 지역코드,
+            //         pageIndex:1,
+            //         pageSize:10
+            //     }
+            // })
+            // .then((response)=>{
+            //     var result=x2j.xml2js(response.data,{compact:true});
+            //     // console.log(result.result.svcList.svc['0']);
+            //     // console.log(result.result);
+            //     console.log(result.result.svcList.svc);
+            //     console.log("길이 "+result.result.svcList.svc.length);
+            //     this.list=this.list.concat(result.result.svcList.svc);
+            //     this.state.loaded();
+            //     /*
+            //     (2) [{…}, {…}, __ob__: Observer]
+            //         0: {__ob__: Observer} => svc가 있음
+            //         1: {__ob__: Observer}
+            //         this.lists.length 로 길이 파악가능
+            //     */
+            //     // for(var key in this.lists){
+            //     //     console.log("key: "+key+"/ value: "+this.lists[key]);
+            //     // }
+            // })
         },
     }
 }
@@ -200,40 +290,6 @@ export default {
   border: 2px solid #EDF2F9 ;
 
 }
-.map_wrap, .map_wrap * {margin:auto;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:1000px;height:500px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:230px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}  
-#menu_wrap .option button {margin-left:5px;}
-#placesList li {list-style: none;}
-#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#8a8a8a;}
-#placesList .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#placesList .info .tel {color:#009900;}
-#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+
 </style>

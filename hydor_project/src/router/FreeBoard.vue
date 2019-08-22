@@ -8,7 +8,7 @@
                 <router-link :to="{name:'view',params:{no:no,con_no:i.id}}">
                     <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
-                    <b-container style="border:1px solid #cecece;">
+                    <b-container style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 20px;margin-bottom: 30px;">
                         <b-row>
                             <b-col class="ml-md-auto p-2 hov">
                                 <h5 style="color:black;">{{i.title}}</h5>
@@ -272,7 +272,9 @@ img.thumbnail {
     display: block;
     cursor: pointer;
 }
-
+a:hover{
+    text-decoration: none;
+}
 .right-box {
     background: white;
     float: right;
