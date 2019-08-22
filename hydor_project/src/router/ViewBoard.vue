@@ -201,7 +201,7 @@ element.style {
 }
 .con {
     color: #666;
-    font-family: "맑은 고딕",  tahoma;
+    
     font-size: 12px;
     letter-spacing: -1px;
 }

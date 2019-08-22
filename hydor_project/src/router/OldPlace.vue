@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="example text-center mt-1">
+        <div class="example text-center mt-1" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
             지역설정
             <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
@@ -9,7 +9,7 @@
             <b-button squared type="submit" class="btn mt-2 mb-2" @click="b()">확인</b-button>
         </div>
         <br />
-        <div class='map_wrap'>
+        <div class='map_wrap' style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
           <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
             <div id="menu_wrap" class="bg_white">
               <div class="option">
@@ -308,7 +308,7 @@ function displayMarker(place) {
 }
 .map_wrap, .map_wrap * {margin:auto;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:1000px;height:500px;}
+.map_wrap {position:relative;width:1200px;height:600px;}
 #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:230px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
