@@ -67,6 +67,7 @@ margin-right: auto;
   display: block; color: #5153c2; 
   text-align:center;
  text-decoration:none;
+ font-weight: bold;
  
  }
 .menu_set a:hover{ 
