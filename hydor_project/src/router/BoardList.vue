@@ -55,18 +55,66 @@ export default {
 .header {
   margin-top: 0.1em;
 }
-.menubar_set{ width: 700px; list-style-type:none; border-bottom:thin solid black; margin: 0 auto;
+.menubar_set{  
+list-style-type:none; 
+
+padding-right: 20px;
+padding-left: 15px;
+margin-left: auto;
+margin-right: auto;
 }
-.menu_set{float:left;}
-.menu_set a{display: block; color: navy; text-align:center;
- text-decoration:none;}
-.menu_set a:hover{ background-color: #bbdefb; color:navy; font-weight:bold;}
-.active{ background-color: #bbdefb; color:navy; font-weight:bold;
-padding:4px 8px;
+.menu_set{float: left;}
+.menu_set a{
+  display: block; color: #5153c2; 
+  text-align:center;
+ text-decoration:none;
+ 
+ }
+.menu_set :hover{ 
+color:#5153c2; 
+font-weight:bold;
+
+border-bottom:4px solid #5153c2;
+}
+.active{ 
+color:#5153c2; 
+font-weight:bold;
+
+border-bottom: 2px solid #5153c2;
 }
 .non_active{
   display: block; color: navy; text-align:center;
  text-decoration:none;
+}
+@media (min-width: 768px) {
+  .menubar_set {
+    width: 760px;
+    
+  }
+  .menu_set a{
+    font-size: 15px;
+  }
+  
+}
+
+@media (min-width: 992px) {
+  .menubar_set {
+    width: 850px;
+    
+  }
+  .menu_set a{
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .menubar_set {
+    width: 900px;
+    
+  }
+  .menu_set a{
+    font-size: 18px;
+  }
 }
 
 </style>
