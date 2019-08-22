@@ -134,7 +134,7 @@
                 :sub-title="t.relation"
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
-                <b-text>{{t.birthday}}</b-text>
+                <b-text>{{t.birthday.slice(0,10)}}</b-text>
                 <b-button size="sm" class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
                 <b-button size="sm" class="addgroup" @click="showModal(t.id)">그룹에 추가</b-button>
                 <b-button size="sm" class="show-btn" @click="delpa(t.id)">X</b-button>
@@ -171,7 +171,7 @@
                 :sub-title="i.relation"
                 style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;"
               >
-                <b-text>{{i.birthday}}</b-text>
+                <b-text>{{i.birthday.slice(0,10)}}</b-text>
                 <b-button class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
                 <b-button class="addgroup" @click="showModal(i.id)">그룹에 추가</b-button>
                 <b-button size="sm" class="show-btn" @click="delpa(i.id)">X</b-button>
@@ -278,7 +278,7 @@ export default {
       parentName: "",
       parentSex: null,
       parentRelation: "",
-      sizes: ["부", "모", "조부", "조모"],
+      sizes: ["아버지", "어머니", "할아버지", "할머니"],
       withdraw: {
         password: ""
       },
