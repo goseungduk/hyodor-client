@@ -38,7 +38,10 @@
             <!-- 텍스트 박스랑 작성 버튼이 한 줄에 들어가게 부탁드립니당 -->
             <b-form-input v-model="comment" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);" placeholder="댓글을 입력하세요"></b-form-input>
            <b-input-group-append>
-           <b-button @click="commenting()" class="btn-img" type="submit"><img class="img" src="../assets/write.png"></b-button>
+           <b-button @click="commenting()" class="btn-img" type="submit">
+               <!-- <img class="img" src="../assets/write.png"> -->
+               <i class="fas fa-pen"></i>
+               </b-button>
            </b-input-group-append>
             </b-input-group>     
        
