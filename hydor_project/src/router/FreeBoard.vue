@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div class="con">
+    <v-wait for="listloading">
+      <template slot="waiting">
+        <div class="text-center mt-5">
+          <b-spinner variant="dark" label="Spinning"></b-spinner>
+        </div>
+      </template>
+    </v-wait>
+    <div class="con" v-wait:hidden="'listloading'">
       <div class="mt-4"></div>
       <article v-for="i in items" :key="i.id">
         <!-- <a @click="moveToCon(i.id)" href="#"> -->
@@ -22,7 +29,8 @@
         <!-- </a> -->
       </article>
     </div>
-    <b-container class="con">
+
+    <b-container class="con" v-wait:hidden="'listloading'">
       <b-row class="mt-2">
         <b-col>
           <span class="right-box">
@@ -35,8 +43,13 @@
           <div>
             <!-- <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>
             <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-            <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button> -->
-            <b-pagination-nav :link-gen="pagegen" @input="updateList()" :number-of-pages="pageCount" use-router></b-pagination-nav>
+            <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>-->
+            <b-pagination-nav
+              :link-gen="pagegen"
+              @input="updateList()"
+              :number-of-pages="pageCount"
+              use-router
+            ></b-pagination-nav>
           </div>
         </b-col>
       </b-row>
@@ -64,27 +77,13 @@ export default {
     return {
       items: [], // 게시판 post 모아두는 변수
       pageNum: 0, // 기본 pageNumber
-      length: "",
       currentPage: 1,
-      totalCount: 0,
-      pageNo: Number(this.$route.query.p) // p로 전달한 인자값 가져오는거
+      totalCount: 0
       //************************************************************** */
       // 전체 post 개수 , totalcount가 아닌 count 값(현재 삭제되지않고 유지되고 있는 게시물)을 가져옴
     };
   },
   methods: {
-    nextPage() {
-      // 다음 페이지로 가는 함수
-      console.log(this.p);
-      this.pageNum += 1;
-      this.pageNo += 1;
-      console.log(this.pageNo);
-    },
-    prevPage() {
-      // 이전 페이지로 가는 함수
-      this.pageNum -= 1;
-      this.pageNo -= 1;
-    },
     change() {
       this.$router.push({
         name: "write",
@@ -92,29 +91,32 @@ export default {
       });
     },
     updateList() {
-        this.currentPage = this.$route.query.p;
-        session
-      .get(session.apiurl + "board/" + this.no, {
-        page: this.currentPage,
-        pagesize: this.pageSize
-      })
-      .then(response => {
-        this.items = response.data.posts;
-        this.length = response.data.count;
-        this.totalCount = response.data.totalcount;
-      })
-      .catch(e => {
-        alert("서버오류!" + e);
-        location.href = "/login";
-        this.items = [];
-      });
+      this.$wait.start("listloading");
+      this.currentPage = this.$route.query.p;
+      session
+        .get(session.apiurl + "board/" + this.no, {
+          page: this.currentPage,
+          pagesize: this.pageSize
+        })
+        .then(response => {
+          this.items = response.data.posts;
+          this.length = response.data.count;
+          this.totalCount = response.data.totalcount;
+          this.$wait.end("listloading");
+        })
+        .catch(e => {
+          alert("서버오류!" + e);
+          location.href = "/login";
+          this.items = [];
+          this.$wait.end("listloading");
+        });
     },
     pagegen(pagenum) {
-        return {
+      return {
         name: "free",
         params: { no: this.no },
         query: { p: pagenum + "" }
-      }
+      };
     }
   },
   computed: {
@@ -130,12 +132,6 @@ export default {
             이런식으로 if 문 없이 고칠 수도 있다!
             */
       return page;
-    },
-    paginatedData() {
-      // 전체 게시물에서 pageSize 만큼 slicing된 posts
-      const start = this.pageNum * this.pageSize,
-        end = start + this.pageSize;
-      return this.items.slice(start, end);
     }
   },
   mounted: function() {
