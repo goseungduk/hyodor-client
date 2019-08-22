@@ -1,6 +1,5 @@
 <template>
     <div>
-        <b-button @click="t()">adf</b-button>
         <div class="example text-center mt-1" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
             지역설정
             <b-form-select v-model="selected" :options="main_options" class="form-control mt-2 mb-2">
@@ -15,13 +14,6 @@
         <br />
         <!-- <vue-fuse :keys="['svcPpo']" :list="list" :defaultAll="false"></vue-fuse> -->
         <div v-for="(i, $index) in filteredList" :key="$index">
-            <!-- {{$index}} -->
-            <!-- <p>{{list.length}}</p> -->
-            <!-- <p>{{i}}</p> -->
-            <!-- <p>{{i.jrsdDptAllNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
-            <p>{{i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
-            <p>{{i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')}}</p>
-            <p>{{i.svcInfoUrl['_text'].replace(/<!HS>|<!HE>/g,'')}}</p> -->
             <b-card :title="i.svcNm['_text'].replace(/<!HS>|<!HE>/g,'')" :sub-title="i.svcPpo['_text'].replace(/<!HS>|<!HE>/g,'')" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
                 <b-text>
                     <b-button id="show-btn" @click="showModal(i.svcId['_text'])">상세정보</b-button>
@@ -96,7 +88,7 @@ export default {
                 // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
                 // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
-            sub_selected:  { cd: 3050000, name: '동대문구' },
+            sub_selected:  { cd: 3000000, name: '종로구' },
             sub_options: [
                 { value: null, text: '시,군,구' },
                 { value: { cd: 3220000, name: '강남구' }, text: '강남구' },
