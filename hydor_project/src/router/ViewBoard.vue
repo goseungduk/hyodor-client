@@ -29,7 +29,6 @@
                 <b-card-text>
                     <p style="font-size:16px">{{items.content}}</p>
                 </b-card-text>
-                <!-- 삭제버튼 꾸며주세용 -->
                 <b-card-text>
                     <b-button class="delete" @click="con_alert()">삭제</b-button>
                     <b-button class="delete" @click="change(items.title,items.content)">수정</b-button> 
@@ -40,19 +39,16 @@
         
         <div>
             <div class="comments" style="display: block;">
-                <!-- 게시물 이나 댓글창에서 에브리타임 사람 아이콘 처럼 사진 비춰주는거 고려해봐도 괜찮을 것 같습니다 -->
                 <article v-for="i in items.comments" :key="i.id" style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 30px;margin-bottom: 15px;">
                     <div v-if="i.writer==null" class="mb-1" style="font-weight:bold; font-size:15px "><img src ="../assets/profile2.png" style="border-radius:7px" width="25px" height="25px">(탈퇴한유저)</div>
                     <div v-else class="mb-1" style="font-weight:bold; font-size:15px ">
                         <img src ="../assets/profile2.png" style="border-radius:7px;margin-right:10px;" width="25px" height="25px">{{i.writer.nickname}}
-                        <!-- <span style="float:right;color:#BF1B0C;"><img class="mb-2" src="../assets/good.png" width="18px" height="18px" style="margin-right:5px;" @click="a();"> {{i.vote_up}}</span> -->
                     </div>
                     <p style="font-size:16px;padding:5px;">{{i.content}}</p>
                     
                     <ul class="status commentvotestatus">
-                         <!-- 삭제버튼 꾸며주세용 꾸며봤는데 맘에 안들면 바로 말해줘요~~  -->
                         <li class="vote" style="display: list-item;">
-                            <b-button class="delete" size="sm" @click="comment_del(i.id)">삭제</b-button>
+                            <b-button class="delete" size="sm" @click="comment_alert(i.id)">삭제</b-button>
                             <b-button class="delete" size="sm" @click="b()">수정</b-button> 
                         <br></li>
                     </ul>
@@ -70,7 +66,9 @@
                </b-button>
            </b-input-group-append>
             </b-input-group>     
-        <b-modal id="infomodal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="con_modal" :title="infobox.title" @ok="con_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="comment_modal" :title="infobox.title" @ok="comment_del()">{{ infobox.content }}</b-modal>
+        <b-modal id="back_modal" :title="infobox.title">{{ infobox.content }}</b-modal>
     </div>
 </template>
 
@@ -85,6 +83,7 @@ export default {
     },
     data: function() {
         return {
+            commnet_num:'',
             items: {
                 writer:{
                     'nickname':''
@@ -149,13 +148,19 @@ export default {
             }
             console.log(what);
         },
+        comment_alert(id){
+            this.comment_num=id;
+            this.infobox.title="알림";
+            this.infobox.content="댓글을 삭제하시겠습니까?";
+            this.$bvModal.show('comment_modal');
+        },
         con_alert(){
             this.infobox.title="알림";
             this.infobox.content="게시글을 삭제하시겠습니까?";
-            this.$bvModal.show('infomodal');
+            this.$bvModal.show('con_modal');
         },
-        comment_del(id){
-            session.del(session.apiurl+"board/comment/"+id)
+        comment_del(){
+            session.del(session.apiurl+"board/comment/"+this.comment_num)
             .then((response)=>{
                 // alert("삭제되었습니다!!");
                 location.href="/boardlist/viewboard/"+this.no+"/"+this.con_no;
@@ -183,7 +188,13 @@ export default {
                 }
             })
         },
-        change(tit,con) {           
+        change(tit,con) {
+            if(localhost.username!=this.items.writer.username){
+                this.infobox.title="알림";
+                this.infobox.content="권한이 없습니다";
+                this.$bvModal.show('back_modal');
+                history.reload();
+            }           
             this.$router.push({
                 name:'write',params: { no:this.no, tit:tit ,con:con, con_no:this.con_no }
             })
