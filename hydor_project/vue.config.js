@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
+    // publicPath: '/static',
     // assetsDir: '../static',
     // baseUrl: '',
     // publicPath: undefined,
-    // outputDir: path.resolve(__dirname, './dist/templates'),
+    outputDir: path.resolve(__dirname, './dist/templates'),
     // runtimeCompiler: undefined,
     // productionSourceMap: undefined,
     // parallel: undefined,
