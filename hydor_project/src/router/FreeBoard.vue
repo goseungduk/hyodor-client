@@ -8,9 +8,9 @@
                 <router-link :to="{name:'view',params:{no:no,con_no:i.id}}">
                     <!-- 게시물 각각은 stacked view --> 
                     <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
-                    <b-container style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 20px;margin-bottom: 30px;">
+                   <b-container class="hov">
                         <b-row>
-                            <b-col class="ml-md-auto p-2 hov">
+                            <b-col class="ml-md-auto p-2">
                                 <h5 style="color:black;">{{i.title}}</h5>
                                 <h6 style="color:grey;">{{i.content}}</h6>    
                                 <p v-if="i.writer==null" style="color:black;">(탈퇴한유저)</p>
@@ -280,8 +280,13 @@ a:hover{
     background: white;
     float: right;
 }
+.hov{
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
 .hov:hover{
-    background-color : #F4FCFF;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
 }
 .button{
     border: 2px solid #58B4FB;
