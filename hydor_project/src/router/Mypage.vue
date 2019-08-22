@@ -2,7 +2,7 @@
   <div>
     <!-- 여기는 width 조절을 잘 맞춰야합니다 -->
     <!--  화이팅 -->
-    <h-nav current-page="mypage"></h-nav>-
+    <h-nav current-page="mypage"></h-nav>
     <b-container class="mt-3">
       <b-row>
         <h2>My Page</h2>
@@ -147,21 +147,21 @@
         <h5 style="font-weight:bold">성함</h5>
         <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
         <h5 style="font-weight:bold">성별</h5>
-        <b-form-select v-model="selected" class="mb-3">
+        <b-form-select v-model="parentSex" class="mb-3">
           <option :value="null">부모님 성별을 선택해주세요</option>
           <option value="남">남</option>
           <option value="여">여</option>
         </b-form-select>
         <h5 style="font-weight:bold">관계</h5>
-        <b-form-input list="my-list-id"></b-form-input>
+        <b-form-input placeholder="관계를 입력해주세요" v-model="parentRelation" list="my-list-id"></b-form-input>
 
         <datalist id="my-list-id">
-          <option>Manual Option</option>
+          <option></option>
           <option v-for="size in sizes">{{ size }}</option>
           <!-- 오류 신경쓰지마세요 -->
         </datalist>
         <h5 style="font-weight:bold">생년월일</h5>
-        <h6>asdf</h6>
+        <h6>a</h6>
       </div>
     </b-modal>
   </div>
@@ -183,8 +183,9 @@ export default {
       ],
       dragging: false,
       //**************************************** */
-      selected: null,
-      sizes: ['Small', 'Medium', 'Large', 'Extra Large'],
+      parentSex: null,
+      parentRelation:'',
+      sizes: ['부', '모', '조부', '조모'],
       withdraw: {
         password: ""
       },
