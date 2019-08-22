@@ -436,6 +436,7 @@ export default {
       })
     },
     submitParent() {
+      this.isShow=false;
       console.log(this.date);
       // console.log(this.date.toISOString());
       session
@@ -448,7 +449,7 @@ export default {
         .then(response => {
           console.log(response);
           session.get(session.apiurl + "parent").then(response => {
-            this.parentList = response.data.parents;
+            this.parentRes.parentList = response.data.parents;
             console.log(this.parentList);
           });
         })
