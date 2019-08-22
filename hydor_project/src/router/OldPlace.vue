@@ -34,8 +34,6 @@ export default {
             selected: null,
             main_options: [
                 { value: null, text: '서울특별시' },
-                // { value: { cd: 6110000, name: '서울특별시' }, text: '서울특별시' },
-                // { value: "인천광역시", text: '인천광역시(disabled)', disabled: true }
             ],
             sub_selected: null,
             sub_options: [
@@ -66,7 +64,7 @@ export default {
         container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         options = {
             //지도를 생성할 때 필요한 기본 옵션
-            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            center: new kakao.maps.LatLng(37.5704118, 127.0065933), //지도의 중심좌표.
             level: 3 //지도의 레벨(확대, 축소 정도)
         };
         map = new kakao.maps.Map(container, options);

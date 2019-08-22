@@ -3,7 +3,6 @@
     <h-nav current-page="boardlist"></h-nav>
 
     <div>
-      <!-- <b-nav> -->
       <b-nav class="menubar_set mt-3" fill>
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:1,pageNo:1},query: { p: '1' }}" :active='isSelected(1)' :class="[isSelected(1) ? 'm_active':'non_active']" >자유게시판</b-nav-item>
         <b-nav-item class="menu_set mb-2" :to="{name:'free',params:{no:2,pageNo:1},query: { p: '1' }}" :active='isSelected(2)' :class="[isSelected(2) ? 'm_active':'non_active']" >선물추천</b-nav-item>
@@ -36,8 +35,7 @@ export default {
   data: function() {
     return {
       selectedBoardId: 1
-      //no: '',
-      // currentView: ""
+
     };
   },
   methods: {

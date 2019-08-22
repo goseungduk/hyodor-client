@@ -230,7 +230,8 @@
     </b-container>
     <loading v-wait:visible="'changeloading'"></loading>
     <loading v-wait:visible="'withdrawloading'"></loading>
-    <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}</b-modal>
+    <b-modal id="infomodal" :title="infobox.title" ok>{{ infobox.content }}
+    </b-modal>
     <b-modal ref="my-modal" id="bv-modal-example"></b-modal>
   </div>
 </template>

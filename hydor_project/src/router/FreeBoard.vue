@@ -10,7 +10,6 @@
     <div class="con" v-wait:hidden="'listloading'">
       <div class="mt-4"></div>
       <article v-for="i in items" :key="i.id">
-        <!-- <a @click="moveToCon(i.id)" href="#"> -->
         <router-link :to="{name:'view',params:{no:no,con_no:i.id}}">
           <!-- 게시물 각각은 stacked view -->
           <!-- 제목 - 내용 - 닉네임 순으로 쌓여진 형태 -->
@@ -31,7 +30,6 @@
           </b-container>
         </router-link>
         <router-view></router-view>
-        <!-- </a> -->
       </article>
     </div>
 
@@ -46,9 +44,6 @@
       <b-row class="justify-content-md-center">
         <b-col md="auto">
           <div>
-            <!-- <b-button class="page" :disabled="pageNum === 0" @click="prevPage">이전</b-button>
-            <span class="pagenum">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-            <b-button class="page" :disabled="pageNum >= pageCount - 1" @click="nextPage">다음</b-button>-->
             <b-pagination-nav
               :link-gen="pagegen"
               @input="updateList()"
@@ -110,7 +105,7 @@ export default {
           this.$wait.end("listloading");
         })
         .catch(e => {
-          alert("서버오류!" + e);
+        //   alert("서버오류!" + e);
           location.href = "/login";
           this.items = [];
           this.$wait.end("listloading");
