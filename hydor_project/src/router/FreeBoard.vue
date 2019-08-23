@@ -16,8 +16,8 @@
           <b-container class="hov">
             <b-row>
               <b-col class="ml-md-auto p-2">
-                <h4 class="h4_hov">{{i.title}}</h4>
-                <h6 style="color:grey;">{{i.content}}</h6>
+                <h3 class="h4_hov">{{i.title}}</h3>
+                <h5 style="color:grey;">{{i.content}}</h5>
                 <p v-if="i.writer==null" style="color:black;">(탈퇴한유저)</p>
                 <p v-else style="color:black;">{{i.writer.nickname}}</p>
                 <span>
