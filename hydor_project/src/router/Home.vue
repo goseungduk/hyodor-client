@@ -27,7 +27,14 @@
           <div style="color:gray;">오늘은 일정이 없어요!</div> -->
           
           <div>
-            <b-list-group>
+            <v-wait for="contentloading">
+            <template slot="waiting">
+              <div class="text-center mt-5">
+                <b-spinner variant="primary" label="Spinning"></b-spinner>
+              </div>
+            </template>
+          </v-wait>
+            <b-list-group v-wair:hidden="'contentloading'">
               <b-list-group-item v-for="i in birthdayScheduleList" :key="i.id" class="flex-column align-items-start">
                 <!-- <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{ i.name }} ({{ i.relation }}) 님 생신</h5>
@@ -94,7 +101,7 @@
 
     <b-modal id="modal-calinfo" size="lg" :title="moment(cal.selected, 'LL')" ok-only no-stacking>{{ selectedEvent.title }}</b-modal>
 
-    <b-modal id="modal-addtype" size="lg" title="First Modal" ok-only no-stacking></b-modal>
+    <b-modal id="modal-info" :title="modal.title" ok-only no-stacking>{{modal.content}}</b-modal>
   </div>
 </template>
 <script>
@@ -111,6 +118,10 @@ export default {
     "vue-cal": VueCal
   },
   data: () => ({
+    modal: {
+      title: "",
+      content: "",
+    },
     groups: [],
     parents: [],
 
@@ -274,12 +285,17 @@ export default {
 
     },
     updateParents() {
+      this.$wait.start("contentloading");
       session.get(session.apiurl + "parent").then(response => {
         this.parents = response.data.parents;
         this.events = [];
         this.eventmap = {};
         this.calendarEvents();
+        this.$wait.end("contentloading");
       })
+      .catch(error => {
+        this.$wait.end("contentloading");
+      });
     },
     updateGroupList() {
       session.get(session.apiurl + "parentgroup").then(response => {
@@ -299,7 +315,9 @@ export default {
         datetime: new Date().toISOString().slice(0,10)
       })
       .then(response => {
-        alert("SUCCESS!")
+        this.modal.title = "저장 완료";
+        this.modal.content = "전화 기록을 성공적으로 저장했습니다.";
+        this.$bvModal.show("modal-info");
         this.updateSchedules()
       })
     },
@@ -310,7 +328,9 @@ export default {
         datetime: new Date().toISOString().slice(0,10)
       })
       .then(response => {
-        alert("SUCCESS!")
+        this.modal.title = "저장 완료";
+        this.modal.content = "방문 기록을 성공적으로 저장했습니다.";
+        this.$bvModal.show("modal-info");
         this.updateSchedules()
       })
     }
