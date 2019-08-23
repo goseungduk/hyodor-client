@@ -16,25 +16,34 @@
             :disable-views="['day', 'week']"
             :events="events"
             @cell-focus="onCalChanged"
+            :on-event-click="onEventClick"
           ></vue-cal>
         </b-col>
         <b-col md class="col-color mt-2">
-          <div class="mt-1" style="font-size:20px; text-align:center; color:gray;">{{ moment(cal.selected, "LL") }}</div>
+          <div class="mt-1 mb-3" style="font-size:20px; text-align:center; color:gray;">{{ moment(cal.selected, "LL") }}</div>
           
-
+<!-- 
           <h3 class="mt-1">{{ moment(cal.selected, "MMM Do") }}의 일정은 . . .</h3>
-          <div style="color:gray;">오늘은 일정이 없어요!</div>
-          <b-button
-            class="btn-color mb-2"
-            size="sm"
-            @click="events.push({
-        start: '2019-08-14 12:00',
-        end: '2019-08-14 17:00',
-        title: 'A new event',
-        class: 'blue-event'
-      })"
-          >일정추가</b-button>
-          <b-button class="btn-color mb-2" size="sm" @click="events.pop()">일정삭제</b-button>
+          <div style="color:gray;">오늘은 일정이 없어요!</div> -->
+          
+          <div>
+            <b-list-group>
+              <b-list-group-item v-for="i in birthdayScheduleList" :key="i.id" class="flex-column align-items-start">
+                <!-- <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ i.name }} ({{ i.relation }}) 님 생신</h5>
+                  <small>3 days ago</small>
+                </div>
+
+                <p class="mb-1">
+                  Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                </p>
+
+                <small>Donec id elit non mi porta.</small> -->
+                <i class="fas fa-notes-medical mr-2"></i> {{ i.name }} ({{ i.relation }}) 님의 건강검진이 올해 필요합니다.
+              </b-list-group-item>
+            </b-list-group>
+          </div>
+
         </b-col>
       </b-row>
 
@@ -83,6 +92,8 @@
       </b-card>
     </b-container>
 
+    <b-modal id="modal-calinfo" size="lg" :title="moment(cal.selected, 'LL')" ok-only no-stacking>{{ selectedEvent.title }}</b-modal>
+
     <b-modal id="modal-addtype" size="lg" title="First Modal" ok-only no-stacking></b-modal>
   </div>
 </template>
@@ -101,76 +112,40 @@ export default {
   },
   data: () => ({
     groups: [],
+    parents: [],
 
     const: {
       call: 10,
-      visit: 11
+      visit: 11,
+      birthday: 20
     },
 
     cal: {
       selected: new Date()
     },
+    selectedEvent: {},
 
     schedules: [],
 
     events: [
-      {
-        start: "2019-08-19 10:35",
-        end: "2019-08-19 11:30",
-        
-      }
+      
     ],
+    eventmap: {},
     value: 4,
     max: 10,
     striped: true
   }),
-  methods: {
-    
-    onCalChanged(dt) {
-      this.cal.selected = dt;
-
-    },
-    moment(d, fmt) {
-      return moment(d).format(fmt);
-    },
-    updateGroupList() {
-      session.get(session.apiurl + "parentgroup").then(response => {
-        this.groups = response.data.groups;
-      });
-    },
-    updateSchedules() {
-      session.get(session.apiurl + "schedule").then(response => {
-        this.schedules = response.data.schedules;
-      });
-    },
-    makeCall(group_id) {
-      session.post(session.apiurl + "schedule", {
-        type: this.const.call,
-        content: JSON.stringify({ group: group_id }),
-        datetime: new Date().toISOString().slice(0,10)
-      })
-      .then(response => {
-        alert("SUCCESS!")
-        this.updateSchedules()
-      })
-    },
-    makeVisit(group_id) {
-      session.post(session.apiurl + "schedule", {
-        type: this.const.visit,
-        content: JSON.stringify({ group: group_id }),
-        datetime: new Date().toISOString().slice(0,10)
-      })
-      .then(response => {
-        alert("SUCCESS!")
-        this.updateSchedules()
-      })
-    }
-  },
+  
   computed: {
     today() {
       return moment(this.cal.selected).format('LL');
     },
-    
+    birthdayScheduleList() {
+      return this.parents.filter(i => {
+        let bday = new Date(i.birthday);
+        return !(bday.getYear() % 2 + new Date().getYear() % 2 == 1)
+      })
+    },
     calledList() {
       return this.schedules.filter(sch => {
         return sch.type == this.const.call;
@@ -261,10 +236,87 @@ export default {
       return date;
     }
   },
+  methods: {
+    onEventClick (event, e) {
+      this.selectedEvent = event
+      this.showDialog = true
 
+      // Prevent navigating to narrower view (default vue-cal behavior).
+      e.stopPropagation()
+    },
+
+    onCalChanged(dt) {
+      this.cal.selected = dt;
+
+    },
+    moment(d, fmt) {
+      return moment(d).format(fmt);
+    },
+    calendarEvents() {
+      this.parents.forEach(i => {
+        let dt = new Date(i.birthday);
+        dt.setFullYear(new Date().getFullYear());
+        this.events.push({
+          
+          start: dt.toISOString().slice(0,10),
+          end: dt.toISOString().slice(0,10),
+          title: i.name + " (" + i.relation + ")" + "님 생신"
+        });
+        
+      });
+    },
+    updateAll() {
+      this.updateParents();
+      this.updateSchedules();
+      this.updateGroupList();
+
+      
+
+    },
+    updateParents() {
+      session.get(session.apiurl + "parent").then(response => {
+        this.parents = response.data.parents;
+        this.events = [];
+        this.eventmap = {};
+        this.calendarEvents();
+      })
+    },
+    updateGroupList() {
+      session.get(session.apiurl + "parentgroup").then(response => {
+        this.groups = response.data.groups;
+        
+      });
+    },
+    updateSchedules() {
+      session.get(session.apiurl + "schedule").then(response => {
+        this.schedules = response.data.schedules;
+      });
+    },
+    makeCall(group_id) {
+      session.post(session.apiurl + "schedule", {
+        type: this.const.call,
+        content: JSON.stringify({ group: group_id }),
+        datetime: new Date().toISOString().slice(0,10)
+      })
+      .then(response => {
+        alert("SUCCESS!")
+        this.updateSchedules()
+      })
+    },
+    makeVisit(group_id) {
+      session.post(session.apiurl + "schedule", {
+        type: this.const.visit,
+        content: JSON.stringify({ group: group_id }),
+        datetime: new Date().toISOString().slice(0,10)
+      })
+      .then(response => {
+        alert("SUCCESS!")
+        this.updateSchedules()
+      })
+    }
+  },
   mounted: function() {
-    this.updateGroupList();
-    this.updateSchedules();
+    this.updateAll();
 
     session
       .loginRefresh()
