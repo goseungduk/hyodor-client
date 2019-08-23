@@ -6,7 +6,7 @@
             </b-form-select>&nbsp;
             <b-form-select v-model="sub_selected" :options="sub_options3" class="form-control mt-2 mb-2">
             </b-form-select>&nbsp;
-            <b-button squared type="submit" class="btn mt-2 mb-2" @click="b()">확인</b-button>
+            <b-button squared type="submit" class="btn mt-2 mb-2" @click="searching()">확인</b-button>
         </div>
         <br />
         <div class='map_wrap' style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);padding: 10px;margin-bottom: 30px;">
@@ -54,7 +54,7 @@ export default {
         }
     },
     methods: {
-        b() {
+        searching() {
           infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
           var temp = this.sub_selected.name + " 건강검진";
           ps.keywordSearch(temp, placesSearchCB);
