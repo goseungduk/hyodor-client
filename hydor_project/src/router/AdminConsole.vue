@@ -8,14 +8,6 @@
       </b-row>
       <b-row class="mt-3">
         <b-tabs class="w-100">
-          <b-tab title="홈">
-            <b-container>
-              <b-row>
-                <b-col></b-col>
-              </b-row>
-              <b-row></b-row>
-            </b-container>
-          </b-tab>
           <b-tab title="커뮤니티 관리" @click="updateBoardList()">
             <div class="mt-2">
               <div class="d-flex justify-content-between">
