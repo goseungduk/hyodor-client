@@ -303,6 +303,7 @@ export default {
     }
   },
   mounted: function() {
+    this.updateBoardList();
     //this.updateUserList();
   }
 };

@@ -61,7 +61,14 @@ const router = new VueRouter({
             path: '/home',
             name: 'home',
             component: Home,
-
+            beforeEnter: (to, from, next) => {
+                if (session.isLoggedIn()) {
+                    next();
+                }
+                else {
+                    next('/login');
+                }
+            }
         },
         {
             path: '/mypage',

@@ -374,7 +374,7 @@ export default {
 }
 .progress-outer {
   background: #fff;
-  padding: 5px 60px 5px 5px;
+  padding: 5px 5px 5px 5px;
   border: 5px solid #bebfbf;
   border-radius: 45px;
   margin-bottom: 20px;
