@@ -285,7 +285,7 @@ export default {
       curedit: -1,
       // parentList: [],
       isShow: false,
-      date: new Date([2000, 8, 23]),
+      date: new Date('05 October 2011 14:48 UTC').toISOString().slice(0,10),
       parentName: "",
       parentSex: null,
       parentRelation: "",
@@ -439,8 +439,6 @@ export default {
       })
     },
     submitParent() {
-      console.log(this.date);
-      // console.log(this.date.toISOString());
       session
         .post(session.apiurl + "parent", {
           name: this.parentName,
