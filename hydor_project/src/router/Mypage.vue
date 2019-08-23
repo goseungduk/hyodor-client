@@ -94,17 +94,18 @@
               </b-col>
             </b-row>
             <b-row>
-              <b-col></b-col>
-              <b-col>
-                <button class="delete mt-2 mr-5">비밀번호 변경</button>
+              <b-col md="4" class="colboard" ></b-col>
+              <b-col cols="7">
+                <button class="delete mt-2 mr-2">비밀번호 변경</button>
               </b-col>
             </b-row>
           </b-tab>
           <b-tab title="부모님정보 추가 및 변경">
             <span style="font-size:30px;font-weight:bold;">부모님정보 추가</span>
-            <b-button size="sm" class="show-btn" @click="show()">+</b-button>
-            <b-button size="sm" class="show-btn" @click="showModal2()">그룹 추가</b-button>
-            <div v-if="isShow==true" class="d-block text-left">
+            <b-button  style=" box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);" size="sm" class="show-btn mb-1" @click="show()">+</b-button>
+            <b-button style=" box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);" size="sm" class="show-btn mb-1" @click="showModal2()">그룹 추가</b-button>
+            <div style=" box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15); padding:20px 20px 60px 20px;margin-bottom: 30px;" class="이것은 전체용입니다">
+            <div style=" box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15); padding:20px 20px 60px 20px;margin-bottom: 30px; " v-if="isShow==true" class="d-block text-left mt-1">
               <h5 style="font-weight:bold; color:gray;">성함</h5>
               <b-form-input v-model="parentName" placeholder="부모님 성함을 입력해주세요"></b-form-input>
               <h5 style="font-weight:bold; color:gray;">성별</h5>
@@ -121,13 +122,14 @@
                 <option v-for="size in sizes" :key="size">{{ size }}</option>
                 <!-- 오류 신경쓰지마세요 -->
               </datalist>
-              <h5 style="font-weight:bold; color:gray;">생년월일</h5>
+              <h5 class="mt-1" style="font-weight:bold; color:gray;">생년월일</h5>
               <VueCtkDateTimePicker v-model="date" />
-              <b-button class="show-btn mt-1" style="float:right;" @click="submitParent()">전송</b-button>
+              <b-button class="show-btn mt-2" style="float:right;" @click="submitParent()">전송</b-button>
               
             </div>
             <div>
-              <p>[아무그룹없음]</p>
+            
+              <p class="mt-5">[아무그룹없음]</p>
             <div v-for="(t,$index) in parentRes.parentList" :key="t.id">
               <b-card v-if="t.group_id==null"
                 :title="t.name"
@@ -137,7 +139,7 @@
                 <b-text>{{t.birthday.slice(0,10)}}</b-text>
                 <b-button size="sm" class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
                 <b-button size="sm" class="addgroup" @click="showModal(t.id)">그룹에 추가</b-button>
-                <b-button size="sm" class="show-btn" @click="delpa(t.id)">X</b-button>
+                <b-button style="padding:5px 5px 5px 5px;" class="pur-btn" @click="delpa(t.id)">X</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -164,7 +166,7 @@
             </div>
             </div>
             <div v-for="k in parentRes.parentGroup" :key="k.id">
-            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="edit mr-1" @click="showModal3(k.id)">그룹 수정하기</b-button><b-button size="sm" class="show-btn" @click="delgroup(k.id)">X</b-button></p>
+            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="edit2 mr-1 ml-2" @click="showModal3(k.id)">그룹 수정하기</b-button><b-button size="sm" class="edit-del" @click="delgroup(k.id)">X</b-button></p>
             <div v-for="(i, $index) in parentRes.parentList" :key="$index">
               <b-card v-if="i.group_id==k.id"
                 :title="i.name"
@@ -174,7 +176,7 @@
                 <b-text>{{i.birthday.slice(0,10)}}</b-text>
                 <b-button class="edit mr-1" @click="ccuredit($index)">수정하기</b-button>
                 <b-button class="addgroup" @click="showModal(i.id)">그룹에 추가</b-button>
-                <b-button size="sm" class="show-btn" @click="delpa(i.id)">X</b-button>
+                <b-button size="sm" class="pur-btn" @click="delpa(i.id)">삭제</b-button>
                 <!-- 8888888888888888888888 -->
                 <div v-if="curedit==$index" class="d-block text-left">
                   <h5 style="font-weight:bold">성함</h5>
@@ -198,6 +200,7 @@
                 </div>
                 <!-- 8888888888888888888888 -->
               </b-card>
+            </div>
             </div>
             </div>
           </b-tab>
@@ -436,7 +439,6 @@ export default {
       })
     },
     submitParent() {
-      this.isShow=false;
       console.log(this.date);
       // console.log(this.date.toISOString());
       session
@@ -449,7 +451,7 @@ export default {
         .then(response => {
           console.log(response);
           session.get(session.apiurl + "parent").then(response => {
-            this.parentRes.parentList = response.data.parents;
+            this.parentList = response.data.parents;
             console.log(this.parentList);
           });
         })
@@ -571,14 +573,26 @@ export default {
     background-color:rgba(0, 0, 0, 0);
     border:1.5px solid #5f90df;
     color:#5f90df;
-    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    
 } 
 .show-btn:hover{
     background: linear-gradient( 45deg, #5153c2, #5f90df, #96d1f3 );
     border:1.5px solid #5f90df;
-    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+   
     color:white;
-} 
+}
+.pur-btn{
+    background-color:rgba(0, 0, 0, 0);
+    border:1.5px solid #da0202;
+    color:#da0202;
+    font-size:18px;
+}
+.pur-btn:hover{
+    background-color:#da0202;
+    border:1.5px solid #da0202;
+    color: white;
+}  
+
 .edit{
   border: 1.5px solid #017F0C;
   color : #017F0C ;
@@ -591,14 +605,35 @@ export default {
   color: white;
 
 }
+.edit2{
+    color : #017F0C ;
+    background-color: rgba(0,0,0,0);
+    border:none;
+    font-size:20px;
+
+}
+.edit2:hover{
+    font-weight: bold;
+}
+.edit-del{
+    border:1px solid #da0202;
+    background-color: rgba(0,0,0,0);
+    color: #da0202;
+}
+.edit-del:hover{
+    border:1.5px solid #da0202;
+    background-color: rgba(0,0,0,0);
+    color: #da0202;
+    font-weight: bold;
+}
 .addgroup{
-    border: 1.5px solid #00B6BC;
-  color : #00B6BC ;
+    border: 1.5px solid #04A4AA;
+  color : #04A4AA ;
   background-color: rgba(0,0,0,0);
 }
 .addgroup:hover{
-   background-color: #00B6BC ;
-  border: 1.5px solid #00B6BC;
+   background-color: #04A4AA ;
+  border: 1.5px solid #04A4AA;
   color: white;
 }
 </style>
