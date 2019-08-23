@@ -54,7 +54,7 @@
         </b-col>
       </b-row>
 
-      <b-card v-for="i in groups" :key="i.id" :title="i.name">
+      <b-card class="col-color mt-1" v-for="i in groups" :key="i.id" :title="i.name">
         <b-card-text>
           <b-row>
             <b-col>
@@ -93,8 +93,8 @@
         </b-card-text>
         <b-card-text class="text-right">
           오늘 나는
-          <b-button variant="light" size="sm" @click="makeCall(i.id)">전화</b-button>/
-          <b-button variant="light" size="sm" @click="makeVisit(i.id)">방문</b-button>하였습니다.
+          <b-button class="col-btn"  size="sm" @click="makeCall(i.id)">전화</b-button>/
+          <b-button class="col-btn" size="sm" @click="makeVisit(i.id)">방문</b-button>하였습니다.니다.
         </b-card-text>
       </b-card>
     </b-container>
@@ -388,5 +388,14 @@ export default {
 .progress .progress-bar {
   border-radius: 20px;
   box-shadow: none;
+}
+.col-btn{
+  border:none;
+  color: #5153c2;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
+}
+.col-btn:hover{
+  font-weight: bold;
 }
 </style>
