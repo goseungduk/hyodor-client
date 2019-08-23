@@ -129,7 +129,7 @@
             </div>
             <div>
             
-              <p class="mt-5">[아무그룹없음]</p>
+              <p class="mt-5">[그룹에 포함시켜주세요!]</p>
             <div v-for="(t,$index) in parentRes.parentList" :key="t.id">
               <b-card v-if="t.group_id==null"
                 :title="t.name"
@@ -166,7 +166,7 @@
             </div>
             </div>
             <div v-for="k in parentRes.parentGroup" :key="k.id">
-            <p>[그룹이름 {{k.name}}]<b-button size="sm" class="edit2 mr-1 ml-2" @click="showModal3(k.id)">그룹 수정하기</b-button><b-button size="sm" class="edit-del" @click="delgroup(k.id)">X</b-button></p>
+            <p>[{{k.name}} 그룹]<b-button size="sm" class="edit2 mr-1 ml-2" @click="showModal3(k.id)">그룹 수정하기</b-button><b-button size="sm" class="edit-del" @click="delgroup(k.id)">X</b-button></p>
             <div v-for="(i, $index) in parentRes.parentList" :key="$index">
               <b-card v-if="i.group_id==k.id"
                 :title="i.name"
@@ -451,7 +451,7 @@ export default {
         .then(response => {
           console.log(response);
           session.get(session.apiurl + "parent").then(response => {
-            this.parentList = response.data.parents;
+            this.parentRes.parentList = response.data.parents;
             console.log(this.parentList);
           });
         })
