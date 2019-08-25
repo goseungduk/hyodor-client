@@ -1,5 +1,7 @@
 각 프로젝트는 터미널에서 
 npm으로 yarn 설치 후, 디렉토리에 들어가서
+    
+    yarn install 
 
     yarn serve 
 
@@ -8,5 +10,7 @@ npm으로 yarn 설치 후, 디렉토리에 들어가서
 ex)
 
     cd Login_Board_Demo
+    
+    yarn install
     
     yarn serve
